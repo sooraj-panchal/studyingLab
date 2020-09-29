@@ -1,0 +1,204 @@
+{
+  "project_info": {
+    "project_number": "455250643702",
+    "firebase_url": "https://groceryapp-88c01.firebaseio.com",
+    "project_id": "groceryapp-88c01",
+    "storage_bucket": "groceryapp-88c01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455250643702:android:5b2d5d20845469871f7ad7",
+        "android_client_info": {
+          "package_name": "com.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk99qxvh8GlMR2YoD5032nwMAtJWC4R3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455250643702:android:10f900cd0dc2a7f81f7ad7",
+        "android_client_info": {
+          "package_name": "com.groceryapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455250643702-a610amqj5nl6ccoq51poemvk87gmji18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.groceryapp",
+            "certificate_hash": "640a9c241f310c1263433f6c791eb4eff35e6346"
+          }
+        },
+        {
+          "client_id": "455250643702-51mj4ov2ef9rq6n5a686eijm7ekfbeqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.groceryapp",
+            "certificate_hash": "7ea64a7e58ac3a2ee641a95302acd0b9882acdcd"
+          }
+        },
+        {
+          "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk99qxvh8GlMR2YoD5032nwMAtJWC4R3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455250643702:android:72821801c02aeaff1f7ad7",
+        "android_client_info": {
+          "package_name": "com.grocerydriverapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455250643702-i8ehhm3fr3r01nqd31orc3ufmvrqf6ka.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grocerydriverapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "455250643702-ai5r4m2dsu1f0hf1trrlfnaje32j5mvi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grocerydriverapp",
+            "certificate_hash": "640a9c241f310c1263433f6c791eb4eff35e6346"
+          }
+        },
+        {
+          "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk99qxvh8GlMR2YoD5032nwMAtJWC4R3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455250643702:android:e241d53ef454fcf31f7ad7",
+        "android_client_info": {
+          "package_name": "com.quickblox.sample.reactnative.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk99qxvh8GlMR2YoD5032nwMAtJWC4R3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455250643702:android:ee2792ac034031b81f7ad7",
+        "android_client_info": {
+          "package_name": "com.studyinglab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455250643702-hh39lq7er912ifvab5n27ds6540e4h45.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.studyinglab",
+            "certificate_hash": "640a9c241f310c1263433f6c791eb4eff35e6346"
+          }
+        },
+        {
+          "client_id": "455250643702-mtsrj4277k38mf4vl0sodslofofahi09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.studyinglab",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk99qxvh8GlMR2YoD5032nwMAtJWC4R3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455250643702-pk3fsd68rrd5sleip64nt2761kbr25l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+export const StatusbarColor = "#015da7"
+export const toolbarColor = "#006dc3"
+export const BlueColor = "#006dc3"
+export const BlackColor = "#252525"
+export const GrayColor = "#9b9b9b"
+export const LightGrayColor = "lightgrey"
+export const GreenColor = "#379b0b"
+export const RedColor = "#ea2626"
