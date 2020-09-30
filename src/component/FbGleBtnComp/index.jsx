@@ -4,10 +4,12 @@ import styles from './styles';
 import * as images from '../../assets/images/map';
 import * as colors from '../../assets/colors';
 import * as font from '../../assets/fonts/fonts';
-import { GoogleSignin } from '@react-native-community/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
+import { AppStack } from '../../navigation/navActions';
 
 const FbGleBtnComp = ({
+    navigation,
     onPressBtn,
     buttonText,
     imageSrc
@@ -33,6 +35,7 @@ const FbGleBtnComp = ({
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             console.log('Google Login', JSON.stringify(userInfo))
+            navigation.dispatch(AppStack);
 
             // const data = {
             //     // google_id: userInfo.user.id,
@@ -87,6 +90,8 @@ const FbGleBtnComp = ({
                                     // console.log(data)
                                     // this.setState({ isloading: true })
                                     // API.userLogin(this.onFbLoginResponse, data, true);
+                                    navigation.dispatch(AppStack);
+
                                 }
                             }
                             )
@@ -130,7 +135,7 @@ const FbGleBtnComp = ({
             marginTop: 10
         }}
             activeOpacity={0.8}
-            onPress={buttonText == "Sign up With Google" || buttonText == "Sign in With Google"  ? _googleSignIn : facebookHandler}
+            onPress={buttonText == "Sign up With Google" || buttonText == "Sign in With Google" ? _googleSignIn : facebookHandler}
         >
             <Image
                 style={{

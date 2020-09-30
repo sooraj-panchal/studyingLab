@@ -5,6 +5,7 @@ import { StatusBar, ActivityIndicator, SafeAreaView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppContainer from './navigation';
 import * as colors from './assets/colors'
+import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
 
@@ -21,7 +22,9 @@ const App = () => {
                     flex: 1,
                     backgroundColor: "white",
                 }}>
+                            <NavigationContainer>
                 <AppContainer />
+                </NavigationContainer>
             </SafeAreaView>
         </SafeAreaProvider>
     );

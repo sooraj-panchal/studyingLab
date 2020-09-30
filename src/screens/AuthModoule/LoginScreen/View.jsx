@@ -10,12 +10,14 @@ import FbGleBtnComp from '../../../component/FbGleBtnComp';
 import BackImageComp from '../../../component/BackImageComp';
 import { Formik } from 'formik'
 import * as yup from 'yup';
+import { AppStack } from '../../../navigation/navActions';
 
 const LoginScreen = ({
     navigation,
 }) => {
     const signInHandler = (values) => {
         console.log(values)
+        navigation.dispatch(AppStack);
     }
     const goToSignUp = () => {
         navigation.navigate("SignUp")
@@ -148,16 +150,12 @@ const LoginScreen = ({
                     alignSelf: "center"
                 }} >
                     <FbGleBtnComp
-                        onPressBtn={() => {
-
-                        }}
+                        navigation={navigation}
                         imageSrc={images.AuthScreen.googleImage}
                         buttonText="Sign in With Google"
                     />
                     <FbGleBtnComp
-                        onPressBtn={() => {
-
-                        }}
+                        navigation={navigation}
                         imageSrc={images.AuthScreen.facebookImage}
                         buttonText="Sign in With Facebook"
                     />

@@ -1,3 +1,6 @@
+export const SpashScreen = {
+    logoImage: require("./1_splash/logo.png"),
+}
 export const AuthScreen = {
     borderImage: require("./2_choose_login/border.png"),
     facebookImage: require("./2_choose_login/facebook.png"),
@@ -45,4 +48,43 @@ export const HomeScreen = {
     icon_1Image: require("./8_home/icon_1.png"),
     icon_2Image: require("./8_home/icon_2.png"),
     searchImage: require("./8_home/search.png"),
+}
+
+export const SearchScreen = {
+    cancelImage: require("./23_search/cancel.png"),
+    searchImage: require("./23_search/search.png"),
+    topImage: require("./23_search/top.png"),
+}
+
+export const ProfileScreen = {
+    backgroundImage: require("./24_profile/background.png"),
+    edit_profileImage: require("./24_profile/edit_profile.png"),
+    openImage: require("./24_profile/open.png"),
+}
+
+export const CourseDetailsScreen = {
+    image1Image: require("./11_course_inner/image1.png"),
+    image2Image: require("./11_course_inner/image2.png"),
+    like_blueImage: require("./11_course_inner/like_blue.png"),
+    likeImage: require("./11_course_inner/like.png"),
+    messageImage: require("./11_course_inner/message.png"),
+    shareImage: require("./11_course_inner/share.png"),
+}
+
+export const StartQuizScreen = {
+    blue_dotImage: require("./16_quiz/blue_dot.png"),
+    white_dotImage: require("./16_quiz/white_dot.png"),
+    rightImage: require("./17_quiz_answer/right.png"),
+    wrongImage: require("./17_quiz_answer/wrong.png"),
+}
+export const QuizResultScreen = {
+    box_backgroundImage: require("./18_result/box_background.png"),
+    nextImage: require("./18_result/next.png"),
+    shareImage: require("./18_result/share.png"),
+}
+export const RequestFormScreen = {
+    attachImage: require("./21_request_form/attach.png"),
+}
+export const SubmitRequestFormScreen = {
+    attachImage: require("./22_thank/thank.png"),
 }

@@ -9,9 +9,92 @@ import * as images from '../assets/images/map'
 import * as font from '../assets/fonts/fonts'
 import * as colors from '../assets/colors'
 import AddScreen from '../screens/AppModule/AddScreen/View';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import CourseDetailsScreen from '../screens/AppModule/CourseDetailsScreen/View';
+import AttendCourseScreen from '../screens/AppModule/AttendCourseScreen/View';
+import StartQuizScreen from '../screens/AppModule/StartQuizScreen/View';
+import QuizResultScreen from '../screens/AppModule/QuizResultScreen/View';
+import RequestFormScreen from '../screens/AppModule/RequestFormScreen/View';
+import SubmitRequestFormScreen from '../screens/AppModule/SubmitRequestFormScreen/View';
+import MyCourseScreen from '../screens/AppModule/MyCourseScreen/View';
+import ResetPasswordScreen from '../screens/AppModule/ResetPasswordScreen/View';
 
 
 const Tab = createBottomTabNavigator();
+
+const StackScreen = createStackNavigator();
+
+const AppStackScreen = () => (
+  <StackScreen.Navigator initialRouteName="TabBarStack" screenOptions={{
+    // headerShown: false,
+    ...TransitionPresets.DefaultTransition,
+  }}  >
+    <StackScreen.Screen
+      name="TabBarStack"
+      component={TabBarStackScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="CourseDetails"
+      component={CourseDetailsScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="AttendCourse"
+      component={AttendCourseScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="StartQuiz"
+      component={StartQuizScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="QuizResult"
+      component={QuizResultScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="RequestForm"
+      component={RequestFormScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="SubmitRequestForm"
+      component={SubmitRequestFormScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="MyCourse"
+      component={MyCourseScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="ResetPassword"
+      component={ResetPasswordScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+  </StackScreen.Navigator>
+)
+
 
 
 function MyTabBar({ state, descriptors, navigation }) {
@@ -178,57 +261,148 @@ function MyTabBar({ state, descriptors, navigation }) {
   );
 }
 
-const AppStackScreen = () => (
-  // <Tab.Navigator
-  //   screenOptions={({ route }) => ({
-  //     tabBarIcon: ({ color, size }) => {
-  //       let icon;
-  //       if (route.name === 'Home') {
-  //         icon = HomeImage;
-  //       } else if (route.name === 'Jobs') {
-  //         icon = JobImage;
-  //       } else if (route.name === 'Profile') {
-  //         icon = ProfileImage;
-  //       }
-  //       // You can return any component that you like here!
-  //       return (
-  //         <Image
-  //           source={icon}
-  //           style={{
-  //             height: size,
-  //             width: size,
-  //             tintColor: color,
-  //             resizeMode: 'contain',
-  //           }}
-  //         />
-  //       );
-  //     },
-  //   })}
-  //   tabBarOptions={{
-  //     activeTintColor: Theme.icon.yellow,
-  //     inactiveTintColor: Theme.icon.grey,
-  //     labelStyle: {
-  //       color: Theme.text.secondary,
-  //       textTransform: 'capitalize',
-  //       fontSize: moderateScale(12),
-  //       fontWeight: 'bold',
-  //     },
-  //     tabStyle: {
-  //       backgroundColor: Theme.background.bgTab,
-  //     },
-  //     safeAreaInsets: {
-  //       top: 0,
-  //       bottom: 0,
-  //     },
+const TabBarStackScreen = ({ navigation }) => (
+  <Tab.Navigator
+    screenOptions={({ route, state, navigation }) => ({
+      unmountOnBlur: true,
+      tabBarIcon: ({ focused }) => {
+        if (route.name === 'Home') {
+          return (
+            <Image
+              style={{
+                width: 25,
+                height: 25,
+                // resizeMode: "contain"
+              }}
+              source={
+                focused ?
+                  images.tabBarScreen.home_blueImage
+                  : images.tabBarScreen.home_Image
+              }
+            />
+          )
+        } else if (route.name === 'Course') {
+          return (
+            <Image
+              style={{
+                width: 23,
+                height: 25,
+                // resizeMode: "contain"
+              }}
+              source={
+                focused ?
+                  images.tabBarScreen.course_blueImage
+                  : images.tabBarScreen.course_Image
+              }
+            />
+          )
+        } else if (route.name === 'Add') {
+          return (
+            <View style={{
+              backgroundColor: "white",
+              width: 60,
+              height: 60,
+              borderRadius: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: 30
+            }} >
+              <Image
+                style={{
+                  width: 55,
+                  height: 55,
+                  // resizeMode: "contain",
+                }}
+                source={
+                  images.tabBarScreen.addImage
+                } />
+            </View>
+          )
+        } else if (route.name === 'Search') {
+          return (
+            <Image
+              style={{
+                width: 25,
+                height: 25,
+                // resizeMode: "contain"
+              }}
+              source={
+                focused ?
+                  images.tabBarScreen.search_blue_Image
+                  : images.tabBarScreen.searchImage
+              }
+            />
+          )
+        } else if (route.name === 'Profile') {
+          return (
+            <Image
+              style={{
+                width: 25,
+                height: 25,
+                // resizeMode: "contain"
+              }}
+              source={
+                focused ?
+                  images.tabBarScreen.profile_blue_Image
+                  : images.tabBarScreen.profile_Image
+              }
+            />
+          )
+        }
+        // You can return any component that you like here!
+      },
+      tabBarLabel: ({ focused }) => {
+        if (route.name == "Add") {
+          return null;
+        } else {
+          return (
+            <Text style={{
+              color: focused ? colors.BlueColor : colors.GrayColor,
+              marginTop: 2,
+              fontSize: 12,
+              fontFamily: font.Regular
+            }}>
+              {route.name}
+            </Text>
+          )
+        }
+      }
+    })}
+    tabBarOptions={{
+      keyboardHidesTabBar: true,
+      // showLabel: false,
+      // activeTintColor: colors.blue,
+      // inactiveTintColor: colors.white,
+      tabStyle: {
+        // backgroundColor: colors.darkgray,
+      },
+      style: {
+        height: 55,
+        paddingTop: 10
+      }
+    }}
+  // tabBar={props =>
+  //   <View style={{
+  //     position: 'absolute',
+  //     left: 0,
+  //     right: 0,
+  //     bottom: 0,
   //   }}>
-  // <Tab.Screen name="Home" component={HomeStack} />
-  // <Tab.Screen name="Jobs" component={JobStack} />
-  // <Tab.Screen name="Profile" component={ProfileStack} />
-  // </Tab.Navigator>
-  <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
+  //     <MyTabBar {...props} />
+  //   </View>
+  // }
+
+  >
     <Tab.Screen name="Home" component={HomeScreen} />
     <Tab.Screen name="Course" component={CourseScreen} />
-    <Tab.Screen name="Add" component={AddScreen} />
+    <Tab.Screen name="Add"
+      listeners={{
+        tabPress: e => {
+          e.preventDefault()
+          navigation.navigate("RequestForm")
+        },
+      }}
+      component={AddScreen} />
     <Tab.Screen name="Search" component={SearchScreen} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
   </Tab.Navigator>

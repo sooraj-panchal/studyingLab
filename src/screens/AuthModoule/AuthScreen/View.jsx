@@ -61,11 +61,13 @@ const AuthScreen = ({
                     // onPressBtn={_googleSignIn}
                     imageSrc={images.AuthScreen.googleImage}
                     buttonText="Sign up With Google"
+                    navigation={navigation}
                 />
                 <FbGleBtnComp
                     // onPressBtn={facebookHandler}
                     imageSrc={images.AuthScreen.facebookImage}
                     buttonText="Sign up With Facebook"
+                    navigation={navigation}
                 />
             </View>
         </View>

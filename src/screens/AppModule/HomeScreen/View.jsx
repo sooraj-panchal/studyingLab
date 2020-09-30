@@ -97,6 +97,10 @@ const HomeScreen = ({
         )
     }
 
+    const goToSearchScreen=()=>{
+        navigation.navigate("Search")
+    }
+
     return (
         <View style={styles.viewContainer}>
             <ImageBackground style={{
@@ -125,6 +129,7 @@ const HomeScreen = ({
                     paddingLeft: 10
                 }}
                     activeOpacity={0.8}
+                    onPress={goToSearchScreen}
                 >
                     <View style={{
                         flexDirection: "row",
