@@ -4,6 +4,7 @@ import styles from './styles';
 import * as images from '../../../assets/images/map';
 import * as colors from '../../../assets/colors';
 import * as font from '../../../assets/fonts/fonts';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 const categoryDatas = [
     {
         "id": "1",
@@ -63,71 +64,68 @@ const HomeScreen = ({
         setCategoryData(categoryData)
     }, [])
 
+    const goToNewCourseScreen = () => {
+        navigation.navigate("NewCourse")
+    }
+
     const _renderCategoryItem = ({ item, index }) => {
         return (
-            <ImageBackground style={{
-                width: 160,
-                height: 140,
-                marginHorizontal: 5,
-                marginVertical:5,
-                justifyContent: "center",
-                alignItems: "center"
-            }}
-                borderRadius={5}
-                source={item.backgroundImage}
-            >
-                <View style={{
-                    alignItems: "center"
-                }} >
-                    <Image style={{
-                        width: 60,
-                        height: 60,
-                        // resizeMode: "contain"
-                    }}
-                        source={item.categoryImage}
-                    />
-                    <Text style={{
-                        color: "white",
-                        fontSize: 16,
-                        fontFamily: font.Bold,
-                        marginTop: 5
-                    }} >{item.categoryName}</Text>
-                </View>
-            </ImageBackground>
+            <TouchableOpacity onPress={goToNewCourseScreen} >
+                <ImageBackground style={styles.rcibgStyle}
+                    borderRadius={5}
+                    source={item.backgroundImage}
+                >
+                    <View style={{
+                        alignItems: "center"
+                    }} >
+                        <Image style={styles.rciCataegoryImage}
+                            source={item.categoryImage}
+                        />
+                        <Text style={styles.rciCataegoryName} >{item.categoryName}</Text>
+                    </View>
+                </ImageBackground>
+            </TouchableOpacity>
+
         )
     }
 
-    const goToSearchScreen=()=>{
+    const goToSearchScreen = () => {
         navigation.navigate("Search")
     }
+    const goToFilterScreen = () => {
+        navigation.navigate("Filter")
+    }
+
 
     return (
         <View style={styles.viewContainer}>
-            <ImageBackground style={{
-                width: Dimensions.get("window").width,
-                height: 115,
-            }}
+            <ImageBackground style={styles.headerImagebg}
                 source={images.HomeScreen.backgroundImage}
             >
-                <View style={{
-                    marginLeft: 10,
-                    marginTop: 5
-                }} >
-                    <Text style={{
-                        color: "white",
-                        fontFamily: font.Bold,
-                        fontSize: 35
-                    }} >Home</Text>
+                <View style={styles.headerContainer} >
+                    {/* <View
+                        style={{
+                            width:25
+                        }}
+                    /> */}
+                    <Text style={styles.homeText} >Home</Text>
+                    <TouchableOpacity onPress={goToFilterScreen} >
+                        {/* <Text style={{
+                            color: "white",
+                            fontFamily: font.Medium,
+                            fontSize: 22,
+                            marginTop: 10,
+                            marginRight: 5
+                        }} >Filter</Text> */}
+                        <FontAwesome5
+                            style={styles.filterIconStyle}
+                            color="white"
+                            size={25}
+                            name="filter"
+                        />
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{
-                    height: 45,
-                    marginHorizontal: 10,
-                    marginTop: 5,
-                    borderRadius: 2,
-                    backgroundColor: "white",
-                    justifyContent: "center",
-                    paddingLeft: 10
-                }}
+                <TouchableOpacity style={styles.searachBtnContainer}
                     activeOpacity={0.8}
                     onPress={goToSearchScreen}
                 >
@@ -135,31 +133,18 @@ const HomeScreen = ({
                         flexDirection: "row",
                         alignItems: "center"
                     }} >
-                        <Image style={{
-                            width: 20,
-                            height: 20,
-                            resizeMode: "contain"
-                        }}
+                        <Image style={styles.searchIconStyle}
                             source={images.HomeScreen.searchImage}
                         />
-                        <Text style={{
-                            fontSize: 15,
-                            color: colors.GrayColor,
-                            fontFamily: font.Regular,
-                            marginLeft: 10
-                        }} >Search for anything</Text>
+                        <Text style={styles.searchForAnyThingText} >Search for anything</Text>
                     </View>
                 </TouchableOpacity>
             </ImageBackground>
-                <FlatList contentContainerStyle={{
-                     alignItems: "center",
-                     marginTop: 10,
-                     paddingBottom:100
-                }}
-                    data={categoryData}
-                    renderItem={_renderCategoryItem}
-                    numColumns={2}
-                />
+            <FlatList contentContainerStyle={styles.listCategoryContainer}
+                data={categoryData}
+                renderItem={_renderCategoryItem}
+                numColumns={2}
+            />
         </View>
     )
 }

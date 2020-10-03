@@ -21,28 +21,16 @@ const AuthScreen = ({
     return (
         <View style={styles.viewContainer}>
             <Image
-                style={{
-                    width: 250,
-                    height: 250,
-                    resizeMode: "contain"
-                }}
+                style={styles.logoImage}
                 source={images.AuthScreen.logoImage}
             />
             <View>
                 <Image
-                    style={{
-                        width: 200,
-                        marginTop: 20,
-                        resizeMode: "contain"
-                    }}
+                    style={styles.borderImage}
                     source={images.AuthScreen.borderImage}
                 />
             </View>
-            <View style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 30
-            }} >
+            <View style={styles.btnContainer} >
                 <ButtonComp
                     onPressButton={goToSignup}
                     buttonText="Signup"
@@ -54,9 +42,7 @@ const AuthScreen = ({
                     from="fromAuthSignIn"
                 />
             </View>
-            <View style={{
-                marginTop: 40
-            }} >
+            <View style={styles.fbGleBtnContainer} >
                 <FbGleBtnComp
                     // onPressBtn={_googleSignIn}
                     imageSrc={images.AuthScreen.googleImage}

@@ -30,10 +30,7 @@ const ForgotPasswordScreen = ({
             >
                 {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
                     <>
-                        <ImageBackground style={{
-                            width: Dimensions.get("screen").width,
-                            height: Dimensions.get("screen").height / 2,
-                        }}
+                        <ImageBackground style={styles.backgroundImage}
                             source={images.ForgotPasswordScreen.backgroundImage}
                         >
                             <BackImageComp
@@ -41,33 +38,14 @@ const ForgotPasswordScreen = ({
                                     navigation.goBack()
                                 }}
                             />
-                            <View style={{
-                                alignItems: 'center',
-                                marginTop: 30
-                            }} >
+                            <View style={styles.imageLogoContainer} >
                                 <Image
-                                    style={{
-                                        width: 160,
-                                        height: 160,
-                                        resizeMode: "contain",
-                                    }}
+                                    style={styles.logoImage}
                                     source={images.ForgotPasswordScreen.pwImage}
                                 />
-                                <Text style={{
-                                    fontSize: 25,
-                                    fontFamily: font.Bold,
-                                    color: "white",
-                                    marginTop: 20
-                                }} >Forgot Password</Text>
+                                <Text style={styles.forgotPasText} >Forgot Password</Text>
                             </View>
-                            <View style={{
-                                backgroundColor: "white",
-                                marginHorizontal: 10,
-                                paddingVertical: 40,
-                                marginTop: 30,
-                                borderRadius: 20,
-                                elevation: 2,
-                            }} >
+                            <View style={styles.cardView} >
                                 <TextInputComp
                                     placeholder="Enter Your Email Address"
                                     from="forgotPassword"
@@ -81,10 +59,7 @@ const ForgotPasswordScreen = ({
                                 />
                             </View>
                         </ImageBackground>
-                        <View style={{
-                            marginTop: 80,
-                            alignSelf: "center",
-                        }} >
+                        <View style={styles.btnStyle} >
                             <ButtonComp
                                 onPressButton={handleSubmit}
                                 buttonText="Submit"

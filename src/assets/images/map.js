@@ -88,3 +88,13 @@ export const RequestFormScreen = {
 export const SubmitRequestFormScreen = {
     attachImage: require("./22_thank/thank.png"),
 }
+
+export const FilterScreen = {
+    selectImage: require("./9_filter/select.png"),
+}
+
+export const EditProfileScreen = {
+    editprofileImage: require("./EditProfile/editprofile.png"),
+}
+
+

@@ -4,6 +4,7 @@ import * as colors from '../../assets/colors';
 import * as font from '../../assets/fonts/fonts';
 import * as images from '../../assets/images/map';
 import Icon from 'react-native-vector-icons/AntDesign'
+import styles from './styles';
 
 const TextInputComp = ({
     placeholder,
@@ -16,7 +17,8 @@ const TextInputComp = ({
     autoCompleteType,
     keyboardType,
     touched,
-    errors
+    errors,
+    editable
 }) => {
     const [isVisibleEyeImage, setIsVisibleEyeImage] = useState(false)
 
@@ -29,24 +31,10 @@ const TextInputComp = ({
                     flexDirection: "row",
                     alignItems: "center"
                 }} >
-                    <View style={[{
-                        backgroundColor: "white",
-                        borderWidth: 1,
-                        width: 300,
-                        marginTop: 15,
-                        height: 40,
-                        borderRadius: 20,
-                        borderColor: colors.LightGrayColor,
-                    }, textInputStyle]} >
+                    <View style={[styles.textInputContainer, textInputStyle]} >
                         <TextInput
                             placeholder={placeholder}
-                            style={{
-                                maxWidth: 230,
-                                paddingLeft: 20,
-                                fontSize: 15,
-                                top: 3,
-
-                            }}
+                            style={styles.textInputStyle}
                             value={value}
                             onChangeText={onChangeText}
                             onBlur={onBlur}
@@ -56,34 +44,20 @@ const TextInputComp = ({
                     </View>
                     <TouchableOpacity onPress={() => {
                         setIsVisibleEyeImage(!isVisibleEyeImage)
-                    }} style={{
-                        position: "absolute",
-                        right: 15,
-                        bottom: 8
-                    }} >
+                    }} style={styles.eyeIconContainer} >
                         <Image
-                            style={{
-                                width: 20,
-                                height: 20,
-                                resizeMode: "contain",
-
-                            }}
+                            style={styles.eyeIcon}
                             source={isVisibleEyeImage ? images.SignupScreen.visibleimage : images.SignupScreen.invisibleImage}
                         />
                     </TouchableOpacity>
                 </View>
                 {touched && errors &&
-                    <View style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginTop: 5,
-                        marginLeft: 5
-                    }} >
+                    <View style={styles.errorView} >
                         <Icon
                             color="red"
                             name="exclamationcircle" size={12}
                         />
-                        <Text style={{ fontSize: 11, marginLeft: 5, color: 'red' }}>{errors}</Text>
+                        <Text style={styles.errorText}>{errors}</Text>
                     </View>
                 }
             </View>
@@ -95,18 +69,10 @@ const TextInputComp = ({
         }} >
             <TextInput
                 placeholder={placeholder}
-                style={{
-                    backgroundColor: "white",
-                    borderWidth: 1,
-                    width: 300,
-                    marginTop: from == "forgotPassword" ? 0 : 15,
-                    height: 40,
-                    paddingLeft: 20,
-                    borderRadius: 20,
-                    borderColor: colors.LightGrayColor,
-                    fontSize: 15,
-                    top: 3
-                }}
+                style={[styles.textInputForCommon,{
+                    marginTop: from == "forgotPassword" || from == "Edit Profile" ? 0 : 15,
+                }]}
+                editable={editable}
                 value={value}
                 onChangeText={onChangeText}
                 onBlur={onBlur}
@@ -114,17 +80,12 @@ const TextInputComp = ({
                 keyboardType={keyboardType}
             />
             {touched && errors &&
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginTop: 5,
-                    marginLeft: 5,
-                }} >
+                <View style={styles.errorView} >
                     <Icon
                         color="red"
                         name="exclamationcircle" size={12}
                     />
-                    <Text style={{ fontSize: 11, marginLeft: 5, color: 'red' }}>{errors}</Text>
+                    <Text style={styles.errorText}>{errors}</Text>
                 </View>
             }
         </View>

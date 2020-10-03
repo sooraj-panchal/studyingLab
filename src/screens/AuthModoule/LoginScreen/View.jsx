@@ -27,10 +27,7 @@ const LoginScreen = ({
     }
     return (
         <View style={styles.viewContainer}>
-            <ImageBackground style={{
-                width: Dimensions.get("screen").width,
-                height: Dimensions.get("screen").height,
-            }}
+            <ImageBackground style={styles.backgroundImage}
                 source={images.SignupScreen.backgroundImage}
             >
                 <BackImageComp
@@ -58,29 +55,10 @@ const LoginScreen = ({
                 >
                     {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
                         <>
-                            <View style={{
-                                backgroundColor: "white",
-                                marginHorizontal: 10,
-                                paddingVertical: 20,
-                                marginTop: 30,
-                                borderRadius: 5,
-                                alignItems: "center"
-                            }} >
-                                <Text style={{
-                                    fontSize: 30,
-                                    marginTop: 10,
-                                    color: colors.BlackColor,
-                                    fontFamily: font.Medium
-                                }} >Welcom back!</Text>
-                                <Text style={{
-                                    fontSize: 14,
-                                    marginTop: 5,
-                                    color: colors.BlackColor,
-                                    fontFamily: font.Light
-                                }} >Enter your details to sign in your account</Text>
-                                <View style={{
-                                    marginTop: 5
-                                }} >
+                            <View style={styles.cardView} >
+                                <Text style={styles.welcomeBackText} >Welcom back!</Text>
+                                <Text style={styles.text} >Enter your details to sign in your account</Text>
+                                <View style={styles.textInputMainContainer} >
                                     <TextInputComp
                                         placeholder="Email"
                                         value={values.email}
@@ -101,17 +79,10 @@ const LoginScreen = ({
                                         errors={errors.password}
                                     />
                                     <TouchableOpacity activeOpacity={0.8} onPress={goToForgotPassword} >
-                                        <Text style={{
-                                            fontSize: 14,
-                                            color: colors.GrayColor,
-                                            textAlign: "right",
-                                            margin: 5,
-                                        }} >Forgot Password?</Text>
+                                        <Text style={styles.forgotPasText} >Forgot Password?</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{
-                                    marginTop: 30
-                                }} >
+                                <View style={styles.btnStyle} >
                                     <ButtonComp
                                         onPressButton={handleSubmit}
                                         buttonText="Sign in"
@@ -122,33 +93,17 @@ const LoginScreen = ({
                         </>
                     )}
                 </Formik>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                    marginTop: 20
-                }} >
-                    <View style={{
-                        borderWidth: 0.5,
-                        borderColor: "white",
-                        width: 145
-                    }} />
+                <View style={styles.orContainer} >
+                    <View style={styles.orLeftBorder} />
                     <Text style={{
                         fontSize: 20,
                         color: "white",
                         bottom: 2,
                         fontFamily: font.Regular
                     }} >or</Text>
-                    <View style={{
-                        borderWidth: 0.5,
-                        borderColor: "white",
-                        width: 145
-                    }} />
+                    <View style={styles.orLeftBorder} />
                 </View>
-                <View style={{
-                    marginTop: 10,
-                    alignSelf: "center"
-                }} >
+                <View style={styles.fbGleContainer} >
                     <FbGleBtnComp
                         navigation={navigation}
                         imageSrc={images.AuthScreen.googleImage}
@@ -160,24 +115,10 @@ const LoginScreen = ({
                         buttonText="Sign in With Facebook"
                     />
                 </View>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    marginTop: 80
-                }} >
-                    <Text style={{
-                        fontSize: 16,
-                        color: "white",
-                        fontFamily: font.Regular
-                    }} >Don't have an account?</Text>
+                <View style={styles.donthaveAnAcContainer} >
+                    <Text style={styles.DonthaveAnAcText} >Don't have an account?</Text>
                     <TouchableOpacity onPress={goToSignUp} >
-                        <Text style={{
-                            fontSize: 18,
-                            color: "white",
-                            fontFamily: font.Regular,
-                            marginLeft: 10
-                        }}  >Sign up</Text>
+                        <Text style={styles.signUpext}  >Sign up</Text>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

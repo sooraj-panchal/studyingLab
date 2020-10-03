@@ -2,31 +2,30 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import * as colors from '../../assets/colors';
 import * as font from '../../assets/fonts/fonts';
-
+import styles from './styles'
 const ButtonComp = ({
     onPressButton,
     buttonText,
     from,
-    btnStyle
+    btnStyle,
+    btnTextStyle
 }) => {
     return (
-        <TouchableOpacity style={[{
-            width: 150,
-            height: 45,
-            borderRadius: 30,
+        <TouchableOpacity style={[styles.TouchableView,
+        {
             backgroundColor: from == "fromSignup" || from == "fromAuthSignIn" ? colors.BlueColor : colors.BlackColor,
-            justifyContent: "center",
-            alignItems: "center",
             marginLeft: buttonText == "Sign in " ? 0 : 10
-        },btnStyle]}
+        },
+            btnStyle]}
             activeOpacity={0.8}
             onPress={onPressButton}
         >
-            <Text style={{
+            <Text style={[{
                 fontSize: 20,
                 color: "white",
                 fontFamily: font.Bold
-            }} >{buttonText}</Text>
+            },
+                btnTextStyle]} >{buttonText}</Text>
         </TouchableOpacity>
     )
 }

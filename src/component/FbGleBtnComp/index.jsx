@@ -123,34 +123,15 @@ const FbGleBtnComp = ({
     }
 
     return (
-        <TouchableOpacity style={{
-            width: 300,
-            height: 50,
-            borderRadius: 5,
-            backgroundColor: "white",
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "center",
-            elevation: 2,
-            marginTop: 10
-        }}
+        <TouchableOpacity style={styles.TouchableView}
             activeOpacity={0.8}
             onPress={buttonText == "Sign up With Google" || buttonText == "Sign in With Google" ? _googleSignIn : facebookHandler}
         >
             <Image
-                style={{
-                    width: 25,
-                    height: 25,
-                    resizeMode: "contain"
-                }}
+                style={styles.image}
                 source={imageSrc}
             />
-            <Text style={{
-                fontSize: 14,
-                color: colors.BlackColor,
-                fontFamily: font.Regular,
-                marginLeft: 10
-            }} >{buttonText}</Text>
+            <Text style={styles.btnText} >{buttonText}</Text>
         </TouchableOpacity>
     )
 }

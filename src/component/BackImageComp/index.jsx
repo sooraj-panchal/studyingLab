@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, TouchableOpacity } from "react-native";
 import * as images from '../../assets/images/map';
+import styles from "./styles";
 
 const BackImageComp = ({
     onPressBackImage
@@ -8,13 +9,7 @@ const BackImageComp = ({
     return (
         <TouchableOpacity onPress={onPressBackImage} >
             <Image
-                style={{
-                    width: 20,
-                    height: 20,
-                    resizeMode: "contain",
-                    marginTop: 10,
-                    marginLeft: 10
-                }}
+                style={styles.image}
                 source={images.backIcon}
             />
         </TouchableOpacity>

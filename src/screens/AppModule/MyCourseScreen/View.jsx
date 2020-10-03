@@ -6,6 +6,8 @@ import * as images from '../../../assets/images/map';
 import * as colors from '../../../assets/colors';
 import * as font from '../../../assets/fonts/fonts';
 import ProgressBar from 'react-native-progress/Bar';
+import HeaderComp from '../../../component/HeaderComp';
+import ButtonComp from '../../../component/ButtonComp';
 
 const MyCourseDatas = [
     {
@@ -37,59 +39,22 @@ const MyCourseDatas = [
 const MyCourseScreen = ({
     navigation
 }) => {
-    const goToAttendCourse = () => {
-        navigation.navigate("AttendCourse")
-    }
     const [MyCourseData, setMyCourseData] = useState(MyCourseDatas);
     useEffect(() => {
         setMyCourseData(MyCourseData)
     }, [])
+    
     const _renderMyCourseData = () => {
         return (
-            <View style={{
-                marginHorizontal: 15,
-                backgroundColor: "white",
-                paddingTop: 5,
-                paddingBottom: 20,
-                elevation: 4,
-                borderRadius: 5,
-            }} >
+            <View style={styles.rmcdCardView} >
                 <Image
-                    style={{
-                        width: 310,
-                        height: 190,
-                        resizeMode: "contain",
-                        alignSelf: "center"
-                    }}
+                    style={styles.rmcdImage}
                     source={images.CourseDetailsScreen.image1Image}
                 />
-                <View style={{
-                    marginLeft: 10,
-                    marginTop: 10
-                }} >
-                    <Text style={{
-                        fontSize: 20,
-                        fontFamily: font.Medium,
-                        color: colors.BlackColor
-                    }} >New Course - Maths</Text>
-                </View>
-                <Text style={{
-                    fontSize: 16,
-                    color: colors.GrayColor,
-                    fontFamily: font.Medium,
-                    marginTop: 5,
-                    marginLeft: 10
-                }} >Course Progress</Text>
-                <Text style={{
-                    fontSize: 16,
-                    color: colors.BlackColor,
-                    textAlign: "center",
-                    marginTop: 10
-                }} >51%</Text>
-                <View style={{
-                    marginLeft: 10,
-                    marginTop: 2
-                }} >
+                <Text style={styles.rmcdNewCourseText} >New Course - Maths</Text>
+                <Text style={styles.rmcdCourseProgressText} >Course Progress</Text>
+                <Text style={styles.rmcdPercentage} >51%</Text>
+                <View style={styles.rmcdProgressBarContainer} >
                     <ProgressBar
                         progress={0.5}
                         width={300}
@@ -101,97 +66,50 @@ const MyCourseScreen = ({
                         borderWidth={0}
                     />
                 </View>
-                <View style={{
-                    marginTop: 25,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    paddingHorizontal: 10
-                }} >
-                    <TouchableOpacity style={{
-                        width: 150,
-                        height: 45,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: 5,
-                        backgroundColor: colors.RedColor
-                    }} activeOpacity={0.8} >
-                        <Text style={{
-                            fontFamily: font.Regular,
-                            color: "white",
-                            fontSize: 16
-                        }} >Add to Favourite</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        width: 150,
-                        height: 45,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: 5,
-                        backgroundColor: "lightgrey"
-                    }} activeOpacity={0.8} onPress={goToAttendCourse} >
-                        <Text style={{
-                            fontFamily: font.Regular,
-                            color: "white",
-                            fontSize: 15
-                        }} >Generate certificate</Text>
-                    </TouchableOpacity>
+                <View style={styles.btnContainer} >
+                    <ButtonComp
+                        btnStyle={styles.btnLeft}
+                        buttonText="Add to Favourite"
+                        // onPressButton={}
+                        btnTextStyle={styles.btnLeftText}
+                    />
+                    <ButtonComp
+                        btnStyle={styles.btnRight}
+                        buttonText="Generate Certificate"
+                        // onPressButton={}
+                        btnTextStyle={styles.btnRightText}
+                    />
                 </View>
             </View>
         )
     }
     return (
         <View style={styles.viewContainer} >
-            <View style={{
-                height: 50,
-                backgroundColor: colors.BlueColor,
-                flexDirection: "row",
-                alignItems: "center",
-                paddingLeft: 10
-            }} >
-                <TouchableOpacity onPress={() => navigation.goBack()}  >
-                    <Image style={{
-                        width: 20,
-                        height: 20,
-                        resizeMode: "contain"
-                    }}
-                        source={images.backIcon}
-                    />
-                </TouchableOpacity>
-                <Text style={{
-                    fontSize: 18,
-                    color: "white",
-                    fontFamily: font.Regular,
-                    marginLeft: 15
-                }} >My Course</Text>
-            </View>
+            <HeaderComp
+                navigation={navigation}
+                headerText="My Course"
+            />
             <FlatList
                 renderItem={_renderMyCourseData}
                 data={MyCourseData}
                 ItemSeparatorComponent={() => {
                     return (
                         <View
-                            style={{
-                                marginVertical: 10
-                            }}
+                            style={styles.listMyCourseSeparater}
                         />
                     )
                 }}
                 ListHeaderComponent={() => {
                     return (
                         <View
-                            style={{
-                                marginTop: 10
-                            }}
+                            style={styles.listMyCourseHeader}
                         />
                     )
                 }}
                 ListFooterComponent={() => {
                     return (
                         <View
-                            style={{
-                                marginBottom: 10
-                            }}
+                            style={styles.listMyCourseFooter}
                         />
                     )
                 }}

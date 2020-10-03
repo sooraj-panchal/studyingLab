@@ -20,53 +20,30 @@ const ProfileScreen = ({
     const goToChangePasswordScreen = () => {
         navigation.navigate("ResetPassword")
     }
+    const goToFavoriteScreen = () => {
+        navigation.navigate("Favorite")
+    }
+    const goToEditProfileScreen = () => {
+        navigation.navigate("EditProfile")
+    }
+
     return (
         <View style={styles.viewContainer}>
-            <ImageBackground style={{
-                width: Dimensions.get("window").width,
-                height: 200,
-            }}
+            <ImageBackground style={styles.backgroundImage}
                 source={images.ProfileScreen.backgroundImage}
             >
-                <View style={{
-                    marginTop: 5,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    paddingHorizontal: 15,
-                    marginTop: 10
-                }} >
-                    <Text style={{
-                        color: "white",
-                        fontFamily: font.Bold,
-                        fontSize: 35
-                    }} >Profile</Text>
-                    <Image
-                        style={{
-                            width: 40,
-                            height: 40,
-                            resizeMode: "contain"
-                        }}
-                        source={images.ProfileScreen.edit_profileImage}
-                    />
+                <View style={styles.headerContainer} >
+                    <Text style={styles.profileText} >Profile</Text>
+                    <TouchableOpacity onPress={goToEditProfileScreen} >
+                        <Image
+                            style={styles.profileImage}
+                            source={images.ProfileScreen.edit_profileImage}
+                        />
+                    </TouchableOpacity>
                 </View>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    marginBottom: 20
-                }} >
-                    <Text style={{
-                        fontSize: 30,
-                        fontFamily: font.Bold,
-                        color: "white"
-                    }} > Hello, </Text>
-                    <Text style={{
-                        fontSize: 30,
-                        fontFamily: font.Regular,
-                        color: "white"
-                    }} >John  wick</Text>
+                <View style={styles.nameContainer} >
+                    <Text style={styles.helloText} > Hello, </Text>
+                    <Text style={styles.nameText} >John  wick</Text>
                 </View>
             </ImageBackground>
             <TouchableComp TouchableForEmail
@@ -78,18 +55,18 @@ const ProfileScreen = ({
                 onPressTouch={goToMyCourseScreen}
             />
             <TouchableComp
+                text1="Favorite Course"
+                onPressTouch={goToFavoriteScreen}
+            />
+            <TouchableComp
                 text1="Chat"
                 onPressTouch={goToChatScreen}
-
             />
             <TouchableComp
                 text1="Change Password"
                 onPressTouch={goToChangePasswordScreen}
             />
-            <View style={{
-                marginTop: 30,
-                alignSelf: "center"
-            }} >
+            <View style={styles.btnStyle} >
                 <ButtonComp
                     // onPressButton={handleSubmit}
                     buttonText="LOGOUT"

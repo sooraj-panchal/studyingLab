@@ -30,25 +30,12 @@ const SearchScreen = ({
 
     const _renderSearchData = ({ item, index }) => {
         return (
-            <TouchableOpacity style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingHorizontal: 30,
-            }} 
+            <TouchableOpacity style={styles.rsdContainer} 
                 activeOpacity={0.8}
             >
-                <Text style={{
-                    fontSize: 16,
-                    fontFamily: font.Regular,
-                    color: "white"
-                }} >{item.searchName}</Text>
+                <Text style={styles.rsdSearchName} >{item.searchName}</Text>
                 <Image
-                    style={{
-                        width: 15,
-                        height: 15,
-                        resizeMode: "contain",
-                    }}
+                    style={styles.rsdImage}
                     source={images.SearchScreen.topImage}
                 />
             </TouchableOpacity>
@@ -56,88 +43,43 @@ const SearchScreen = ({
     }
     return (
         <View style={styles.viewContainer}>
-            <View style={{
-                backgroundColor: colors.BlueColor,
-                height: 55,
-                justifyContent: "center",
-                paddingLeft: 15
-            }} >
-                <Text style={{
-                    color: "white",
-                    fontSize: 20,
-                    fontFamily: font.Regular
-                }} >Search</Text>
+            <View style={styles.headerContainer} >
+                <Text style={styles.searchText} >Search</Text>
             </View>
             <View>
-                <View style={{
-                    backgroundColor: "white",
-                    borderRadius: 25,
-                    marginHorizontal: 15,
-                    height: 50,
-                    elevation: 5,
-                    // alignSelf:"center",
-                    marginTop: 10,
-                    flexDirection: "row",
-                    alignItems: "center"
-                }} >
+                <View style={styles.searchInputContainer} >
                     <TextInput
-                        style={{
-                            paddingLeft: 20,
-                            fontSize: 18,
-                            width: 250,
-                            color: colors.BlueColor
-                        }}
+                        style={styles.searchInput}
                         placeholder="Search here"
                         placeholderTextColor={colors.BlueColor}
                     />
                     <Image
-                        style={{
-                            width: 20,
-                            height: 20,
-                            resizeMode: "contain",
-                            position: "absolute",
-                            right: 20
-                        }}
+                        style={styles.closeIcon}
                         source={images.SearchScreen.cancelImage}
                     />
                 </View>
-                <View style={{
-                    backgroundColor: colors.BlueColor,
-                    marginHorizontal: 15,
-                    paddingVertical: 5,
-                    borderRadius: 20,
-                    marginTop: 20,
-                }} >
+                <View style={styles.searchDataContainer} >
                     <FlatList
                         data={searchData}
                         renderItem={_renderSearchData}
                         ItemSeparatorComponent={() => {
                             return (
                                 <View
-                                    style={{
-                                        borderWidth: 0.2,
-                                        marginVertical: 10,
-                                        marginHorizontal: 20,
-                                        borderColor: "white"
-                                    }}
+                                    style={styles.searchListSeparater}
                                 />
                             )
                         }}
                         ListHeaderComponent={() => {
                             return (
                                 <View
-                                    style={{
-                                        marginTop: 10
-                                    }}
+                                    style={styles.searchListHeader}
                                 />
                             )
                         }}
                         ListFooterComponent={() => {
                             return (
                                 <View
-                                    style={{
-                                        marginBottom: 10
-                                    }}
+                                    style={styles.searchlistFooter}
                                 />
                             )
                         }}

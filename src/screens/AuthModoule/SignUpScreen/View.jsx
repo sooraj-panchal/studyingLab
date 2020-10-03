@@ -25,10 +25,7 @@ const SignUpScreen = ({
     // const [isVisibleEyeImage, setIsVisibleEyeImage] = useState(false)
     return (
         <View style={styles.viewContainer}>
-            <ImageBackground style={{
-                width: Dimensions.get("screen").width,
-                height: Dimensions.get("screen").height,
-            }}
+            <ImageBackground style={styles.backgroundImage}
                 source={images.SignupScreen.backgroundImage}
             >
                 <BackImageComp
@@ -60,23 +57,9 @@ const SignUpScreen = ({
                 >
                     {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
                         <>
-                            <View style={{
-                                backgroundColor: "white",
-                                marginHorizontal: 10,
-                                paddingVertical: 20,
-                                marginTop: 20,
-                                borderRadius: 5,
-                                alignItems: "center"
-                            }} >
-                                <Text style={{
-                                    fontSize: 25,
-                                    marginTop: 10,
-                                    color: colors.BlackColor,
-                                    fontFamily: font.Regular
-                                }} >Create an Account</Text>
-                                <View style={{
-                                    marginTop: 15
-                                }} >
+                            <View style={styles.cardView} >
+                                <Text style={styles.createAnAcText} >Create an Account</Text>
+                                <View style={styles.textInputMainContainer} >
                                     <TextInputComp
                                         placeholder="Name"
                                         value={values.name}
@@ -116,11 +99,7 @@ const SignUpScreen = ({
                                         errors={errors.confirmpassword}
                                     />
                                 </View>
-                                <View style={{
-                                    marginTop: 20
-                                    // position: "absolute",
-                                    // bottom: 10
-                                }} >
+                                <View style={styles.btnStyle} >
                                     <ButtonComp
                                         onPressButton={handleSubmit}
                                         buttonText="Signup"
@@ -131,33 +110,17 @@ const SignUpScreen = ({
                         </>
                     )}
                 </Formik>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                    marginTop: 20
-                }} >
-                    <View style={{
-                        borderWidth: 0.5,
-                        borderColor: "white",
-                        width: 145
-                    }} />
+                <View style={styles.orContainer} >
+                    <View style={styles.orLeftBorder} />
                     <Text style={{
                         fontSize: 20,
                         color: "white",
                         bottom: 2,
                         fontFamily: font.Regular
                     }} >or</Text>
-                    <View style={{
-                        borderWidth: 0.5,
-                        borderColor: "white",
-                        width: 145
-                    }} />
+                    <View style={styles.orLeftBorder} />
                 </View>
-                <View style={{
-                    marginTop: 10,
-                    alignSelf: "center"
-                }} >
+                <View style={styles.fbGleContainer} >
                     <FbGleBtnComp
                         navigation={navigation}
                         imageSrc={images.AuthScreen.googleImage}
@@ -169,24 +132,10 @@ const SignUpScreen = ({
                         buttonText="Sign up With Facebook"
                     />
                 </View>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    marginVertical: 20
-                }} >
-                    <Text style={{
-                        fontSize: 16,
-                        color: "white",
-                        fontFamily: font.Regular
-                    }} >Have an account?</Text>
+                <View style={styles.haveAnAcContainer} >
+                    <Text style={styles.haveAnAcText} >Have an account?</Text>
                     <TouchableOpacity onPress={goToLogin} >
-                        <Text style={{
-                            fontSize: 18,
-                            color: "white",
-                            fontFamily: font.Regular,
-                            marginLeft: 10
-                        }}  >Sign in</Text>
+                        <Text style={styles.signInText}  >Sign in</Text>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

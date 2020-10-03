@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
 import BackImageComp from '../../../component/BackImageComp';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
@@ -7,6 +7,8 @@ import * as colors from '../../../assets/colors';
 import * as font from '../../../assets/fonts/fonts';
 import { set } from 'react-native-reanimated';
 import ButtonComp from '../../../component/ButtonComp';
+import Carousel from 'react-native-snap-carousel';
+
 
 const attendCourseDatas = [
     {
@@ -42,62 +44,23 @@ const AttendCourseScreen = ({
     const _renderAttendCourseData = ({ item, index }) => {
         // console.log(index)
         return (
-            <View style={{
-                width: 340,
-                marginTop: 20,
-                backgroundColor: "white",
-                paddingTop: 5,
-                height: 640,
-                elevation: 4,
-                borderRadius: 5,
-                marginHorizontal: 10
-            }} >
+            <View style={styles.racdContainer} >
                 {
                     index == 0
                     &&
                     <>
                         <Image
-                            style={{
-                                width: 320,
-                                height: 190,
-                                resizeMode: "contain",
-                                alignSelf: "center"
-                            }}
+                            style={styles.courseImage}
                             source={images.CourseDetailsScreen.image1Image}
                         />
-                        <View style={{
-                            marginLeft: 10,
-                            marginTop: 10
-                        }} >
-                            <Text style={{
-                                fontSize: 20,
-                                fontFamily: font.Medium,
-                                color: colors.BlackColor
-                            }} >Chapter 1 - Maths</Text>
+                        <View style={styles.chapterContainer} >
+                            <Text style={styles.chapterText} >Chapter 1 - Maths</Text>
                         </View>
                     </>
                 }
-                <Text style={{
-                    fontSize: 15,
-                    color: colors.GrayColor,
-                    fontFamily: font.Medium,
-                    marginHorizontal: 10,
-                    marginTop: 15,
-                    alignSelf: "center"
-                }} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
-                    sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
-                    asfa sfasfasfsaf
-                    </Text>
-                <Text style={{
-                    fontSize: 15,
-                    color: colors.GrayColor,
-                    fontFamily: font.Medium,
-                    marginHorizontal: 10,
-                    marginTop: 15,
-                    alignSelf: "center"
-                }} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
-                    sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
-                    asfa sfasfasfsaf
+                <Text style={styles.longText} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
+                sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
+                asfa sfasfasfsaf
                     </Text>
                 <Text style={{
                     fontSize: 15,
@@ -109,22 +72,15 @@ const AttendCourseScreen = ({
                 }} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
                     sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                     asfa sfasfasfsaf sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
-
                     </Text>
                 {
                     index == attendCourseData.length - 1 &&
-                    <View style={{
-                        position: "absolute",
-                        alignSelf: "center",
-                        bottom: 30
-                    }} >
+                    <View style={styles.btnContainer} >
                         <ButtonComp
                             onPressButton={goToStartQuiz}
                             buttonText="Start Quiz"
                             from="fromSignup"
-                            btnStyle={{
-                                width: 250
-                            }}
+                            btnStyle={styles.btnnStyle}
                         />
                     </View>
                 }
@@ -132,43 +88,25 @@ const AttendCourseScreen = ({
         )
     }
 
-    const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
-        // console.log("Visible items are", viewableItems);
-        // console.log("Changed in this iteration", changed);
-        setIndex(viewableItems[0].index)
-
-    }, []);
+    // const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
+    //     // console.log("Visible items are", viewableItems);
+    //     // console.log("Changed in this iteration", changed);
+    //     setIndex(viewableItems[0].index)
+    // }, []);
     return (
         <View style={styles.viewContainer} >
-            <View style={{
-                // height: 50,
-                marginTop: 20,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingHorizontal: 10
-            }} >
+            <View style={styles.backgroundContainer} >
                 <TouchableOpacity onPress={() => navigation.goBack()}  >
-                    <Image style={{
-                        width: 20,
-                        height: 20,
-                        resizeMode: "contain"
-                    }}
+                    <Image style={styles.backIcon}
                         source={images.backIcon}
                     />
                 </TouchableOpacity>
-                <Text style={{
-                    fontSize: 18,
-                    color: "white",
-                    fontFamily: font.Regular,
-                }} >{index + 1}/{attendCourseData.length}</Text>
+                <Text style={styles.paginationCountText} >{index + 1}/{attendCourseData.length}</Text>
                 <View
-                    style={{
-                        width: 20
-                    }}
+                    style={styles.emptyView}
                 />
             </View>
-            <FlatList
+            {/* <FlatList
                 data={attendCourseData}
                 renderItem={_renderAttendCourseData}
                 horizontal={true}
@@ -177,6 +115,20 @@ const AttendCourseScreen = ({
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={{
                     itemVisiblePercentThreshold: 50
+                }}
+            /> */}
+            <Carousel
+                // ref={(c) => { this._carousel = c; }}
+                data={attendCourseData}
+                renderItem={_renderAttendCourseData}
+                sliderWidth={Dimensions.get("window").width}
+                itemWidth={Dimensions.get("window").width}
+                // viewabilityConfig={{
+                //     itemVisiblePercentThreshold: 50
+                // }}
+                // onViewableItemsChanged={onViewableItemsChanged}
+                onSnapToItem={(slideIndex) => {
+                    setIndex(slideIndex)
                 }}
             />
         </View>

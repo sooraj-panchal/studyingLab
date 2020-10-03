@@ -18,6 +18,10 @@ import RequestFormScreen from '../screens/AppModule/RequestFormScreen/View';
 import SubmitRequestFormScreen from '../screens/AppModule/SubmitRequestFormScreen/View';
 import MyCourseScreen from '../screens/AppModule/MyCourseScreen/View';
 import ResetPasswordScreen from '../screens/AppModule/ResetPasswordScreen/View';
+import FilterScreen from '../screens/AppModule/FilterScreen/View';
+import FavoriteScreen from '../screens/AppModule/FavoriteScreen/View';
+import EditProfileScreen from '../screens/AppModule/EditProfileScreen/View';
+import NewCourseScreen from '../screens/AppModule/NewCourseScreen/View';
 
 
 const Tab = createBottomTabNavigator();
@@ -27,7 +31,7 @@ const StackScreen = createStackNavigator();
 const AppStackScreen = () => (
   <StackScreen.Navigator initialRouteName="TabBarStack" screenOptions={{
     // headerShown: false,
-    ...TransitionPresets.DefaultTransition,
+    ...TransitionPresets.SlideFromRightIOS,
   }}  >
     <StackScreen.Screen
       name="TabBarStack"
@@ -92,6 +96,34 @@ const AppStackScreen = () => (
         headerShown: false,
       }}
     />
+    <StackScreen.Screen
+      name="Filter"
+      component={FilterScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="Favorite"
+      component={FavoriteScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="EditProfile"
+      component={EditProfileScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="NewCourse"
+      component={NewCourseScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
   </StackScreen.Navigator>
 )
 
@@ -110,7 +142,6 @@ function MyTabBar({ state, descriptors, navigation }) {
         height: 90,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "white"
       }}
         source={images.tabBarScreen.backgroundImage}
       >
@@ -197,10 +228,10 @@ function MyTabBar({ state, descriptors, navigation }) {
                         ?
                         <Image
                           style={{
-                            width: 55,
-                            height: 55,
+                            width: 60,
+                            height: 60,
                             // resizeMode: "contain",
-                            marginBottom: 30
+                            marginBottom: 40
                           }}
                           source={
                             images.tabBarScreen.addImage
@@ -265,132 +296,135 @@ const TabBarStackScreen = ({ navigation }) => (
   <Tab.Navigator
     screenOptions={({ route, state, navigation }) => ({
       unmountOnBlur: true,
-      tabBarIcon: ({ focused }) => {
-        if (route.name === 'Home') {
-          return (
-            <Image
-              style={{
-                width: 25,
-                height: 25,
-                // resizeMode: "contain"
-              }}
-              source={
-                focused ?
-                  images.tabBarScreen.home_blueImage
-                  : images.tabBarScreen.home_Image
-              }
-            />
-          )
-        } else if (route.name === 'Course') {
-          return (
-            <Image
-              style={{
-                width: 23,
-                height: 25,
-                // resizeMode: "contain"
-              }}
-              source={
-                focused ?
-                  images.tabBarScreen.course_blueImage
-                  : images.tabBarScreen.course_Image
-              }
-            />
-          )
-        } else if (route.name === 'Add') {
-          return (
-            <View style={{
-              backgroundColor: "white",
-              width: 60,
-              height: 60,
-              borderRadius: 30,
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: 30
-            }} >
-              <Image
-                style={{
-                  width: 55,
-                  height: 55,
-                  // resizeMode: "contain",
-                }}
-                source={
-                  images.tabBarScreen.addImage
-                } />
-            </View>
-          )
-        } else if (route.name === 'Search') {
-          return (
-            <Image
-              style={{
-                width: 25,
-                height: 25,
-                // resizeMode: "contain"
-              }}
-              source={
-                focused ?
-                  images.tabBarScreen.search_blue_Image
-                  : images.tabBarScreen.searchImage
-              }
-            />
-          )
-        } else if (route.name === 'Profile') {
-          return (
-            <Image
-              style={{
-                width: 25,
-                height: 25,
-                // resizeMode: "contain"
-              }}
-              source={
-                focused ?
-                  images.tabBarScreen.profile_blue_Image
-                  : images.tabBarScreen.profile_Image
-              }
-            />
-          )
-        }
-        // You can return any component that you like here!
-      },
-      tabBarLabel: ({ focused }) => {
-        if (route.name == "Add") {
-          return null;
-        } else {
-          return (
-            <Text style={{
-              color: focused ? colors.BlueColor : colors.GrayColor,
-              marginTop: 2,
-              fontSize: 12,
-              fontFamily: font.Regular
-            }}>
-              {route.name}
-            </Text>
-          )
-        }
-      }
     })}
-    tabBarOptions={{
-      keyboardHidesTabBar: true,
-      // showLabel: false,
-      // activeTintColor: colors.blue,
-      // inactiveTintColor: colors.white,
-      tabStyle: {
-        // backgroundColor: colors.darkgray,
-      },
-      style: {
-        height: 55,
-        paddingTop: 10
-      }
-    }}
-  // tabBar={props =>
-  //   <View style={{
-  //     position: 'absolute',
-  //     left: 0,
-  //     right: 0,
-  //     bottom: 0,
-  //   }}>
-  //     <MyTabBar {...props} />
-  //   </View>
-  // }
+    // screenOptions={({ route, state, navigation }) => ({
+    //   unmountOnBlur: true,
+    //   tabBarIcon: ({ focused }) => {
+    //     if (route.name === 'Home') {
+    //       return (
+    //         <Image
+    //           style={{
+    //             width: 25,
+    //             height: 25,
+    //             // resizeMode: "contain"
+    //           }}
+    //           source={
+    //             focused ?
+    //               images.tabBarScreen.home_blueImage
+    //               : images.tabBarScreen.home_Image
+    //           }
+    //         />
+    //       )
+    //     } else if (route.name === 'Course') {
+    //       return (
+    //         <Image
+    //           style={{
+    //             width: 23,
+    //             height: 25,
+    //             // resizeMode: "contain"
+    //           }}
+    //           source={
+    //             focused ?
+    //               images.tabBarScreen.course_blueImage
+    //               : images.tabBarScreen.course_Image
+    //           }
+    //         />
+    //       )
+    //     } else if (route.name === 'Add') {
+    //       return (
+    //         <View style={{
+    //           backgroundColor: "white",
+    //           width: 60,
+    //           height: 60,
+    //           borderRadius: 30,
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //           marginBottom: 30
+    //         }} >
+    //           <Image
+    //             style={{
+    //               width: 55,
+    //               height: 55,
+    //               // resizeMode: "contain",
+    //             }}
+    //             source={
+    //               images.tabBarScreen.addImage
+    //             } />
+    //         </View>
+    //       )
+    //     } else if (route.name === 'Search') {
+    //       return (
+    //         <Image
+    //           style={{
+    //             width: 25,
+    //             height: 25,
+    //             // resizeMode: "contain"
+    //           }}
+    //           source={
+    //             focused ?
+    //               images.tabBarScreen.search_blue_Image
+    //               : images.tabBarScreen.searchImage
+    //           }
+    //         />
+    //       )
+    //     } else if (route.name === 'Profile') {
+    //       return (
+    //         <Image
+    //           style={{
+    //             width: 25,
+    //             height: 25,
+    //             // resizeMode: "contain"
+    //           }}
+    //           source={
+    //             focused ?
+    //               images.tabBarScreen.profile_blue_Image
+    //               : images.tabBarScreen.profile_Image
+    //           }
+    //         />
+    //       )
+    //     }
+    //     // You can return any component that you like here!
+    //   },
+    //   tabBarLabel: ({ focused }) => {
+    //     if (route.name == "Add") {
+    //       return null;
+    //     } else {
+    //       return (
+    //         <Text style={{
+    //           color: focused ? colors.BlueColor : colors.GrayColor,
+    //           marginTop: 2,
+    //           fontSize: 12,
+    //           fontFamily: font.Regular
+    //         }}>
+    //           {route.name}
+    //         </Text>
+    //       )
+    //     }
+    //   }
+    // })}
+    // tabBarOptions={{
+    //   keyboardHidesTabBar: true,
+    //   // showLabel: false,
+    //   // activeTintColor: colors.blue,
+    //   // inactiveTintColor: colors.white,
+    //   tabStyle: {
+    //     // backgroundColor: colors.darkgray,
+    //   },
+    //   style: {
+    //     height: 55,
+    //     paddingTop: 10
+    //   }
+    // }}
+    tabBar={props =>
+      <View style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}>
+        <MyTabBar {...props} />
+      </View>
+    }
 
   >
     <Tab.Screen name="Home" component={HomeScreen} />
