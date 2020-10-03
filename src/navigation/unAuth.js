@@ -22,7 +22,7 @@ import FilterScreen from '../screens/AppModule/FilterScreen/View';
 import FavoriteScreen from '../screens/AppModule/FavoriteScreen/View';
 import EditProfileScreen from '../screens/AppModule/EditProfileScreen/View';
 import NewCourseScreen from '../screens/AppModule/NewCourseScreen/View';
-
+import * as globals from './../utils/globals'
 
 const Tab = createBottomTabNavigator();
 
@@ -139,7 +139,7 @@ function MyTabBar({ state, descriptors, navigation }) {
     <>
       <ImageBackground style={{
         width: Dimensions.get("window").width,
-        height: 90,
+        height:globals.mph5*18, // 90,
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -189,7 +189,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                   flex: 1,
                   justifyContent: "center",
                   alignItems: "center",
-                  marginTop: 40
+                  marginTop:globals.mph5*8, // 40
                 }}
                 activeOpacity={1}
               >
@@ -198,8 +198,8 @@ function MyTabBar({ state, descriptors, navigation }) {
                     ?
                     <Image
                       style={{
-                        width: 25,
-                        height: 25,
+                        width:globals.mpw5*5, // 25,
+                        height:globals.mph5*5 , // 25,
                         // resizeMode: "contain"
                       }}
                       source={
@@ -213,8 +213,8 @@ function MyTabBar({ state, descriptors, navigation }) {
                       ?
                       <Image
                         style={{
-                          width: 23,
-                          height: 25,
+                          width:globals.mpw5*5-2 , //23,
+                          height:globals.mph5*5 , //25,
                           // resizeMode: "contain"
                         }}
                         source={
@@ -228,10 +228,10 @@ function MyTabBar({ state, descriptors, navigation }) {
                         ?
                         <Image
                           style={{
-                            width: 60,
-                            height: 60,
+                            width:globals.mpw5*12 , // 60,
+                            height:globals.mph5*12 , // 60,
                             // resizeMode: "contain",
-                            marginBottom: 40
+                            marginBottom:globals.mph5*8 , // 40
                           }}
                           source={
                             images.tabBarScreen.addImage
@@ -242,8 +242,8 @@ function MyTabBar({ state, descriptors, navigation }) {
                           ?
                           <Image
                             style={{
-                              width: 25,
-                              height: 25,
+                              width:globals.mpw5*5, // 25,
+                              height:globals.mph5*5 , // 25,
                               // resizeMode: "contain"
                             }}
                             source={
@@ -257,8 +257,8 @@ function MyTabBar({ state, descriptors, navigation }) {
                             ?
                             <Image
                               style={{
-                                width: 25,
-                                height: 25,
+                                width:globals.mpw5*5, // 25,
+                                height:globals.mpw5*5 , // 25,
                                 // resizeMode: "contain"
                               }}
                               source={
@@ -276,7 +276,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                     <Text style={{
                       color: isFocused ? colors.BlueColor : colors.GrayColor,
                       marginTop: 2,
-                      fontSize: 12,
+                      fontSize:globals.font_12, // 12,
                       fontFamily: font.Regular
                     }}>
                       {label}
