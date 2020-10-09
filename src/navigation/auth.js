@@ -6,6 +6,7 @@ import AuthScreen from '../screens/AuthModoule/AuthScreen/View';
 import ForgotPasswordScreen from '../screens/AuthModoule/ForgotPasswordScreen/View';
 import CheckYourEmailScreen from '../screens/AuthModoule/CheckYourEmailScreen/View';
 import ChangePasswordScreen from '../screens/AuthModoule/ChangePasswordScreen/View';
+import VerificationScreen from '../screens/AuthModoule/VerificationScreen/View';
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = ({ navigation }) => (
@@ -51,6 +52,13 @@ const AuthStackScreen = ({ navigation }) => (
         <AuthStack.Screen
             name="ChangePassword"
             component={ChangePasswordScreen}
+        // options={{
+        //     headerShown: false
+        // }}
+        />
+        <AuthStack.Screen
+            name="Verification"
+            component={VerificationScreen}
         // options={{
         //     headerShown: false
         // }}

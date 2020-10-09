@@ -205,6 +205,10 @@ import HeaderComp from '../../../component/HeaderComp';
 import ButtonComp from '../../../component/ButtonComp';
 import * as colors from '../../../assets/colors';
 import * as font from '../../../assets/fonts/fonts';
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from './../../../utils/globals';
+
 const MyCourseDatas = [
     {
         "id": "1",
@@ -233,35 +237,145 @@ const MyCourseDatas = [
 ]
 
 const CourseDetailsScreen = ({
-    navigation
+    navigation,
 }) => {
+    const [isLoading, setIsLoading] = useState(false)
+
     const [MyCourseData, setMyCourseData] = useState(MyCourseDatas);
+
     useEffect(() => {
-        setMyCourseData(MyCourseData)
+        // setMyCourseData(MyCourseData)
+        getCourses()
     }, [])
-    const goToAttendCourse = () => {
-        navigation.navigate("AttendCourse")
+
+
+    const getCourses = () => {
+        let formdata = new FormData();
+        formdata.append('auth_token', globals.authToken);
+        formdata.append('token', globals.student_Token);
+        setIsLoading(true)
+        API.course(onGetCourseResponse, formdata, true)
     }
-    const _renderMyCourseData = () => {
+
+    const onGetCourseResponse = {
+        success: response => {
+            console.log("onGetCourseResponse====>", response)
+            setIsLoading(false)
+            setMyCourseData(response.data)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+
+    const goToAttendCourse = (item, index) => {
+        navigation.navigate("AttendCourse", {
+            course_id: item.course_id
+        })
+    }
+
+    const AddtoFavouriteCourse = (item, index) => {
+        // if (item.favourite == "true" || item.favourite == true) {
+        //     alert("You Already Added in favourite Course")
+        // } else {
+        // var a = "false";
+        // var b = parseInt(a);
+        // console.log(b== false)
+        MyCourseData[index]['favorite_flag'] = !MyCourseData[index]['favorite_flag']
+        setMyCourseData(MyCourseData)
+        // if (item.favorite_flag == true) {
+        //     return item.favorite_flag = "true"
+        // } else if (item.favorite_flag == false) {
+        //     return item.favorite_flag = "false"
+        // }
+        let formdata = new FormData();
+        formdata.append('token', globals.student_Token);
+        formdata.append('flag', item.favorite_flag);
+        formdata.append('course_id', item.course_id);
+        setIsLoading(true)
+        API.add_favorite(getAddFavoriteResponse, formdata, true);
+    }
+
+    const getAddFavoriteResponse = {
+        success: response => {
+            console.log("getAddFavoriteResponse====>", response)
+            getCourses()
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+    const likedCourse = (item, index) => {
+        // if (item.favourite == "true" || item.favourite == true) {
+        //     alert("You Already Added in favourite Course")
+        // } else {
+        // var a = "false";
+        // var b = parseInt(a);
+        // console.log(b== false)
+        MyCourseData[index]['like_flag'] = !MyCourseData[index]['like_flag']
+        setMyCourseData(MyCourseData)
+        // if (item.favorite_flag == true) {
+        //     return item.favorite_flag = "true"
+        // } else if (item.favorite_flag == false) {
+        //     return item.favorite_flag = "false"
+        // }
+        let formdata = new FormData();
+        formdata.append('token', globals.student_Token);
+        formdata.append('flag', item.like_flag);
+        formdata.append('course_id', item.course_id);
+        setIsLoading(true)
+        API.course_like(getCourseLikeResponse, formdata, true);
+    }
+
+    const getCourseLikeResponse = {
+        success: response => {
+            console.log("getCourseLikeResponse====>", response)
+            getCourses()
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+
+    const _renderMyCourseData = ({ item, index }) => {
         return (
             <View style={styles.rmcdCardView} >
                 <Image
                     style={styles.rmcdImage}
                     source={images.CourseDetailsScreen.image1Image}
                 />
-                <Text style={styles.rmcdNewCourseText} >New Course - Maths</Text>
+                <Text style={styles.rmcdNewCourseText} >New Course - {item.name}</Text>
                 <View style={styles.likeShareCommentContainer} >
                     <View>
                         <View style={{
                             flexDirection: "row",
                         }} >
-                            <>
-                                <Image
-                                    style={styles.likeImage}
-                                    source={images.CourseDetailsScreen.likeImage}
-                                />
-                                <Text style={styles.likeText} >200</Text>
-                            </>
+                            <View style={{
+                                alignItems: "center"
+                            }} >
+                                <TouchableOpacity onPress={() => likedCourse(item, index)}>
+                                    <Image
+                                        style={styles.likeImage}
+                                        source={
+                                            item.like_flag == true ?
+                                                images.CourseDetailsScreen.like_blueImage
+                                                : images.CourseDetailsScreen.likeImage
+                                        }
+                                    />
+                                </TouchableOpacity>
+                                <Text style={styles.likeText} >{item.total_like}</Text>
+                            </View>
                             <>
                                 <Image
                                     style={styles.shareImage}
@@ -277,22 +391,26 @@ const CourseDetailsScreen = ({
                         />
                     </>
                 </View>
-                <Text style={styles.longText} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
+                {/* <Text style={styles.longText} numberOfLines={2} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
                 sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                 asfa sfasfasfsaf
-                    </Text>
+                    </Text> */}
                 <View style={styles.btnContainer} >
                     <ButtonComp
-                        btnStyle={styles.btnLeft}
-                        buttonText="Add to Favourite"
-                        // onPressButton={}
-                        btnTextStyle={styles.btnLeftText}
+                        btnStyle={[styles.btnLeft, {
+                            backgroundColor: item.favorite_flag == true ? "red" : colors.LightGrayColor
+                        }]}
+                        buttonText={item.favorite_flag == true ? "Remove Favorite" : "Add To Favorite"}
+                        onPressButton={() => AddtoFavouriteCourse(item, index)}
+                        btnTextStyle={[styles.btnLeftText, {
+                            color: item.favorite_flag == true ? "white" : colors.BlackColor,
+                        }]}
                     />
                     <ButtonComp
                         btnStyle={styles.btnRight}
                         buttonText="Attend Course"
                         // onPressButton={}
-                        onPressButton={goToAttendCourse}
+                        onPressButton={() => goToAttendCourse(item, index)}
                         btnTextStyle={styles.btnRightText}
                     />
                 </View>
@@ -301,6 +419,7 @@ const CourseDetailsScreen = ({
     }
     return (
         <View style={styles.viewContainer} >
+            <LoadingComp animating={isLoading} />
             <HeaderComp
                 navigation={navigation}
                 headerText="Course 1"
@@ -329,6 +448,7 @@ const CourseDetailsScreen = ({
                         />
                     )
                 }}
+                keyExtractor={(item, index) => index.toString()}
             />
         </View>
     )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
@@ -9,22 +9,95 @@ import TextInputComp from '../../../component/TextInputComp';
 import BackImageComp from '../../../component/BackImageComp';
 import { Formik } from 'formik'
 import * as yup from 'yup';
-import { GameRequestDialog } from 'react-native-fbsdk';
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from './../../../utils/globals';
+import AsyncStorage from '@react-native-community/async-storage';
+import ToastComp from '../../../component/ToastComp';
 
 const EditProfileScreen = ({
     navigation,
+    isLoading,
+    userDetails,
+    updateProfile,
+    getProfileWatcher,
+    updateProfileWatcher
 }) => {
+
+    // const [isLoading, setIsLoading] = useState(false)
+    const [name, setIsName] = useState("")
+    const [email, setIsEmail] = useState("")
+
+    useEffect(() => {
+        updateProfileWatcher(null)
+        if (updateProfile) {
+            navigation.navigate("Profile")
+        }
+        getProfile()
+    }, [updateProfile])
+
+    const getProfile = () => {
+        getProfileWatcher({
+            token: globals.student_Token
+        })
+        if (userDetails) {
+            setIsName(userDetails.name)
+            setIsEmail(userDetails.email)
+        }
+        // setIsLoading(true)
+        // API.get_profile(onget_profileResponse, formdata, true)
+    }
+
+    // const onget_profileResponse = {
+    //     success: response => {
+    //         console.log("onget_profileResponse====>", response)
+    //         setIsEmail(response.data.email)
+    //         setIsName(response.data.name)
+    //         setIsLoading(false)
+    //     },
+    //     error: err => {
+    //         console.log('err--->' + JSON.stringify(err))
+    //         setIsLoading(false)
+    //     },
+    //     complete: () => { },
+    // }
+
     const EditProfileHandler = (values) => {
         // navigation.navigate("CheckYourEmail")
-        console.log(values)
+        // console.log(values)
+        // let formdata = new FormData();
+        // formdata.append('token', globals.student_Token);
+        // formdata.append('name', values.userName);
+        updateProfileWatcher({
+            token: globals.student_Token,
+            name: values.userName
+        })
+        getProfile(null)
+        // setIsLoading(true)
+        // API.update_profile(onGetUpdateProfileResponse, formdata, true)
     }
+
+    // const onGetUpdateProfileResponse = {
+    //     success: response => {
+    //         console.log("onGetUpdateProfileResponse====>", response)
+    //         AsyncStorage.setItem("name", response.data.name)
+    //         setIsLoading(false)
+    //     },
+    //     error: err => {
+    //         console.log('err--->' + JSON.stringify(err))
+    //         setIsLoading(false)
+    //     },
+    //     complete: () => { },
+    // }
+
     const goToResetPasswordScreen = () => {
         navigation.navigate("ResetPassword")
     }
     return (
         <View style={styles.viewContainer}>
+            <LoadingComp animating={isLoading} />
             <Formik
-                initialValues={{ userName: "john Wick", email: "johnwick@GameRequestDialog.com" }}
+                initialValues={{ userName: name, email: email }}
                 enableReinitialize={true}
                 onSubmit={values => EditProfileHandler(values)}
                 validationSchema={yup.object().shape({

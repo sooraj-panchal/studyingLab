@@ -5,73 +5,98 @@ export const appName = 'E-menu'
 export const isInternetConnected = true;
 export const fcmToken = '';
 // export const mainUrl = 'https://ragingdeveloper.com/api/api.php?apicall='
-export const mainUrl = "http://chessmafia.com/php/GroceryStore/api/"
-export const driver_id = '';
+export const mainUrl = "https://chessmafia.com/php/EducationWebsite/api/"
+export const student_Token = "";
 export const isUserLoggedIn = "isUserLoggedIn"
-export const apiToken = ""
+export const authToken = "sJ4[pR3=bM5^gJ0]pS6.gI2$hV5*uS"
 
-export const DriverRegister = 'driver/DriverRegister'
-export const otpVerify = 'driver/otpVerify'
-export const Driverlogin = 'driver/Driverlogin'
-export const forgotPassword = 'driver/Forgotpassword'
-export const Resetpassword = 'driver/Resetpassword'
-export const Getprofile = 'driver/Getprofile'
-export const updateProfile = 'driver/Updateprofile'
+export const successMessage = ""
+export const errorMessage = ""
 
-export const UploadDocument = 'driver/UploadDocument'
-export const GetDocument = 'driver/GetDocument'
-export const GetLicense = 'driver/GetLicense'
-export const CheckApprovalDocument = 'driver/CheckApprovalDocument'
+export const student_Register = 'login/register'
+export const student_login = 'login'
+export const forgot_password = 'login/forgot_password'
+export const verify_forgot_password_otp = 'login/verify_forgot_password_otp'
+export const reset_password = 'login/reset_password'
+export const get_profile = 'student/get_profile'
+export const update_profile = 'student//update_profile'
 
-export const getDriverOrders = 'driver/getDriverOrders'
-export const UpdateOrderStatus = 'driver/UpdateOrderStatus'
-export const CurrentOrder = 'driver/CurrentOrder'
+export const category = 'category'
+export const sub_category = 'sub_category'
+export const course = 'course'
+export const course_detail = 'course/course_detail'
+
+export const quiz = 'quiz'
+export const quiz_answer = 'student/quiz_answer'
+export const final_result = 'student/final_result'
+
+export const course_like = 'student/course_like'
+export const add_favorite = 'student/add_favorite'
+
+export const get_favorite = 'student/get_favorite'
+
+
+
+// export const otpVerify = 'driver/otpVerify'
+// export const forgotPassword = 'driver/Forgotpassword'
+// export const Resetpassword = 'driver/Resetpassword'
+// export const Getprofile = 'driver/Getprofile'
+// export const updateProfile = 'driver/Updateprofile'
+
+// export const UploadDocument = 'driver/UploadDocument'
+// export const GetDocument = 'driver/GetDocument'
+// export const GetLicense = 'driver/GetLicense'
+// export const CheckApprovalDocument = 'driver/CheckApprovalDocument'
 
 // export const getDriverOrders = 'driver/getDriverOrders'
 // export const UpdateOrderStatus = 'driver/UpdateOrderStatus'
 // export const CurrentOrder = 'driver/CurrentOrder'
 
-export const Userlist = 'driver/Userlist'
-
-export const AddEditBankDetail = 'driver/AddEditBankDetail'
-export const GetBankDetail = 'driver/GetBankDetail'
-
-export const Wallet = 'driver/Wallet'
-export const WithdrawAmount = 'driver/WithdrawAmount'
-
 // export const getDriverOrders = 'driver/getDriverOrders'
 // export const UpdateOrderStatus = 'driver/UpdateOrderStatus'
 // export const CurrentOrder = 'driver/CurrentOrder'
 
+// export const Userlist = 'driver/Userlist'
 
-export const addUserAddress = 'user/addUserAddress'
-export const getUserAddress = 'user/getUserAddress'
-export const userUpdateAddress = 'user/updateUserAddress'
-export const deleteUserAddress = 'user/deleteUserAddress'
-export const updateUserDefaultAddress = 'user/updateUserDefaultAddress'
-export const getUserDefaultAddress = 'user/getUserDefaultAddress'
+// export const AddEditBankDetail = 'driver/AddEditBankDetail'
+// export const GetBankDetail = 'driver/GetBankDetail'
 
-export const getCategoryData = 'product/Categorylist'
-export const homeSilderImages = 'product/Homeslider'
-export const productListData = 'product/Productlist'
-export const SubCatallproducts = "home/SubCatallproducts"
+// export const Wallet = 'driver/Wallet'
+// export const WithdrawAmount = 'driver/WithdrawAmount'
 
-
-export const catAllProducts = 'home/Catallproducts'
-export const SearchProduct = 'home/SearchProduct'
-export const filterDetails = 'product/Filterdetail'
+// // export const getDriverOrders = 'driver/getDriverOrders'
+// // export const UpdateOrderStatus = 'driver/UpdateOrderStatus'
+// // export const CurrentOrder = 'driver/CurrentOrder'
 
 
-export const AddToCart = 'cart/Addcart'
-export const getCartDetails = 'cart/getCartDetails'
-export const Productcount = 'home/Productcount'
+// export const addUserAddress = 'user/addUserAddress'
+// export const getUserAddress = 'user/getUserAddress'
+// export const userUpdateAddress = 'user/updateUserAddress'
+// export const deleteUserAddress = 'user/deleteUserAddress'
+// export const updateUserDefaultAddress = 'user/updateUserDefaultAddress'
+// export const getUserDefaultAddress = 'user/getUserDefaultAddress'
 
-export const userAddOrder = 'userorder/userAddOrder'
-export const getUserOrders = 'userorder/getUserOrders'
-export const CancelOrder = 'userorder/CancelOrder'
-export const Trackorder = 'userorder/Trackorder'
+// export const getCategoryData = 'product/Categorylist'
+// export const homeSilderImages = 'product/Homeslider'
+// export const productListData = 'product/Productlist'
+// export const SubCatallproducts = "home/SubCatallproducts"
 
-export const OfferProductlist = 'setting/OfferProductlist'
+
+// export const catAllProducts = 'home/Catallproducts'
+// export const SearchProduct = 'home/SearchProduct'
+// export const filterDetails = 'product/Filterdetail'
+
+
+// export const AddToCart = 'cart/Addcart'
+// export const getCartDetails = 'cart/getCartDetails'
+// export const Productcount = 'home/Productcount'
+
+// export const userAddOrder = 'userorder/userAddOrder'
+// export const getUserOrders = 'userorder/getUserOrders'
+// export const CancelOrder = 'userorder/CancelOrder'
+// export const Trackorder = 'userorder/Trackorder'
+
+// export const OfferProductlist = 'setting/OfferProductlist'
 
 
 // // export const  addVehicle = 'save_vehicle'

@@ -1,94 +1,106 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
-import BackImageComp from '../../../component/BackImageComp';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
 import * as colors from '../../../assets/colors';
-import * as font from '../../../assets/fonts/fonts';
 import ButtonComp from '../../../component/ButtonComp';
 import Carousel from 'react-native-snap-carousel';
 import HeaderComp from '../../../component/HeaderComp';
-
-const dotsDatas = [
-    {
-        "id": "1",
-    },
-    {
-        "id": "2"
-    },
-    {
-        "id": "3"
-    },
-    {
-        "id": "4"
-    },
-    {
-        "id": "5"
-    },
-    {
-        "id": "6"
-    },
-    {
-        "id": "7"
-    },
-    {
-        "id": "8"
-    },
-    {
-        "id": "9"
-    },
-    {
-        "id": "10"
-    }
-]
-
-const quizDatas = [
-    {
-        "id": "1",
-    },
-    {
-        "id": "2"
-    },
-    {
-        "id": "3"
-    },
-    {
-        "id": "4"
-    },
-    {
-        "id": "5"
-    },
-    {
-        "id": "6"
-    },
-    {
-        "id": "7"
-    },
-    {
-        "id": "8"
-    },
-    {
-        "id": "9"
-    },
-    {
-        "id": "10"
-    }
-]
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from './../../../utils/globals';
+import ToastComp from '../../../component/ToastComp';
 
 const StartQuizScreen = ({
-    navigation
+    navigation,
+    route
 }) => {
     const goToQuizResultScreen = () => {
-        navigation.navigate("QuizResult")
+        navigation.navigate("QuizResult", {
+            course_id: route.params.course_id
+        })
     }
-    const [dotsData, setDotsData] = useState(dotsDatas);
-    const [quizData, setQuizData] = useState(quizDatas);
+    const [isLoading, setIsLoading] = useState(false)
+    const [dotsData, setDotsData] = useState([]);
+    const [quizData, setQuizData] = useState([]);
     const [quizindex, setQuizIndex] = useState(0)
+    const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
-        setDotsData(dotsData)
-        setQuizData(quizData)
+        getQuizData()
     }, [])
+
+    const getQuizData = () => {
+        let formdata = new FormData();
+        formdata.append('auth_token', globals.authToken);
+        formdata.append('course_id', route.params.course_id);
+        formdata.append('token', globals.student_Token);
+        setIsLoading(true)
+        API.quiz(onGetQuizDataResponse, formdata, true)
+    }
+
+    const onGetQuizDataResponse = {
+        success: response => {
+            console.log("onGetQuizDataResponseResponse====>", response)
+            setQuizData(response.data)
+            // setAttendCourseData(response.data)
+            const LEN = response.data.length;
+            const arr = [];
+            for (let i = 0; i < LEN; i++) {
+                arr.push(i + 1);
+            }
+            setDotsData(arr)
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+    const onPressAnswer = (i, indexes, item, index) => {
+        let formdata = new FormData();
+
+        formdata.append('token', globals.student_Token);
+        formdata.append('quiz_id', item.quiz_id);
+        formdata.append('ans_id', i.ans_id);
+        formdata.append('course_id', route.params.course_id);
+
+        if (item.stu_ans_arr.stu_ans_flag == false) {
+            if (i.answer && i.correct == "1") {
+                console.log("this is correct_answer===>", i.answer)
+                i.correct_answer = "true"
+                setIsLoading(true)
+                API.quiz_answer(onGetQuizAnswerResponse, formdata, true)
+            } else if (i.answer && i.correct == "0") {
+                console.log("this is wrong_answer===>", i.answer)
+                i.correct_answer = "false"
+                setIsLoading(true)
+                API.quiz_answer(onGetQuizAnswerResponse, formdata, true)
+
+            } else {
+                return console.log("no data found")
+            }
+        } else {
+            return setErrorMessage("Can't change answer")
+        }
+    }
+
+    const onGetQuizAnswerResponse = {
+        success: response => {
+            console.log("onGetQuizAnswerResponse====>", response)
+            // i.correct = response.da.ta.correct
+            setIsLoading(false)
+            getQuizData()
+
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
 
     const _renderDotsData = ({ item, index }) => {
         return (
@@ -108,43 +120,48 @@ const StartQuizScreen = ({
             <View style={styles.rqdContainer} >
                 <View style={styles.questionContainer} >
                     <View style={styles.questionminiContainer} >
-                        <Text style={styles.questionConntText} >{index + 1}.</Text>
-                        <Text style={styles.questionText} >If the parametere and area of circle are equal then radius of a circle will be?</Text>
+                        <Text style={styles.questionConntText} >{index + 1}. </Text>
+                        <Text style={styles.questionText} >{item.question}</Text>
                     </View>
                 </View>
                 <View style={styles.btnMainContainer} >
-                    <View style={styles.questionbtn1} >
-                        <TouchableOpacity style={[styles.touchable, {
-                            backgroundColor: index == 0 ? "#bf4193" : colors.GreenColor,
-                        }]} >
-                            <Text style={styles.questionBtnText} >2 Units</Text>
-                        </TouchableOpacity>
-                        {
-                            index == 0
-                                ? null :
-                                <View style={styles.rightImageContainer} >
-                                    <Image style={styles.rightImage}
-                                        source={images.StartQuizScreen.rightImage}
-                                    />
+                    {
+                        item.answer_data.map((i, indexes) => {
+                            return (
+                                <View style={styles.questionbtn1} key={indexes} >
+                                    <TouchableOpacity
+                                        style={[styles.touchable, {
+                                            backgroundColor:
+                                                item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "true" ||
+                                                    i.correct_answer == "true" ? colors.GreenColor :
+                                                    item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "false" ||
+                                                        i.correct_answer == "false" ? colors.RedColor
+                                                        : "#bf4193",
+                                        }]} onPress={() => onPressAnswer(i, indexes, item, index)} >
+                                        <Text style={styles.questionBtnText} >{i.answer}</Text>
+                                    </TouchableOpacity>
+                                    {
+                                        item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "true" ||
+                                            i.correct_answer == "true" ?
+                                            <View style={styles.rightImageContainer} >
+                                                <Image style={styles.rightImage}
+                                                    source={images.StartQuizScreen.rightImage}
+                                                />
+                                            </View> : null
+                                    }
+                                    {
+                                        item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "false" ||
+                                            i.correct_answer == "false" ?
+                                            <View style={styles.rightImageContainer} >
+                                                <Image style={styles.rightImage}
+                                                    source={images.StartQuizScreen.wrongImage}
+                                                />
+                                            </View> : null
+                                    }
                                 </View>
-                        }
-                    </View>
-                    <View style={styles.questionbtn1} >
-                        <TouchableOpacity style={[styles.touchable, {
-                            backgroundColor: index == 0 ? "#bf4193" : colors.RedColor,
-                        }]} >
-                            <Text style={styles.questionBtnText} >6 Units</Text>
-                        </TouchableOpacity>
-                        {
-                            index == 0
-                                ? null :
-                                <View style={styles.rightImageContainer} >
-                                    <Image style={styles.rightImage}
-                                        source={images.StartQuizScreen.wrongImage}
-                                    />
-                                </View>
-                        }
-                    </View>
+                            )
+                        })
+                    }
                 </View>
                 {
                     index == quizData.length - 1 &&
@@ -160,14 +177,9 @@ const StartQuizScreen = ({
             </View>
         )
     }
-    // const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
-    //     // console.log("Visible items are", viewableItems);
-    //     // console.log("Changed in this iteration", changed);
-    //     setQuizIndex(viewableItems[0].index + 1)
-
-    // }, []);
     return (
         <View style={styles.viewContainer} >
+            <LoadingComp animating={isLoading} />
             <HeaderComp
                 headerText="Course 1"
                 navigation={navigation}
@@ -180,38 +192,27 @@ const StartQuizScreen = ({
                         renderItem={_renderDotsData}
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
+                        keyExtractor={(item, index) => index.toString()}
                     />
                 </View>
             </View>
             <View style={styles.listQuestionContainer} >
-                {/* <FlatList contentContainerStyle={{
-                    paddingBottom: 20,
-                }}
-                    data={quizData}
-                    renderItem={_renderQuizData}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    onViewableItemsChanged={onViewableItemsChanged}
-                    viewabilityConfig={{
-                        itemVisiblePercentThreshold: 50
-                    }}
-                /> */}
                 <Carousel
-                    // ref={(c) => { this._carousel = c; }}
                     data={quizData}
                     renderItem={_renderQuizData}
                     sliderWidth={Dimensions.get("window").width}
                     itemWidth={Dimensions.get("window").width}
-                    // viewabilityConfig={{
-                    //     itemVisiblePercentThreshold: 50
-                    // }}
-                    // onViewableItemsChanged={onViewableItemsChanged}
                     onSnapToItem={(slideIndex) => {
                         setQuizIndex(slideIndex)
                     }}
 
                 />
             </View>
+            <ToastComp
+                type={"error"}
+                message={errorMessage}
+                onDismiss={() => { setErrorMessage("") }}
+            />
         </View>
     )
 }

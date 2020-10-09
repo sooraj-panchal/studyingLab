@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
@@ -9,16 +9,50 @@ import TextInputComp from '../../../component/TextInputComp';
 import BackImageComp from '../../../component/BackImageComp';
 import { Formik } from 'formik'
 import * as yup from 'yup';
-
+import { API } from '../../../utils/api';
+import * as globals from '../../../utils/globals';
+import LoadingComp from '../../../component/LoadingComp';
+import ToastComp from '../../../component/ToastComp';
+import AsyncStorage from '@react-native-community/async-storage';
 const ChangePasswordScreen = ({
     navigation,
 }) => {
-    const ChangePasswordHandler = (values) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
+
+    const ChangePasswordHandler = async (values) => {
         // navigation.navigate("CheckYourEmail")
-        console.log(values)
+        // console.log(values)
+        const email = await AsyncStorage.getItem("email")
+        let formdata = new FormData();
+        formdata.append('email', email);
+        formdata.append('auth_token', globals.authToken);
+        formdata.append('password', values.password);
+        setIsLoading(true)
+        API.reset_password(onreset_passwordResponse, formdata, true)
     }
+
+    const onreset_passwordResponse = {
+        success: response => {
+            console.log("onreset_passwordResponse====>", response)
+            setIsLoading(false)
+            setSuccessMessage(response.message)
+            setTimeout(() => {
+                navigation.navigate("Login");
+            },1500);
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+            setErrorMessage(err.message)
+        },
+        complete: () => { },
+    }
+
     return (
         <View style={styles.viewContainer}>
+            <LoadingComp animating={isLoading} />
             <Formik
                 initialValues={{ password: '', confirmpassword: "" }}
                 onSubmit={values => ChangePasswordHandler(values)}
@@ -83,6 +117,16 @@ const ChangePasswordScreen = ({
                     </>
                 )}
             </Formik>
+            <ToastComp
+                type={"success"}
+                message={successMessage}
+                onDismiss={() => { setSuccessMessage("") }}
+            />
+            <ToastComp
+                type={"error"}
+                message={errorMessage}
+                onDismiss={() => { setErrorMessage("") }}
+            />
         </View>
     )
 }

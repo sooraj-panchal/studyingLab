@@ -48,7 +48,7 @@ export default StyleSheet.create({
         marginLeft: globals.mpw5 * 2, // 10
     },
     listCategoryContainer: {
-        alignItems: "center",
+        alignSelf: "center",
         marginTop: globals.mph5 * 2, // 10,
         paddingBottom: globals.mph5 * 20, // 100
     },

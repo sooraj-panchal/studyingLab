@@ -163,11 +163,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "455250643702-hh39lq7er912ifvab5n27ds6540e4h45.apps.googleusercontent.com",
+          "client_id": "455250643702-anrgen1o0bipdfaj8ucs5mqlvn48d91u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.studyinglab",
-            "certificate_hash": "640a9c241f310c1263433f6c791eb4eff35e6346"
+            "certificate_hash": "7ea64a7e58ac3a2ee641a95302acd0b9882acdcd"
           }
         },
         {

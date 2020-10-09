@@ -8,7 +8,10 @@ import * as font from '../../../assets/fonts/fonts';
 import { set } from 'react-native-reanimated';
 import ButtonComp from '../../../component/ButtonComp';
 import Carousel from 'react-native-snap-carousel';
-
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from './../../../utils/globals';
+import HTML from 'react-native-render-html';
 
 const attendCourseDatas = [
     {
@@ -29,16 +32,43 @@ const attendCourseDatas = [
 ]
 
 const AttendCourseScreen = ({
-    navigation
+    navigation,
+    route
 }) => {
-    const [attendCourseData, setAttendCourseData] = useState(attendCourseDatas);
+    const [isLoading, setIsLoading] = useState(false)
+    const [attendCourseData, setAttendCourseData] = useState([]);
     const [index, setIndex] = useState(0)
     useEffect(() => {
-        setAttendCourseData(attendCourseData)
+        // setAttendCourseData(attendCourseData)
+        getCourseDetailsData()
     }, [])
 
+    const getCourseDetailsData = () => {
+        let formdata = new FormData();
+        formdata.append('auth_token', globals.authToken);
+        formdata.append('course_id', route.params.course_id);
+        setIsLoading(true)
+        API.course_detail(onGetCourseDetailsResponse, formdata, true)
+    }
+
+    const onGetCourseDetailsResponse = {
+        success: response => {
+            console.log("onGetCourseDetailsResponse====>", response)
+            setAttendCourseData(response.data)
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+
     const goToStartQuiz = () => {
-        navigation.navigate("StartQuiz")
+        navigation.navigate("StartQuiz", {
+            course_id: route.params.course_id
+        })
     }
 
     const _renderAttendCourseData = ({ item, index }) => {
@@ -58,7 +88,13 @@ const AttendCourseScreen = ({
                         </View>
                     </>
                 }
-                <Text style={styles.longText} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
+                <View style={{
+                    alignSelf: "center",
+                    width: 320
+                }} >
+                    <HTML html={item.description} imagesMaxWidth={Dimensions.get('window').width} />
+                </View>
+                {/* <Text style={styles.longText} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
                 sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                 asfa sfasfasfsaf
                     </Text>
@@ -72,7 +108,7 @@ const AttendCourseScreen = ({
                 }} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
                     sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                     asfa sfasfasfsaf sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
-                    </Text>
+                    </Text> */}
                 {
                     index == attendCourseData.length - 1 &&
                     <View style={styles.btnContainer} >
@@ -93,20 +129,29 @@ const AttendCourseScreen = ({
     //     // console.log("Changed in this iteration", changed);
     //     setIndex(viewableItems[0].index)
     // }, []);
+
     return (
-        <View style={styles.viewContainer} >
-            <View style={styles.backgroundContainer} >
-                <TouchableOpacity onPress={() => navigation.goBack()}  >
-                    <Image style={styles.backIcon}
-                        source={images.backIcon}
-                    />
-                </TouchableOpacity>
-                <Text style={styles.paginationCountText} >{index + 1}/{attendCourseData.length}</Text>
-                <View
-                    style={styles.emptyView}
-                />
-            </View>
-            {/* <FlatList
+        <View style={[styles.viewContainer,{
+            backgroundColor:isLoading == true ? "white" :colors.BlueColor
+        }]} >
+            {
+                isLoading == true
+                    ?
+                    <LoadingComp animating={isLoading} />
+                    :
+                    <>
+                        <View style={styles.backgroundContainer} >
+                            <TouchableOpacity onPress={() => navigation.goBack()}  >
+                                <Image style={styles.backIcon}
+                                    source={images.backIcon}
+                                />
+                            </TouchableOpacity>
+                            <Text style={styles.paginationCountText} >{index + 1}/{attendCourseData.length}</Text>
+                            <View
+                                style={styles.emptyView}
+                            />
+                        </View>
+                        {/* <FlatList
                 data={attendCourseData}
                 renderItem={_renderAttendCourseData}
                 horizontal={true}
@@ -117,20 +162,23 @@ const AttendCourseScreen = ({
                     itemVisiblePercentThreshold: 50
                 }}
             /> */}
-            <Carousel
-                // ref={(c) => { this._carousel = c; }}
-                data={attendCourseData}
-                renderItem={_renderAttendCourseData}
-                sliderWidth={Dimensions.get("window").width}
-                itemWidth={Dimensions.get("window").width}
-                // viewabilityConfig={{
-                //     itemVisiblePercentThreshold: 50
-                // }}
-                // onViewableItemsChanged={onViewableItemsChanged}
-                onSnapToItem={(slideIndex) => {
-                    setIndex(slideIndex)
-                }}
-            />
+                        <Carousel
+                            // ref={(c) => { this._carousel = c; }}
+                            data={attendCourseData}
+                            renderItem={_renderAttendCourseData}
+                            sliderWidth={Dimensions.get("window").width}
+                            itemWidth={Dimensions.get("window").width}
+                            // viewabilityConfig={{
+                            //     itemVisiblePercentThreshold: 50
+                            // }}
+                            // onViewableItemsChanged={onViewableItemsChanged}
+                            onSnapToItem={(slideIndex) => {
+                                setIndex(slideIndex)
+                            }}
+                        />
+                    </>
+            }
+
         </View>
     )
 }

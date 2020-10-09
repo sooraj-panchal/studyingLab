@@ -5,23 +5,30 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AppStackScreen from './unAuth';
 import AuthStackScreen from './auth';
 import SplashScreen from '../screens/AuthModoule/SplashScreen/View';
-
+import AsyncStorage from '@react-native-community/async-storage';
+import * as globals from './../utils/globals';
 
 const RootStack = createStackNavigator();
 const AppContainer = ({ }) => {
     const [isLoading, setIsLoading] = useState(true)
-    const [token, setToken] = useState('')
+    const [token, setToken] = useState(null)
     useEffect(() => {
-        setToken("")
+        getToken()
         setTimeout(() => {
             setIsLoading(false)
         }, 2000);
+        // console.log(token)
     }, [token])
+    const getToken = async () => {
+        const token = await AsyncStorage.getItem("token")
+        globals.student_Token = token
+        setToken(token)
+    }
     if (isLoading == true)
         return (
             <SplashScreen />
         )
-    if (token !== "")
+    if (token !== null)
         return (
             <RootStack.Navigator
                 headerMode="none"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
@@ -9,15 +9,53 @@ import TextInputComp from '../../../component/TextInputComp';
 import BackImageComp from '../../../component/BackImageComp';
 import { Formik } from 'formik'
 import * as yup from 'yup';
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from '../../../utils/globals';
+import ToastComp from '../../../component/ToastComp';
+import AsyncStorage from '@react-native-community/async-storage';
+
 const ForgotPasswordScreen = ({
     navigation,
 }) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
+
+
+
     const SubmitHandler = (values) => {
-        navigation.navigate("CheckYourEmail")
-        console.log(values)
+        // navigation.navigate("CheckYourEmail")
+        // console.log(values)
+        let formdata = new FormData();
+        formdata.append('email', values.email);
+        formdata.append('auth_token', globals.authToken);
+
+        setIsLoading(true)
+        API.forgot_password(onforgot_passwordResponse, formdata, true)
     }
+
+    const onforgot_passwordResponse = {
+        success: response => {
+            console.log("onforgot_passwordResponse====>", response)
+            setIsLoading(false)
+            setSuccessMessage(response.message)
+            setTimeout(() => {
+                AsyncStorage.setItem("email",response.data.email)
+                navigation.navigate("Verification");
+            }, 500);
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+            setErrorMessage(err.message)
+        },
+        complete: () => { },
+    }
+
     return (
         <View style={styles.viewContainer}>
+            <LoadingComp animating={isLoading} />
             <Formik
                 initialValues={{ email: '' }}
                 onSubmit={values => SubmitHandler(values)}
@@ -69,6 +107,16 @@ const ForgotPasswordScreen = ({
                     </>
                 )}
             </Formik>
+            <ToastComp
+                type={"error"}
+                message={errorMessage}
+                onDismiss={() => { setErrorMessage("") }}
+            />
+            <ToastComp
+                type={"success"}
+                message={successMessage}
+                onDismiss={() => { setSuccessMessage("") }}
+            />
         </View>
     )
 }

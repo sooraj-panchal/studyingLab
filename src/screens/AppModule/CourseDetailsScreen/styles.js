@@ -115,7 +115,7 @@ export default StyleSheet.create({
         color: colors.GrayColor,
         fontFamily: font.Medium,
         marginHorizontal: 10,
-        marginTop: 20,
-        alignSelf: "center"
+        marginTop: 10,
+        alignSelf: "center",
     }
 })

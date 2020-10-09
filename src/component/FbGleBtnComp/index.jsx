@@ -34,7 +34,7 @@ const FbGleBtnComp = ({
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            console.log('Google Login', JSON.stringify(userInfo))
+            console.log('Google Login', JSON.stringify(userInfo.user.email))
             navigation.dispatch(AppStack);
 
             // const data = {
@@ -48,14 +48,17 @@ const FbGleBtnComp = ({
             // API.userLogin(this.onGoogleLoginResponse, data, true);
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                alert(error)
                 // user cancelled the login flow
             } else if (error.code === statusCodes.IN_PROGRESS) {
+                alert(error)
                 // operation (f.e. sign in) is in progress already
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                alert(error)
                 // play services not available or outdated
             } else {
                 // some other error happened
-                console.log(error)
+                alert(error)
             }
         }
     };
@@ -77,7 +80,7 @@ const FbGleBtnComp = ({
                         fetch('https://graph.facebook.com/v2.5/me?fields=email,name&access_token=' + accessToken)
                             .then((response) => response.json())
                             .then((json) => {
-                                console.log('DATA--->', json)
+                                alert('DATA--->', json.email)
                                 if (json.email == undefined) {
                                     return alert("Can't get Your Email, please check your privacy Setting")
                                 } else {
@@ -96,7 +99,7 @@ const FbGleBtnComp = ({
                             }
                             )
                             .catch((e) => {
-                                console.log('ERROR GETTING DATA FROM FACEBOOK', e)
+                             alert('ERROR GETTING DATA FROM FACEBOOK', JSON.stringify(e))
                             })
                     }
                     )
@@ -108,7 +111,7 @@ const FbGleBtnComp = ({
                         }
                     }, (error, result) => {
                         if (error) {
-                            console.log('Error fetching data: ' + error.toString());
+                            alert('Error fetching data: ' + error.toString());
                         } else {
                             console.log('Success fetching data: ' + JSON.stringify(result));
                         }
@@ -117,7 +120,7 @@ const FbGleBtnComp = ({
                 }
             },
             function (error) {
-                console.log("Login fail with error: " + error);
+                alert("Login fail with error: " + error);
             }
         );
     }
@@ -131,7 +134,7 @@ const FbGleBtnComp = ({
                 style={styles.image}
                 source={imageSrc}
             />
-            <Text style={styles.btnText} >{buttonText}</Text>
+            <Text style={styles.buttonText} >{buttonText}</Text>
         </TouchableOpacity>
     )
 }

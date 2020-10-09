@@ -6,6 +6,9 @@ import * as colors from '../../../assets/colors';
 import * as font from '../../../assets/fonts/fonts';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import HeaderComp from '../../../component/HeaderComp';
+import * as globals from './../../../utils/globals';
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
 const categoryDatas = [
     {
         "id": "1",
@@ -60,10 +63,32 @@ const categoryDatas = [
 const NewCourseScreen = ({
     navigation,
 }) => {
-    const [categoryData, setCategoryData] = useState(categoryDatas);
+    const [categoryData, setCategoryData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
+
     useEffect(() => {
-        setCategoryData(categoryData)
+        getSubCategoryData()
     }, [])
+
+    const getSubCategoryData = () => {
+        let formdata = new FormData();
+        formdata.append('auth_token', globals.authToken);
+        setIsLoading(true)
+        API.sub_category(onGetSubCategoryResponse, formdata, true)
+    }
+
+    const onGetSubCategoryResponse = {
+        success: response => {
+            console.log("onGetSubCategoryResponse====>", response)
+            setCategoryData(response.data)
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
 
     const goToCourseDetailsScreen = () => {
         navigation.navigate("CourseDetails")
@@ -74,19 +99,18 @@ const NewCourseScreen = ({
             <TouchableOpacity onPress={goToCourseDetailsScreen} >
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
-                    source={item.backgroundImage}
+                    source={images.HomeScreen.box_background1Image}
                 >
                     <View style={{
                         alignItems: "center"
                     }} >
                         <Image style={styles.rciCataegoryImage}
-                            source={item.categoryImage}
+                            source={images.HomeScreen.icon_1Image}
                         />
-                        <Text style={styles.rciCataegoryName} >{item.categoryName}</Text>
+                        <Text style={styles.rciCataegoryName} >{item.cat_name}</Text>
                     </View>
                 </ImageBackground>
             </TouchableOpacity>
-
         )
     }
 
@@ -100,6 +124,7 @@ const NewCourseScreen = ({
 
     return (
         <View style={styles.viewContainer}>
+            <LoadingComp animating={isLoading} />
             <HeaderComp
                 navigation={navigation}
                 headerText="Course"
@@ -108,6 +133,7 @@ const NewCourseScreen = ({
                 data={categoryData}
                 renderItem={_renderCategoryItem}
                 numColumns={2}
+                keyExtractor={(item, index) => index.toString()}
             />
         </View>
     )

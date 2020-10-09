@@ -13,180 +13,59 @@ const internetErrorObj = {
 };
 
 export const API = {
-  DriverRegister: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.DriverRegister, buildHeaderNormal());
+  student_Register: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.student_Register, buildHeaderFormData());
   },
-  otpVerify: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.otpVerify, buildHeaderNormal());
+  student_login: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.student_login, buildHeaderFormData());
   },
-  Driverlogin: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.Driverlogin, buildHeaderNormal());
+  forgot_password: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.forgot_password, buildHeaderFormData());
   },
-  forgotPassword: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.forgotPassword, buildHeaderNormal());
+  verify_Otp: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.verify_forgot_password_otp, buildHeaderFormData());
   },
-  Resetpassword: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.Resetpassword, buildHeaderNormal());
+  reset_password: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.reset_password, buildHeaderFormData());
   },
-  Getprofile: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.Getprofile, buildHeaderNormal());
+  get_profile: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.get_profile, buildHeaderFormData());
   },
-  updateProfille: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.updateProfile, buildHeaderNormal());
+  update_profile: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.update_profile, buildHeaderFormData());
   },
-  UploadDocument: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.UploadDocument, buildHeaderNormal());
-  },
-  GetDocument: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.GetDocument, buildHeaderNormal());
-  },
-  GetLicense: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.GetLicense, buildHeaderNormal());
-  },
-  CheckApprovalDocument: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.CheckApprovalDocument, buildHeaderNormal());
+  category: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.category, buildHeaderFormData());
   },
 
-  getDriverOrders: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.getDriverOrders, buildHeaderNormal());
-  },
-  UpdateOrderStatus: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.UpdateOrderStatus, buildHeaderNormal());
-  },
-  CurrentOrder: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.CurrentOrder, buildHeaderNormal());
+  sub_category: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.sub_category, buildHeaderFormData());
   },
 
-  Userlist: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.Userlist, buildHeaderNormal());
+  course: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.course, buildHeaderFormData());
   },
-  AddEditBankDetail: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.AddEditBankDetail, buildHeaderNormal());
+  course_detail: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.course_detail, buildHeaderFormData());
   },
-  GetBankDetail: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.GetBankDetail, buildHeaderNormal());
+  quiz: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.quiz, buildHeaderFormData());
   },
-  Wallet: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.Wallet, buildHeaderNormal());
+  quiz_answer: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.quiz_answer, buildHeaderFormData());
   },
-  WithdrawAmount: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.WithdrawAmount, buildHeaderNormal());
+  final_result: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.final_result, buildHeaderFormData());
   },
-  //   userMobileNo: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.mobileNoUser, buildHeaderNormal());
-  //   },
-
-  getCategoryData: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.getCategoryData, buildHeader());
+  course_like: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.course_like, buildHeaderFormData());
   },
-  homeSilderImages: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.homeSilderImages, buildHeader());
+  add_favorite: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.add_favorite, buildHeaderFormData());
   },
-
-  productListData: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.productListData, buildHeader());
-  },
-  catAllProductsData: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.catAllProducts, buildHeader());
-  },
-  SubCatallproducts: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.SubCatallproducts, buildHeader());
-  },
-  FilterDetails: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.filterDetails, buildHeader());
-  },
-
-  SearchProduct: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.SearchProduct, buildHeader());
-  },
-
-  getAddToCart: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.AddToCart, buildHeader());
-  },
-  getCartDetails: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.getCartDetails, buildHeader());
-  },
-  Productcount: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.Productcount, buildHeader());
-  },
-
-
-  addUserAddress: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.addUserAddress, buildHeader());
-  },
-
-  getUserAddress: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.getUserAddress, buildHeader());
-  },
-  userUpdateAddress: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.userUpdateAddress, buildHeader());
-  },
-
-  deleteUserAddress: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.deleteUserAddress, buildHeader());
-  },
-
-  updateUserDefaultAddress: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.updateUserDefaultAddress, buildHeader());
-  },
-  getUserDefaultAddress: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.getUserDefaultAddress, buildHeader());
-  },
-
-  userAddOrder: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.userAddOrder, buildHeader());
-  },
-  getUserOrders: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.getUserOrders, buildHeader());
-  },
-
-  CancelOrder: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.CancelOrder, buildHeader());
-  },
-
-  Trackorder: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.Trackorder, buildHeader());
-  },
-
-  OfferProductlist: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.OfferProductlist, buildHeader());
-  },
-  //   addAddress: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.addAddress, buildHeader());
-  //   },
-  //   getAddress: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.getAddress, buildHeader());
-  //   },
-  //   updateAddress: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.updateAddress, buildHeader());
-  //   },
-  //   deleteAddress: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.deleteAddress, buildHeader());
-  //   },
-  //   addToCart: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.addToCart, buildHeader());
-  //   },
-  //   getCart: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.getCart, buildHeader());
-  //   },
-  //   updateCart: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.updateCart, buildHeader());
-  //   },
-  //   removeCart: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.removeCart, buildHeader());
-  //   },
-  //   addToFavorite: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.addToFavorite, buildHeader());
-  //   },
-  //   getFavorite: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.getFavorite, buildHeader());
-  //   },
-  //   removeFromFavorite: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.removeFromFavorite, buildHeader());
-  //   },
-  //   addToCheckout: (onResponse, data, isHeaderRequired) => {
-  //     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl+globals.addToCheckout, buildHeaderNormal());
-  //   },
+  get_favorite: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.get_favorite, buildHeaderFormData());
+  }
 };
 
 export const buildHeader = (headerParams = {}) => {
@@ -208,6 +87,16 @@ export const buildHeaderNormal = (headerParams = {}) => {
   Object.assign(header, headerParams);
   return header;
 };
+
+export const buildHeaderFormData = (headerParams = {}) => {
+  var header = {
+    "Accept": "application/json",
+    "Content-Type": "multipart/form-data",
+  };
+  Object.assign(header, headerParams);
+  return header;
+};
+
 
 async function request(onResponse, data, type, returnType, isHeaderRequired, featureURL, secureRequest) {
   let response = "";

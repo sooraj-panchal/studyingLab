@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
@@ -11,13 +11,47 @@ import BackImageComp from '../../../component/BackImageComp';
 import { Formik } from 'formik'
 import * as yup from 'yup';
 import { AppStack } from '../../../navigation/navActions';
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from './../../../utils/globals';
+import AsyncStorage from '@react-native-community/async-storage';
+import ToastComp from '../../../component/ToastComp';
 
 const LoginScreen = ({
     navigation,
 }) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
+
     const signInHandler = (values) => {
-        console.log(values)
-        navigation.dispatch(AppStack);
+        let formdata = new FormData();
+        formdata.append('email', values.email);
+        formdata.append('password', values.password);
+        formdata.append('auth_token', globals.authToken);
+        formdata.append('fcm_token', "");
+        formdata.append('flag', "N");
+
+        setIsLoading(true)
+        API.student_login(onLoginResponse, formdata, true)
+    }
+
+    const onLoginResponse = {
+        success: response => {
+            console.log("onLoginResponse====>", response)
+            setIsLoading(false)
+            AsyncStorage.setItem("token", response.data.token)
+            globals.student_Token = response.data.token
+            AsyncStorage.setItem("name", response.data.name)
+            AsyncStorage.setItem("email", response.data.email)
+            navigation.dispatch(AppStack);
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+            setErrorMessage(err.message)
+        },
+        complete: () => { },
     }
     const goToSignUp = () => {
         navigation.navigate("SignUp")
@@ -27,6 +61,7 @@ const LoginScreen = ({
     }
     return (
         <View style={styles.viewContainer}>
+            <LoadingComp animating={isLoading} />
             <ImageBackground style={styles.backgroundImage}
                 source={images.SignupScreen.backgroundImage}
             >
@@ -122,6 +157,16 @@ const LoginScreen = ({
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
+            <ToastComp
+                type={"success"}
+                message={successMessage}
+                onDismiss={() => { setSuccessMessage("") }}
+            />
+            <ToastComp
+                type={"error"}
+                message={errorMessage}
+                onDismiss={() => { setErrorMessage("") }}
+            />
         </View>
     )
 }

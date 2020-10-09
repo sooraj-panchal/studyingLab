@@ -4,6 +4,9 @@ import styles from './styles';
 import * as images from '../../../assets/images/map';
 import HeaderComp from '../../../component/HeaderComp';
 import ButtonComp from '../../../component/ButtonComp';
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from './../../../utils/globals';
 
 const MyCourseDatas = [
     {
@@ -35,30 +38,81 @@ const MyCourseDatas = [
 const FavoriteScreen = ({
     navigation
 }) => {
-    const [MyCourseData, setMyCourseData] = useState(MyCourseDatas);
+    const [FavoriteCourseData, setGetFavoriteCourseData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
+
     useEffect(() => {
-        setMyCourseData(MyCourseData)
+        // setMyCourseData(MyCourseData)
+        GetFavoritCourseeData()
     }, [])
 
-    const _renderMyCourseData = () => {
+    const GetFavoritCourseeData = () => {
+        let formdata = new FormData();
+        formdata.append('token', globals.student_Token);
+        setIsLoading(true)
+        API.get_favorite(getFavoriteResponse, formdata, true);
+    }
+
+    const getFavoriteResponse = {
+        success: response => {
+            console.log("getAddFavoriteResponse====>", response)
+            setGetFavoriteCourseData(response.data)
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+    const goToAttendCourse = (item, index) => {
+        navigation.navigate("AttendCourse", {
+            course_id: item.course_id
+        })
+    }
+
+    const removeFavouriteCourse = (item, index) => {
+        let formdata = new FormData();
+        formdata.append('token', globals.student_Token);
+        formdata.append('flag', "false");
+        formdata.append('course_id', item.course_id);
+        setIsLoading(true)
+        API.add_favorite(getAddFavoriteResponse, formdata, true);
+    }
+
+    const getAddFavoriteResponse = {
+        success: response => {
+            console.log("getAddFavoriteResponse====>", response)
+            GetFavoritCourseeData()
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+
+    const _renderFavoriteCourseData = ({ item, index }) => {
         return (
             <View style={styles.rmcdCardView} >
                 <Image
                     style={styles.rmcdImage}
                     source={images.CourseDetailsScreen.image1Image}
                 />
-                <Text style={styles.rmcdNewCourseText} >New Course - Maths</Text>
+                <Text style={styles.rmcdNewCourseText} >New Course - {item.name}</Text>
                 <View style={styles.btnContainer} >
                     <ButtonComp
                         btnStyle={styles.btnLeft}
                         buttonText="Remove"
-                        // onPressButton={}
+                        onPressButton={() => removeFavouriteCourse(item, index)}
                         btnTextStyle={styles.btnLeftText}
                     />
                     <ButtonComp
                         btnStyle={styles.btnRight}
                         buttonText="Continue"
-                        // onPressButton={}
+                        onPressButton={() => goToAttendCourse(item, index)}
                         btnTextStyle={styles.btnRightText}
                     />
                 </View>
@@ -67,13 +121,15 @@ const FavoriteScreen = ({
     }
     return (
         <View style={styles.viewContainer} >
+            <LoadingComp animating={isLoading} />
             <HeaderComp
                 navigation={navigation}
                 headerText="Favorite"
             />
             <FlatList
-                renderItem={_renderMyCourseData}
-                data={MyCourseData}
+                renderItem={_renderFavoriteCourseData}
+                data={FavoriteCourseData}
+                keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={() => {
                     return (
                         <View

@@ -48,7 +48,8 @@ export default StyleSheet.create({
         marginLeft: globals.mpw5 * 2, // 10
     },
     listCategoryContainer: {
-        alignItems: "center",
+        // alignItems: "center",
+        alignSelf:"center",
         marginTop: globals.mph5 * 2, // 10,
         paddingBottom: globals.mph5 * 20, // 100
     },
@@ -58,7 +59,7 @@ export default StyleSheet.create({
         marginHorizontal: globals.mpw5, // 5,
         marginVertical: globals.mph5, // 5,
         justifyContent: "center",
-        alignItems: "center"
+        // alignItems: "center"
     },
     rciCataegoryImage: {
         width: globals.mpw5 * 12, // 60,

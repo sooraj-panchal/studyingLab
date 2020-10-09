@@ -33,7 +33,7 @@ export default StyleSheet.create({
     questionContainer: {
         backgroundColor: "#f7f7f7",
         justifyContent: "center",
-        alignItems: "center",
+        // alignItems: "center",
         width: globals.mpw5 * 64,// 320,
         paddingVertical: globals.mph5 * 4,// 20,
         elevation: 4,
@@ -41,6 +41,7 @@ export default StyleSheet.create({
     },
     questionminiContainer: {
         flexDirection: "row",
+        maxWidth:250,
         marginLeft: globals.mpw5 * 4,// 20
     },
     questionConntText: {

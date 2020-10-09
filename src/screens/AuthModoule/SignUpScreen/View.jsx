@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ImageBackground, Dimensions, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, Dimensions, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
 import * as colors from '../../../assets/colors';
@@ -11,20 +11,74 @@ import BackImageComp from '../../../component/BackImageComp';
 import { Formik } from 'formik'
 import * as yup from 'yup';
 import { AppStack } from '../../../navigation/navActions';
-
+import { API } from '../../../utils/api';
+import * as globals from './../../../utils/globals'
+import LoadingComp from '../../../component/LoadingComp';
 const SignUpScreen = ({
     navigation,
 }) => {
+    const [isLoading, setIsLoading] = useState(false)
     const Signuphandler = (values) => {
-        console.log(values)
-        navigation.dispatch(AppStack);
+        // navigation.dispatch(AppStack);
+        // let fcmToken = globals.fcmToken
+        // if (fcmToken != null) {
+        // const data = {
+        //     name: values.name,
+        //     email: values.email,
+        //     password: values.password,
+        //     flag: "N",
+        //     auth_token: globals.authToken,
+        // }
+        let formdata = new FormData();
+        formdata.append('name', values.name);
+        formdata.append('email', values.email);
+        formdata.append('password', values.password);
+        formdata.append('flag', "N");
+        formdata.append('auth_token', globals.authToken);
+
+        setIsLoading(true)
+        API.student_Register(onRegisterResponse, formdata, true)
+        // } else {
+        //     return false;
+        // }
     }
+
+    const onRegisterResponse = {
+        success: response => {
+            // alert(this.state.token+response.otp)
+            console.log("onRegisterResponse====>", response)
+            // this.setState({
+            //     isloading: false,
+            // })
+            setIsLoading(false)
+            // navigateToVerification(response)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+            // this.setState({
+            //     isloading: false,
+            //     errorMessage: err.message
+            // })
+        },
+        complete: () => { },
+    }
+
+    // const navigateToVerification = (response) => {
+    //     this.props.navigation.navigate("Verification", {
+    //         otp: response.data.otp,
+    //         email: response.data.email,
+    //         driver_id: response.data.driver_id
+    //     })
+    // }
+
     const goToLogin = () => {
         navigation.navigate("Login")
     }
     // const [isVisibleEyeImage, setIsVisibleEyeImage] = useState(false)
     return (
-        <View style={styles.viewContainer}>
+        <ScrollView style={styles.viewContainer}>
+            <LoadingComp animating={isLoading} />
             <ImageBackground style={styles.backgroundImage}
                 source={images.SignupScreen.backgroundImage}
             >
@@ -139,7 +193,7 @@ const SignUpScreen = ({
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
-        </View>
+        </ScrollView>
     )
 }
 export default SignUpScreen;
