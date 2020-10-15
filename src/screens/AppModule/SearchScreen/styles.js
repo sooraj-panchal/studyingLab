@@ -38,6 +38,8 @@ export default StyleSheet.create({
     closeIcon: {
         width: globals.mpw5 * 4,// 20,
         height: globals.mpw5 * 4,// 20,
+    },
+    closeTouchable:{
         resizeMode: "contain",
         position: "absolute",
         right: globals.mpw5 * 4,// 20

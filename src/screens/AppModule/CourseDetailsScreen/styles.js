@@ -50,7 +50,7 @@ export default StyleSheet.create({
         marginLeft: globals.mpw5 * 2,// 10
     },
     btnContainer: {
-        marginTop: globals.mph5 * 5,//  25,
+        marginTop: globals.mph5 * 4,//  25,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -117,5 +117,21 @@ export default StyleSheet.create({
         marginHorizontal: 10,
         marginTop: 10,
         alignSelf: "center",
-    }
+    },
+    rmcdCourseProgressText: {
+        fontSize: globals.font_16, // 16,
+        color: colors.GrayColor,
+        fontFamily: font.Medium,
+        // marginTop: globals.mph5,//  5,
+        marginLeft: globals.mpw5 * 2,//  10
+    },
+    rmcdPercentage: {
+        fontSize: globals.font_16, // 16,
+        color: colors.BlackColor,
+        marginLeft: globals.mph5*4,//  10
+    },
+    rmcdProgressBarContainer: {
+        marginLeft: globals.mpw5 * 2,//  10,
+        marginTop: globals.mph5 * 2,
+    },
 })

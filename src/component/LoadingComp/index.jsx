@@ -15,15 +15,16 @@ import * as font from '../../assets/fonts/fonts';
 
 const LoadingComp = ({
     animating,
-    withoutModal
+    withoutModal,
+    style
 }) => {
     if (withoutModal)
         return (
-            <View style={{
+            <View style={[{
                 flex: 0.8,
                 justifyContent: "center",
                 backgroundColor: "white",
-            }} >
+            },style]} >
                 <ActivityIndicator
                     animating={animating}
                     color={colors.BlueColor}

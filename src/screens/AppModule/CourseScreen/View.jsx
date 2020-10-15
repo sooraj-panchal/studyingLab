@@ -69,7 +69,7 @@ const HomeScreen = ({
 
     const getCourseData = () => {
         let formdata = new FormData();
-        formdata.append('auth_token', globals.authToken);
+        formdata.append('token', globals.student_Token);
         setIsLoading(true)
         API.course(onGetCourseDataResponse, formdata, true)
     }
@@ -150,7 +150,6 @@ const HomeScreen = ({
                 renderItem={_renderCategoryItem}
                 numColumns={2}
                 keyExtractor={(item, index) => index.toString()}
-
             />
         </View>
     )

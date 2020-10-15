@@ -8,6 +8,9 @@ import * as font from '../../../assets/fonts/fonts';
 import ProgressBar from 'react-native-progress/Bar';
 import HeaderComp from '../../../component/HeaderComp';
 import ButtonComp from '../../../component/ButtonComp';
+import { API } from '../../../utils/api';
+import LoadingComp from '../../../component/LoadingComp';
+import * as globals from './../../../utils/globals';
 
 const MyCourseDatas = [
     {
@@ -39,19 +42,49 @@ const MyCourseDatas = [
 const MyCourseScreen = ({
     navigation
 }) => {
-    const [MyCourseData, setMyCourseData] = useState(MyCourseDatas);
+    const [MyCourseData, setMyCourseData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
+
     useEffect(() => {
-        setMyCourseData(MyCourseData)
+        // setMyCourseData(MyCourseData)
+        getMyCourses()
     }, [])
-    
-    const _renderMyCourseData = () => {
+
+
+    const getMyCourses = () => {
+        let formdata = new FormData();
+        formdata.append('token', globals.student_Token);
+        setIsLoading(true)
+        API.get_my_course(onGetMyCourseResponse, formdata, true)
+    }
+
+    const onGetMyCourseResponse = {
+        success: response => {
+            console.log("onGetMyCourseResponse====>", response)
+            setIsLoading(false)
+            setMyCourseData(response.data)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+    const attendMyCourseHandler = (item, index) => {
+        navigation.navigate("AttendCourse", {
+            course_id: item.course_id
+        })
+    }
+
+
+    const _renderMyCourseData = ({ item, index }) => {
         return (
             <View style={styles.rmcdCardView} >
                 <Image
                     style={styles.rmcdImage}
                     source={images.CourseDetailsScreen.image1Image}
                 />
-                <Text style={styles.rmcdNewCourseText} >New Course - Maths</Text>
+                <Text style={styles.rmcdNewCourseText} >New Course - {item.name}</Text>
                 <Text style={styles.rmcdCourseProgressText} >Course Progress</Text>
                 <Text style={styles.rmcdPercentage} >51%</Text>
                 <View style={styles.rmcdProgressBarContainer} >
@@ -73,6 +106,14 @@ const MyCourseScreen = ({
                         // onPressButton={}
                         btnTextStyle={styles.btnLeftText}
                     />
+                    {/* <ButtonComp
+                        btnStyle={[styles.btnRight, {
+                            backgroundColor: colors.BlueColor
+                        }]}
+                        buttonText="Attend Course"
+                        onPressButton={() => attendMyCourseHandler(item, index)}
+                        btnTextStyle={styles.btnRightText}
+                    /> */}
                     <ButtonComp
                         btnStyle={styles.btnRight}
                         buttonText="Generate Certificate"
@@ -85,6 +126,7 @@ const MyCourseScreen = ({
     }
     return (
         <View style={styles.viewContainer} >
+            <LoadingComp animating={isLoading} />
             <HeaderComp
                 navigation={navigation}
                 headerText="My Course"
@@ -113,6 +155,7 @@ const MyCourseScreen = ({
                         />
                     )
                 }}
+                keyExtractor={(item, index) => index.toString()}
             />
         </View>
     )

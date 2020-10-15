@@ -23,10 +23,13 @@ import FavoriteScreen from '../screens/AppModule/FavoriteScreen/View';
 import EditProfileScreen from '../screens/AppModule/EditProfileScreen';
 import NewCourseScreen from '../screens/AppModule/NewCourseScreen/View';
 import * as globals from './../utils/globals'
+import ReviewScreen from '../screens/AppModule/ReviewScreen/View';
+import SelectChapterScreen from '../screens/AppModule/SelectChapterScreen/View';
 
 const Tab = createBottomTabNavigator();
 
 const StackScreen = createStackNavigator();
+
 
 const AppStackScreen = () => (
   <StackScreen.Navigator initialRouteName="TabBarStack" screenOptions={{
@@ -46,6 +49,7 @@ const AppStackScreen = () => (
       options={{
         headerShown: false,
       }}
+
     />
     <StackScreen.Screen
       name="AttendCourse"
@@ -120,6 +124,20 @@ const AppStackScreen = () => (
     <StackScreen.Screen
       name="NewCourse"
       component={NewCourseScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="Review"
+      component={ReviewScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="SelectChapter"
+      component={SelectChapterScreen}
       options={{
         headerShown: false,
       }}

@@ -38,6 +38,7 @@ const AttendCourseScreen = ({
     const [isLoading, setIsLoading] = useState(false)
     const [attendCourseData, setAttendCourseData] = useState([]);
     const [index, setIndex] = useState(0)
+    const [quiz, setQuiz] = useState({})
     useEffect(() => {
         // setAttendCourseData(attendCourseData)
         getCourseDetailsData()
@@ -45,8 +46,7 @@ const AttendCourseScreen = ({
 
     const getCourseDetailsData = () => {
         let formdata = new FormData();
-        formdata.append('auth_token', globals.authToken);
-        formdata.append('course_id', route.params.course_id);
+        formdata.append('chapter_id', route.params.chapter_id);
         setIsLoading(true)
         API.course_detail(onGetCourseDetailsResponse, formdata, true)
     }
@@ -54,7 +54,8 @@ const AttendCourseScreen = ({
     const onGetCourseDetailsResponse = {
         success: response => {
             console.log("onGetCourseDetailsResponse====>", response)
-            setAttendCourseData(response.data)
+            setAttendCourseData(response.data.course_data)
+            setQuiz(response.data.quiz)
             setIsLoading(false)
         },
         error: err => {
@@ -67,7 +68,7 @@ const AttendCourseScreen = ({
 
     const goToStartQuiz = () => {
         navigation.navigate("StartQuiz", {
-            course_id: route.params.course_id
+            quiz: quiz
         })
     }
 
@@ -75,26 +76,31 @@ const AttendCourseScreen = ({
         // console.log(index)
         return (
             <View style={styles.racdContainer} >
-                {
-                    index == 0
-                    &&
-                    <>
-                        <Image
-                            style={styles.courseImage}
-                            source={images.CourseDetailsScreen.image1Image}
-                        />
-                        <View style={styles.chapterContainer} >
-                            <Text style={styles.chapterText} >Chapter 1 - Maths</Text>
-                        </View>
-                    </>
-                }
-                <View style={{
-                    alignSelf: "center",
-                    width: 320
+                <ScrollView contentContainerStyle={{
+                    paddingBottom: 20
                 }} >
-                    <HTML html={item.description} imagesMaxWidth={Dimensions.get('window').width} />
-                </View>
-                {/* <Text style={styles.longText} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
+                    {
+                        index == 0
+                        &&
+                        <>
+                            <Image
+                                style={styles.courseImage}
+                                source={images.CourseDetailsScreen.image1Image}
+                            />
+                            <View style={styles.chapterContainer} >
+                                <Text style={styles.chapterText} >Chapter 1 - Maths</Text>
+                            </View>
+                        </>
+                    }
+                    <View style={{
+                        alignSelf: "center",
+                        width: 320,
+                    }} >
+                        <HTML html={item.description} imagesMaxWidth={
+                            Dimensions.get('window').width
+                        } />
+                    </View>
+                    {/* <Text style={styles.longText} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
                 sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                 asfa sfasfasfsaf
                     </Text>
@@ -109,17 +115,19 @@ const AttendCourseScreen = ({
                     sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                     asfa sfasfasfsaf sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                     </Text> */}
-                {
-                    index == attendCourseData.length - 1 &&
-                    <View style={styles.btnContainer} >
-                        <ButtonComp
-                            onPressButton={goToStartQuiz}
-                            buttonText="Start Quiz"
-                            from="fromSignup"
-                            btnStyle={styles.btnnStyle}
-                        />
-                    </View>
-                }
+                    {
+
+                        index == attendCourseData.length - 1 && quiz !== null &&
+                        <View style={styles.btnContainer} >
+                            <ButtonComp
+                                onPressButton={goToStartQuiz}
+                                buttonText="Start Quiz"
+                                from="fromSignup"
+                                btnStyle={styles.btnnStyle}
+                            />
+                        </View>
+                    }
+                </ScrollView>
             </View>
         )
     }
@@ -131,8 +139,8 @@ const AttendCourseScreen = ({
     // }, []);
 
     return (
-        <View style={[styles.viewContainer,{
-            backgroundColor:isLoading == true ? "white" :colors.BlueColor
+        <View style={[styles.viewContainer, {
+            backgroundColor: isLoading == true ? "white" : colors.BlueColor
         }]} >
             {
                 isLoading == true

@@ -61,6 +61,7 @@ const FavoriteScreen = ({
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
+            setGetFavoriteCourseData(err.data)
             setIsLoading(false)
         },
         complete: () => { },
@@ -87,6 +88,7 @@ const FavoriteScreen = ({
             setIsLoading(false)
         },
         error: err => {
+            GetFavoritCourseeData()
             console.log('err--->' + JSON.stringify(err))
             setIsLoading(false)
         },

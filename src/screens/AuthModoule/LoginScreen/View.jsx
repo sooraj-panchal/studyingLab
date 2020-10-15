@@ -16,13 +16,16 @@ import LoadingComp from '../../../component/LoadingComp';
 import * as globals from './../../../utils/globals';
 import AsyncStorage from '@react-native-community/async-storage';
 import ToastComp from '../../../component/ToastComp';
+import ModalComp from '../../../component/ModalComp';
 
 const LoginScreen = ({
     navigation,
 }) => {
     const [isLoading, setIsLoading] = useState(false)
+    const [toggleModal, setIsToggleModal] = useState(false);
     const [successMessage, setSuccessMessage] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
+    const [getClassData, setIsGetClassData] = useState(false)
 
     const signInHandler = (values) => {
         let formdata = new FormData();
@@ -36,6 +39,11 @@ const LoginScreen = ({
         API.student_login(onLoginResponse, formdata, true)
     }
 
+
+    const toggleModalHandler = () => {
+        setIsToggleModal(!toggleModal);
+    };
+
     const onLoginResponse = {
         success: response => {
             console.log("onLoginResponse====>", response)
@@ -44,7 +52,9 @@ const LoginScreen = ({
             globals.student_Token = response.data.token
             AsyncStorage.setItem("name", response.data.name)
             AsyncStorage.setItem("email", response.data.email)
-            navigation.dispatch(AppStack);
+            // navigation.dispatch(AppStack);
+            toggleModalHandler()
+            setIsGetClassData(true)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -61,6 +71,11 @@ const LoginScreen = ({
     }
     return (
         <View style={styles.viewContainer}>
+            <ModalComp
+                toggleModal={toggleModal}
+                toggleModalHandler={toggleModalHandler}
+                getClassData={getClassData}
+                navigation={navigation} />
             <LoadingComp animating={isLoading} />
             <ImageBackground style={styles.backgroundImage}
                 source={images.SignupScreen.backgroundImage}

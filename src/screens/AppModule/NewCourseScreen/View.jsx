@@ -62,6 +62,7 @@ const categoryDatas = [
 
 const NewCourseScreen = ({
     navigation,
+    route
 }) => {
     const [categoryData, setCategoryData] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
@@ -72,7 +73,9 @@ const NewCourseScreen = ({
 
     const getSubCategoryData = () => {
         let formdata = new FormData();
-        formdata.append('auth_token', globals.authToken);
+        formdata.append('token', globals.student_Token);
+        formdata.append('cat_id', route.params.cat_id);
+
         setIsLoading(true)
         API.sub_category(onGetSubCategoryResponse, formdata, true)
     }
@@ -90,13 +93,16 @@ const NewCourseScreen = ({
         complete: () => { },
     }
 
-    const goToCourseDetailsScreen = () => {
-        navigation.navigate("CourseDetails")
+    const goToCourseDetailsScreen = (item,index) => {
+        console.log(item)
+        navigation.navigate("CourseDetails",{
+            subCatData : item
+        })
     }
 
     const _renderCategoryItem = ({ item, index }) => {
         return (
-            <TouchableOpacity onPress={goToCourseDetailsScreen} >
+            <TouchableOpacity onPress={()=>goToCourseDetailsScreen(item,index)}>
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
                     source={images.HomeScreen.box_background1Image}

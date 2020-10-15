@@ -97,4 +97,8 @@ export const EditProfileScreen = {
     editprofileImage: require("./EditProfile/editprofile.png"),
 }
 
+export const RatingScrren = {
+    starImage: require("./rating/star.png"),
+    gray_starImage: require("./rating/gray_star.png"),
+}
 

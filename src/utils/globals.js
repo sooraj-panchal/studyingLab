@@ -32,8 +32,20 @@ export const final_result = 'student/final_result'
 
 export const course_like = 'student/course_like'
 export const add_favorite = 'student/add_favorite'
-
 export const get_favorite = 'student/get_favorite'
+
+export const search = 'search'
+export const change_password = 'student/change_password'
+
+export const enroll_course = 'student/enroll_course'
+export const get_my_course = 'student/get_my_course'
+export const division = 'division'
+export const update_division = 'student/update_division'
+export const course_chapter = 'course/course_chapter'
+
+export const add_rating = 'student/add_rating'
+export const get_review = 'student/get_review'
+
 
 
 

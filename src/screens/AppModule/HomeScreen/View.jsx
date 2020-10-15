@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ImageBackground, Dimensions, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, ImageBackground, Dimensions, Image, TouchableOpacity, FlatList, Linking } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
 import * as colors from '../../../assets/colors';
@@ -17,47 +17,11 @@ const categoryDatas = [
         categoryImage: images.HomeScreen.icon_1Image
     },
     {
-        "id": "2",
-        categoryName: "Category 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
+        "id": "1",
+        categoryName: "Category 1",
+        backgroundImage: images.HomeScreen.box_background1Image,
+        categoryImage: images.HomeScreen.icon_1Image
     },
-    {
-        "id": "3",
-        categoryName: "Category 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "4",
-        categoryName: "Category 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "5",
-        categoryName: "Category 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "6",
-        categoryName: "Category 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "7",
-        categoryName: "Category 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "8",
-        categoryName: "Category 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    }
 ]
 
 const HomeScreen = ({
@@ -67,12 +31,44 @@ const HomeScreen = ({
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        Linking.getInitialURL().then((url) => {
+            if (url) {
+                console.log("url========>", url)
+                const route = url.replace(/.*?:\/\//g, '');
+                const id = route.match(/\/([^\/]+)\/?$/)[1];
+                const routeName = route.split('/')[1];
+                console.log("id is ", id)
+                console.log("routeName is ", routeName)
+                // navigation.navigate(routeName)
+            }
+        });
+
+        // var NativeLinking = require("../../../../node_modules/react-native/Libraries/Linking/NativeLinking").default;
+        // NativeLinking.getInitialURL().then((url) => {
+        //     console.log('Initial url is: ' + url);
+        // }).catch(err => console.error('An error occurred', err));
+
+        // Linking.addEventListener('url', handleOpenURL);
+        // return (() => {
+        //     Linking.removeEventListener('url', handleOpenURL);
+        //   })
         getCategoryData()
     }, [])
 
+    const handleOpenURL = (event) => { // D
+        // return console.log("event= === = >", event)
+        const route = event.replace(/.*?:\/\//g, '');
+        // const id = route.match(/\/([^\/]+)\/?$/)[1];
+        const routeName = route.split('/')[0];
+
+        console.log(routeName)
+
+    }
+
+
     const getCategoryData = () => {
         let formdata = new FormData();
-        formdata.append('auth_token', globals.authToken);
+        formdata.append('token', globals.student_Token);
         setIsLoading(true)
         API.category(onGetCategoryResponse, formdata, true)
     }
@@ -90,13 +86,15 @@ const HomeScreen = ({
         complete: () => { },
     }
 
-    const goToNewCourseScreen = () => {
-        navigation.navigate("NewCourse")
+    const goToNewCourseScreen = (item, index) => {
+        navigation.navigate("NewCourse",{
+            cat_id:item.cat_id
+        })
     }
 
     const _renderCategoryItem = ({ item, index }) => {
         return (
-            <TouchableOpacity onPress={goToNewCourseScreen} >
+            <TouchableOpacity onPress={() => goToNewCourseScreen(item, index)}>
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
                     source={images.HomeScreen.box_background1Image}
@@ -171,6 +169,9 @@ const HomeScreen = ({
                     <LoadingComp animating={isLoading} withoutModal />
                     : */}
             <FlatList contentContainerStyle={styles.listCategoryContainer}
+            style={{
+                // paddingHorizontal:10
+            }}
                 data={categoryData}
                 renderItem={_renderCategoryItem}
                 numColumns={2}

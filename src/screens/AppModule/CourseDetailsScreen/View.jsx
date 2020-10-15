@@ -208,6 +208,13 @@ import * as font from '../../../assets/fonts/fonts';
 import { API } from '../../../utils/api';
 import LoadingComp from '../../../component/LoadingComp';
 import * as globals from './../../../utils/globals';
+import Icon from 'react-native-vector-icons/Ionicons'
+import Stars from 'react-native-stars';
+import Modal from 'react-native-modal';
+import { TextInput } from 'react-native-gesture-handler';
+import RatingSuccessModalComp from '../../../component/RatingSuccessModalComp';
+import RateNowModalComp from '../../../component/RateNowModalComp';
+import ProgressBar from 'react-native-progress/Bar';
 
 const MyCourseDatas = [
     {
@@ -238,11 +245,16 @@ const MyCourseDatas = [
 
 const CourseDetailsScreen = ({
     navigation,
+    route
 }) => {
     const [isLoading, setIsLoading] = useState(false)
 
-    const [MyCourseData, setMyCourseData] = useState(MyCourseDatas);
+    const [MyCourseData, setMyCourseData] = useState([]);
+    const [toggleModal, setIsToggleModal] = useState(false);
+    const [updateData, setIsUpdateData] = useState(0);
+    // const [toggleModal1, setIsToggleModal1] = useState(false);
 
+    const [course, setCourse] = useState({});
     useEffect(() => {
         // setMyCourseData(MyCourseData)
         getCourses()
@@ -251,8 +263,8 @@ const CourseDetailsScreen = ({
 
     const getCourses = () => {
         let formdata = new FormData();
-        formdata.append('auth_token', globals.authToken);
         formdata.append('token', globals.student_Token);
+        formdata.append('sub_cat_id', route.params.subCatData.sub_cat_id);
         setIsLoading(true)
         API.course(onGetCourseResponse, formdata, true)
     }
@@ -272,38 +284,51 @@ const CourseDetailsScreen = ({
 
 
     const goToAttendCourse = (item, index) => {
-        navigation.navigate("AttendCourse", {
-            course_id: item.course_id
-        })
+        console.log(item)
+        if (item.enroll_flag == false) {
+            let formdata = new FormData();
+            formdata.append('token', globals.student_Token);
+            formdata.append('course_id', item.course_id);
+            setIsLoading(true)
+            API.enroll_course(getenroll_courseResponse, formdata, true);
+        } else {
+            // navigation.navigate("AttendCourse", {
+            //     course_id: item.course_id
+            // })
+            navigation.navigate("SelectChapter", {
+                course_id: item.course_id
+            })
+        }
+    }
+    const getenroll_courseResponse = {
+        success: response => {
+            console.log("getenroll_courseResponse====>", response)
+            getCourses()
+            setIsLoading(false)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
     }
 
     const AddtoFavouriteCourse = (item, index) => {
-        // if (item.favourite == "true" || item.favourite == true) {
-        //     alert("You Already Added in favourite Course")
-        // } else {
-        // var a = "false";
-        // var b = parseInt(a);
-        // console.log(b== false)
         MyCourseData[index]['favorite_flag'] = !MyCourseData[index]['favorite_flag']
-        setMyCourseData(MyCourseData)
-        // if (item.favorite_flag == true) {
-        //     return item.favorite_flag = "true"
-        // } else if (item.favorite_flag == false) {
-        //     return item.favorite_flag = "false"
-        // }
+        // setMyCourseData(MyCourseData)
         let formdata = new FormData();
         formdata.append('token', globals.student_Token);
         formdata.append('flag', item.favorite_flag);
         formdata.append('course_id', item.course_id);
-        setIsLoading(true)
+        setIsUpdateData(updateData + 1)
         API.add_favorite(getAddFavoriteResponse, formdata, true);
     }
 
     const getAddFavoriteResponse = {
         success: response => {
             console.log("getAddFavoriteResponse====>", response)
-            getCourses()
-            setIsLoading(false)
+            // getCourses()
+            // setIsLoading(false)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -313,31 +338,21 @@ const CourseDetailsScreen = ({
     }
 
     const likedCourse = (item, index) => {
-        // if (item.favourite == "true" || item.favourite == true) {
-        //     alert("You Already Added in favourite Course")
-        // } else {
-        // var a = "false";
-        // var b = parseInt(a);
-        // console.log(b== false)
         MyCourseData[index]['like_flag'] = !MyCourseData[index]['like_flag']
-        setMyCourseData(MyCourseData)
-        // if (item.favorite_flag == true) {
-        //     return item.favorite_flag = "true"
-        // } else if (item.favorite_flag == false) {
-        //     return item.favorite_flag = "false"
-        // }
+        // setMyCourseData(MyCourseData)
         let formdata = new FormData();
         formdata.append('token', globals.student_Token);
         formdata.append('flag', item.like_flag);
         formdata.append('course_id', item.course_id);
-        setIsLoading(true)
+        // setIsLoading(true)
+        setIsUpdateData(updateData + 1)
         API.course_like(getCourseLikeResponse, formdata, true);
     }
 
     const getCourseLikeResponse = {
         success: response => {
             console.log("getCourseLikeResponse====>", response)
-            getCourses()
+            // getCourses()
             setIsLoading(false)
         },
         error: err => {
@@ -347,8 +362,57 @@ const CourseDetailsScreen = ({
         complete: () => { },
     }
 
+    // const toggleModalHandler = (item, index) => {
+    //     setIsToggleModal(!toggleModal);
+    //     if (toggleModal == false) {
+    //         console.log(toggleModal)
+    //         let course = {
+    //             course_name: item.name,
+    //             course_id: item.course_id
+    //         }
+    //         setCourse(course)
+    //     } else {
+    //         return false
+    //     }
+    // };
+
+    const goToReviewScreen = (item, index) => {
+        navigation.navigate("Review", {
+            course: item
+        })
+    }
 
     const _renderMyCourseData = ({ item, index }) => {
+        let backgroundColor
+        let favoriteBackgroundColor
+        let FavText
+        let favTextColor
+        let enrollText
+        let likeImage
+        if (item.enroll_flag == true) {
+            backgroundColor = colors.GreenColor
+            enrollText = "Attend Course"
+        } else {
+            backgroundColor = colors.BlueColor
+            enrollText = "Enroll Course"
+        }
+
+        if (item.favorite_flag == true) {
+            favoriteBackgroundColor = colors.RedColor
+            FavText = "Remove Favorite"
+            favTextColor = "white"
+        } else {
+            favoriteBackgroundColor = colors.LightGrayColor
+            FavText = "Add To Favorite"
+            favTextColor = colors.BlackColor
+        }
+
+        if (item.like_flag == true) {
+           likeImage = images.CourseDetailsScreen.like_blueImage
+        } else {
+            likeImage = images.CourseDetailsScreen.likeImage
+        }
+        // if(item.favorite_flag == )
         return (
             <View style={styles.rmcdCardView} >
                 <Image
@@ -367,11 +431,7 @@ const CourseDetailsScreen = ({
                                 <TouchableOpacity onPress={() => likedCourse(item, index)}>
                                     <Image
                                         style={styles.likeImage}
-                                        source={
-                                            item.like_flag == true ?
-                                                images.CourseDetailsScreen.like_blueImage
-                                                : images.CourseDetailsScreen.likeImage
-                                        }
+                                        source={likeImage}
                                     />
                                 </TouchableOpacity>
                                 <Text style={styles.likeText} >{item.total_like}</Text>
@@ -384,13 +444,86 @@ const CourseDetailsScreen = ({
                             </>
                         </View>
                     </View>
-                    <>
-                        <Image
+                    <View style={{
+                        marginBottom: 5
+                    }} >
+                        {/* <Image
                             style={styles.messageImage}
                             source={images.CourseDetailsScreen.messageImage}
-                        />
-                    </>
+                        /> */}
+                        <TouchableOpacity style={{
+                        }}
+                            // onPress={() => toggleModalHandler(item, index)}
+                            onPress={() => goToReviewScreen(item, index)}
+                        >
+                            <Stars
+                                disabled={true}
+                                default={item.avg_rating}
+                                count={5}
+                                half={false}
+                                starSize={50}
+                                fullStar={
+                                    <Image
+                                        source={images.RatingScrren.starImage}
+                                        style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: 2
+                                        }}
+                                    />
+                                }
+                                emptyStar={
+                                    <Image
+                                        source={images.RatingScrren.gray_starImage}
+                                        style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: 2
+                                        }}
+                                    />
+                                }
+                            // halfStar={
+                            //     <Icon name={'md-star-half'}
+                            //         size={50}
+                            //         style={[styles.myStarStyle]}
+                            //     />}
+                            />
+                            <View style={{
+                                marginTop: 5,
+                                marginRight: 5
+                            }}>
+                                <Text style={{
+                                    fontSize: 15,
+                                    color: colors.BlueColor,
+                                    textAlign: "right"
+                                }} >{item.total_review} reviews</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
+                {
+                    item.enroll_flag == true &&
+                    <View>
+                        <View style={{
+                            flexDirection: "row",
+                            alignItems: "center"
+                        }} >
+                            <Text style={styles.rmcdCourseProgressText} >Course Progress</Text>
+                            <Text style={styles.rmcdPercentage} >{item.total_course_progress}%</Text>
+                        </View>
+                        <View style={styles.rmcdProgressBarContainer} >
+                            <ProgressBar
+                                progress={parseInt(item.total_course_progress) / 100}
+                                width={300}
+                                height={10}
+                                borderRadius={2}
+                                unfilledColor="#f2f2f2"
+                                color="#89d477"
+                                borderWidth={0}
+                            />
+                        </View>
+                    </View>
+                }
                 {/* <Text style={styles.longText} numberOfLines={2} >loream ipsulm lodadsda ,sdsadas sdadsadsdasda sdadsda dsdasdasfsgetasfs dsadads
                 sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                 asfa sfasfasfsaf
@@ -398,17 +531,19 @@ const CourseDetailsScreen = ({
                 <View style={styles.btnContainer} >
                     <ButtonComp
                         btnStyle={[styles.btnLeft, {
-                            backgroundColor: item.favorite_flag == true ? "red" : colors.LightGrayColor
+                            backgroundColor: favoriteBackgroundColor
                         }]}
-                        buttonText={item.favorite_flag == true ? "Remove Favorite" : "Add To Favorite"}
+                        buttonText={FavText}
                         onPressButton={() => AddtoFavouriteCourse(item, index)}
                         btnTextStyle={[styles.btnLeftText, {
-                            color: item.favorite_flag == true ? "white" : colors.BlackColor,
+                            color: favTextColor,
                         }]}
                     />
                     <ButtonComp
-                        btnStyle={styles.btnRight}
-                        buttonText="Attend Course"
+                        btnStyle={[styles.btnRight, {
+                            backgroundColor: backgroundColor
+                        }]}
+                        buttonText={enrollText}
                         // onPressButton={}
                         onPressButton={() => goToAttendCourse(item, index)}
                         btnTextStyle={styles.btnRightText}
@@ -417,8 +552,26 @@ const CourseDetailsScreen = ({
             </View>
         )
     }
+    const toggleModalHandler1 = () => {
+        setIsToggleModal(false)
+        setIsToggleModal1(!toggleModal1)
+    }
     return (
         <View style={styles.viewContainer} >
+            {/* {RatingModal()} */}
+            {/* {RateSuccess()} */}
+            {/* <RatingSuccessModalComp/> */}
+            {/* <RateNowModalComp
+                toggleModal={toggleModal}
+                toggleModalHandler={toggleModalHandler}
+                onPress={toggleModalHandler1}
+                course={course}
+            />
+            <RatingSuccessModalComp
+                toggleModal={toggleModal1}
+                toggleModalHandler={toggleModalHandler1}
+                onPress={toggleModalHandler1}
+            /> */}
             <LoadingComp animating={isLoading} />
             <HeaderComp
                 navigation={navigation}

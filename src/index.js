@@ -35,6 +35,10 @@ const App = () => {
         return <StatusBar backgroundColor={colors.StatusbarColor} />;
     };
 
+    const appLink = {
+        prefixes: ["http://AuthStack"]
+    }
+
     return (
         <SafeAreaProvider>
             <Provider store={store}>
@@ -45,7 +49,7 @@ const App = () => {
                             flex: 1,
                             backgroundColor: "white",
                         }}>
-                        <NavigationContainer>
+                        <NavigationContainer linking={appLink} >
                             <AppContainer />
                         </NavigationContainer>
                     </SafeAreaView>
@@ -56,3 +60,4 @@ const App = () => {
 };
 
 export default App;
+

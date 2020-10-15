@@ -65,7 +65,35 @@ export const API = {
   },
   get_favorite: (onResponse, data, isHeaderRequired) => {
     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.get_favorite, buildHeaderFormData());
+  },
+  search: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.search, buildHeaderFormData());
+  },
+  change_password: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.change_password, buildHeaderFormData());
+  },
+  enroll_course: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.enroll_course, buildHeaderFormData());
+  },
+  get_my_course: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.get_my_course, buildHeaderFormData());
+  },
+  division: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.division, buildHeaderFormData());
+  },
+  update_division: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.update_division, buildHeaderFormData());
+  },
+  course_chapter: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.course_chapter, buildHeaderFormData());
+  },
+  add_rating: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.add_rating, buildHeaderFormData());
+  },
+  get_review: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.get_review, buildHeaderFormData());
   }
+
 };
 
 export const buildHeader = (headerParams = {}) => {

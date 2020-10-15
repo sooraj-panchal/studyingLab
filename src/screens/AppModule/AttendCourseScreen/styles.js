@@ -33,7 +33,7 @@ export default StyleSheet.create({
         marginTop: 20,
         backgroundColor: "white",
         paddingTop: 5,
-        height: 640,
+        flex:0.95,
         elevation: 4,
         borderRadius: 5,
         marginHorizontal: 10
@@ -62,9 +62,8 @@ export default StyleSheet.create({
         alignSelf: "center"
     },
     btnContainer:{
-        position: "absolute",
         alignSelf: "center",
-        bottom: 30
+        marginTop:10
     },
     btnnStyle:{
         width: 250

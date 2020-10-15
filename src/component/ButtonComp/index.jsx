@@ -8,7 +8,8 @@ const ButtonComp = ({
     buttonText,
     from,
     btnStyle,
-    btnTextStyle
+    btnTextStyle,
+    disabled
 }) => {
     return (
         <TouchableOpacity style={[styles.TouchableView,
@@ -19,6 +20,7 @@ const ButtonComp = ({
             btnStyle]}
             activeOpacity={0.8}
             onPress={onPressButton}
+            disabled={disabled}
         >
             <Text style={[{
                 fontSize: 20,

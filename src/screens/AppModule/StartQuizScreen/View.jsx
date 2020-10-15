@@ -15,9 +15,10 @@ const StartQuizScreen = ({
     navigation,
     route
 }) => {
+
     const goToQuizResultScreen = () => {
         navigation.navigate("QuizResult", {
-            course_id: route.params.course_id
+            quiz_id: route.params.quiz.quiz_id,
         })
     }
     const [isLoading, setIsLoading] = useState(false)
@@ -33,7 +34,7 @@ const StartQuizScreen = ({
     const getQuizData = () => {
         let formdata = new FormData();
         formdata.append('auth_token', globals.authToken);
-        formdata.append('course_id', route.params.course_id);
+        formdata.append('quiz_id', route.params.quiz.quiz_id);
         formdata.append('token', globals.student_Token);
         setIsLoading(true)
         API.quiz(onGetQuizDataResponse, formdata, true)
@@ -61,24 +62,46 @@ const StartQuizScreen = ({
 
     const onPressAnswer = (i, indexes, item, index) => {
         let formdata = new FormData();
-
         formdata.append('token', globals.student_Token);
         formdata.append('quiz_id', item.quiz_id);
+        formdata.append('question_id', item.question_id);
         formdata.append('ans_id', i.ans_id);
-        formdata.append('course_id', route.params.course_id);
 
         if (item.stu_ans_arr.stu_ans_flag == false) {
-            if (i.answer && i.correct == "1") {
+            if (i.ans_id && i.correct == "1") {
                 console.log("this is correct_answer===>", i.answer)
-                i.correct_answer = "true"
-                setIsLoading(true)
-                API.quiz_answer(onGetQuizAnswerResponse, formdata, true)
-            } else if (i.answer && i.correct == "0") {
-                console.log("this is wrong_answer===>", i.answer)
-                i.correct_answer = "false"
-                setIsLoading(true)
-                API.quiz_answer(onGetQuizAnswerResponse, formdata, true)
+                API.quiz_answer({
+                    success: response => {
+                        console.log("onGetQuizAnswerResponse====>", response)
+                        // i.correct = response.da.ta.correct
+                        setIsLoading(false)
+                        item.stu_ans_arr.correct_ans = "true"
+                        getQuizData()
+                    },
+                    error: err => {
+                        console.log('err--->' + JSON.stringify(err))
 
+                        setIsLoading(false)
+                    },
+                    complete: () => { },
+                }, formdata, true)
+            } else if (i.ans_id && i.correct == "0") {
+                console.log("this is wrong_answer===>", i.answer)
+                API.quiz_answer({
+                    success: response => {
+                        console.log("onGetQuizAnswerResponse====>", response)
+                        // i.correct = response.da.ta.correct
+                        setIsLoading(false)
+                        item.stu_ans_arr.correct_ans = "false"
+                        getQuizData()
+
+                    },
+                    error: err => {
+                        console.log('err--->' + JSON.stringify(err))
+                        setIsLoading(false)
+                    },
+                    complete: () => { },
+                }, formdata, true)
             } else {
                 return console.log("no data found")
             }
@@ -127,22 +150,32 @@ const StartQuizScreen = ({
                 <View style={styles.btnMainContainer} >
                     {
                         item.answer_data.map((i, indexes) => {
+
+                            const correct_ans = item.stu_ans_arr.stu_ans_flag == true
+                                && i.correct == "1"
+                                && item.stu_ans_arr.correct_ans == "true"
+                                || i.correct == "1"
+                                && item.stu_ans_arr.correct_ans == "true"
+
+                            const wrong_ans = item.stu_ans_arr.stu_ans_flag == true
+                                && i.correct == "0"
+                                && item.stu_ans_arr.correct_ans == "false"
+                                || i.correct == "0"
+                                && item.stu_ans_arr.correct_ans == "false"
+
+                            const changeBgColor = correct_ans ? colors.GreenColor :
+                                wrong_ans ? colors.RedColor
+                                    : "#bf4193"
                             return (
                                 <View style={styles.questionbtn1} key={indexes} >
                                     <TouchableOpacity
                                         style={[styles.touchable, {
-                                            backgroundColor:
-                                                item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "true" ||
-                                                    i.correct_answer == "true" ? colors.GreenColor :
-                                                    item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "false" ||
-                                                        i.correct_answer == "false" ? colors.RedColor
-                                                        : "#bf4193",
+                                            backgroundColor: changeBgColor,
                                         }]} onPress={() => onPressAnswer(i, indexes, item, index)} >
                                         <Text style={styles.questionBtnText} >{i.answer}</Text>
                                     </TouchableOpacity>
                                     {
-                                        item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "true" ||
-                                            i.correct_answer == "true" ?
+                                        correct_ans ?
                                             <View style={styles.rightImageContainer} >
                                                 <Image style={styles.rightImage}
                                                     source={images.StartQuizScreen.rightImage}
@@ -150,8 +183,7 @@ const StartQuizScreen = ({
                                             </View> : null
                                     }
                                     {
-                                        item.stu_ans_arr.stu_ans_flag == true && i.correct_answer == "false" ||
-                                            i.correct_answer == "false" ?
+                                        wrong_ans ?
                                             <View style={styles.rightImageContainer} >
                                                 <Image style={styles.rightImage}
                                                     source={images.StartQuizScreen.wrongImage}

@@ -4,6 +4,9 @@ import styles from './styles';
 import * as colors from '../../../assets/colors';
 import * as images from '../../../assets/images/map';
 import * as font from '../../../assets/fonts/fonts';
+import { API } from '../../../utils/api';
+import * as globals from '../../../utils/globals';
+import LoadingComp from '../../../component/LoadingComp';
 
 const searchDatas = [
     {
@@ -23,17 +26,50 @@ const searchDatas = [
 const SearchScreen = ({
     navigation,
 }) => {
-    const [searchData, setCategoryData] = useState(searchDatas);
+    const [searchData, setSearchData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [searchText, setIsSearchText] = useState("");
+
     useEffect(() => {
-        setCategoryData(searchData)
     }, [])
+
+
+    const getSearchedCourseData = () => {
+        let formdata = new FormData();
+        formdata.append('token', globals.student_Token);
+        formdata.append('auth_token', globals.authToken);
+        formdata.append('keyword', searchText);
+        setIsLoading(true)
+        API.search(onGetsearchCourseResponse, formdata, true)
+    }
+
+    const onGetsearchCourseResponse = {
+        success: response => {
+            console.log("onGetsearchCourseResponse====>", response)
+            setIsLoading(false)
+            setSearchData(response.data)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setSearchData(err.data)
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+    const goToCourse = (item, index) => {
+        navigation.navigate("AttendCourse", {
+            course_id: item.course_id
+        })
+    }
 
     const _renderSearchData = ({ item, index }) => {
         return (
-            <TouchableOpacity style={styles.rsdContainer} 
+            <TouchableOpacity style={styles.rsdContainer}
                 activeOpacity={0.8}
+                onPress={() => goToCourse(item, index)}
             >
-                <Text style={styles.rsdSearchName} >{item.searchName}</Text>
+                <Text style={styles.rsdSearchName} >{item.name}</Text>
                 <Image
                     style={styles.rsdImage}
                     source={images.SearchScreen.topImage}
@@ -52,41 +88,81 @@ const SearchScreen = ({
                         style={styles.searchInput}
                         placeholder="Search here"
                         placeholderTextColor={colors.BlueColor}
+                        value={searchText}
+                        onChangeText={(searchText) => {
+                            setIsSearchText(searchText)
+                            getSearchedCourseData()
+                        }}
+                        autoFocus={true}
+                        returnKeyType="search"
+                        onSubmitEditing={getSearchedCourseData}
                     />
-                    <Image
-                        style={styles.closeIcon}
-                        source={images.SearchScreen.cancelImage}
-                    />
+                    {
+                        searchText !== "" || null ?
+                            <TouchableOpacity onPress={() => {
+                                setIsSearchText("")
+                                getSearchedCourseData()
+                            }} style={styles.closeTouchable} >
+                                <Image
+                                    style={styles.closeIcon}
+                                    source={images.SearchScreen.cancelImage}
+                                />
+                            </TouchableOpacity>
+                            : null
+                    }
+
                 </View>
-                <View style={styles.searchDataContainer} >
-                    <FlatList
-                        data={searchData}
-                        renderItem={_renderSearchData}
-                        ItemSeparatorComponent={() => {
-                            return (
-                                <View
-                                    style={styles.searchListSeparater}
+                {
+                    isLoading == true ?
+                        <LoadingComp withoutModal animating={isLoading}
+                            style={{
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: "red",
+                                marginTop: 100
+                            }}
+                        />
+                        :
+                        searchData.length == 0 ?
+                            <Text style={{
+                                fontSize: 20,
+                                color: colors.GrayColor,
+                                fontFamily: font.Regular,
+                                textAlign: "center",
+                                marginVertical: 50
+                            }} >No Course Found</Text>
+                            :
+                            <View style={styles.searchDataContainer} >
+                                <FlatList
+                                    data={searchData}
+                                    renderItem={_renderSearchData}
+                                    ItemSeparatorComponent={() => {
+                                        return (
+                                            <View
+                                                style={styles.searchListSeparater}
+                                            />
+                                        )
+                                    }}
+                                    ListHeaderComponent={() => {
+                                        return (
+                                            <View
+                                                style={styles.searchListHeader}
+                                            />
+                                        )
+                                    }}
+                                    ListFooterComponent={() => {
+                                        return (
+                                            <View
+                                                style={styles.searchlistFooter}
+                                            />
+                                        )
+                                    }}
+                                    keyExtractor={(item, index) => index.toString()}
                                 />
-                            )
-                        }}
-                        ListHeaderComponent={() => {
-                            return (
-                                <View
-                                    style={styles.searchListHeader}
-                                />
-                            )
-                        }}
-                        ListFooterComponent={() => {
-                            return (
-                                <View
-                                    style={styles.searchlistFooter}
-                                />
-                            )
-                        }}
-                    />
-                </View>
+                            </View>
+                }
             </View>
-        </View>
+        </View >
     )
 }
 export default SearchScreen;
