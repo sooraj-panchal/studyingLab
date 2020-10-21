@@ -17,6 +17,7 @@ import * as globals from './../../../utils/globals';
 import AsyncStorage from '@react-native-community/async-storage';
 import ToastComp from '../../../component/ToastComp';
 import ModalComp from '../../../component/ModalComp';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const LoginScreen = ({
     navigation,
@@ -48,13 +49,22 @@ const LoginScreen = ({
         success: response => {
             console.log("onLoginResponse====>", response)
             setIsLoading(false)
-            AsyncStorage.setItem("token", response.data.token)
-            globals.student_Token = response.data.token
             AsyncStorage.setItem("name", response.data.name)
             AsyncStorage.setItem("email", response.data.email)
-            // navigation.dispatch(AppStack);
-            toggleModalHandler()
-            setIsGetClassData(true)
+            if (response.data.div_id == "0" || response.data.div_id == null) {
+                AsyncStorage.setItem("tokenForRegister", response.data.token)
+                toggleModalHandler()
+                setIsGetClassData(true)
+            } else {
+                AsyncStorage.setItem("YourGrade", response.data.div_name)
+                AsyncStorage.setItem("div_id", response.data.div_id)
+                AsyncStorage.setItem("token", response.data.token)
+                globals.student_Token = response.data.token
+                navigation.dispatch(AppStack)
+            }
+            // AsyncStorage.setItem("token", response.data.token)
+            // toggleModalHandler()
+            // setIsGetClassData(true)    
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -71,107 +81,111 @@ const LoginScreen = ({
     }
     return (
         <View style={styles.viewContainer}>
-            <ModalComp
-                toggleModal={toggleModal}
-                toggleModalHandler={toggleModalHandler}
-                getClassData={getClassData}
-                navigation={navigation} />
-            <LoadingComp animating={isLoading} />
-            <ImageBackground style={styles.backgroundImage}
-                source={images.SignupScreen.backgroundImage}
-            >
-                <BackImageComp
-                    onPressBackImage={() => {
-                        navigation.goBack()
-                    }}
+            <ScrollView>
+                <ModalComp
+                    toggleModal={toggleModal}
+                    toggleModalHandler={toggleModalHandler}
+                    getClassData={getClassData}
+                    navigation={navigation}
+                    from="Login"
                 />
-                <Formik
-                    initialValues={{ email: '', password: '' }}
-                    onSubmit={values => signInHandler(values)}
-                    validationSchema={yup.object().shape({
-                        // name: yup
-                        //     .string()
-                        //     .min(5)
-                        //     .required('Name is required field'),
-                        email: yup
-                            .string()
-                            .email()
-                            .required("Email is must be required"),
-                        password: yup
-                            .string()
-                            .min(6)
-                            .required("Password is must be required"),
-                    })}
+                <LoadingComp animating={isLoading} />
+                <ImageBackground style={styles.backgroundImage}
+                    source={images.SignupScreen.backgroundImage}
                 >
-                    {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
-                        <>
-                            <View style={styles.cardView} >
-                                <Text style={styles.welcomeBackText} >Welcom back!</Text>
-                                <Text style={styles.text} >Enter your details to sign in your account</Text>
-                                <View style={styles.textInputMainContainer} >
-                                    <TextInputComp
-                                        placeholder="Email"
-                                        value={values.email}
-                                        onChangeText={handleChange("email")}
-                                        onBlur={() => setFieldTouched('email')}
-                                        autoCompleteType="email"
-                                        keyboardType="email-address"
-                                        touched={touched.email}
-                                        errors={errors.email}
-                                    />
-                                    <TextInputComp
-                                        placeholder="Password"
-                                        TextInputForPassword
-                                        value={values.password}
-                                        onChangeText={handleChange("password")}
-                                        onBlur={() => setFieldTouched('password')}
-                                        touched={touched.password}
-                                        errors={errors.password}
-                                    />
-                                    <TouchableOpacity activeOpacity={0.8} onPress={goToForgotPassword} >
-                                        <Text style={styles.forgotPasText} >Forgot Password?</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={styles.btnStyle} >
-                                    <ButtonComp
-                                        onPressButton={handleSubmit}
-                                        buttonText="Sign in"
-                                        from="fromSignup"
-                                    />
-                                </View>
-                            </View>
-                        </>
-                    )}
-                </Formik>
-                <View style={styles.orContainer} >
-                    <View style={styles.orLeftBorder} />
-                    <Text style={{
-                        fontSize: 20,
-                        color: "white",
-                        bottom: 2,
-                        fontFamily: font.Regular
-                    }} >or</Text>
-                    <View style={styles.orLeftBorder} />
-                </View>
-                <View style={styles.fbGleContainer} >
-                    <FbGleBtnComp
-                        navigation={navigation}
-                        imageSrc={images.AuthScreen.googleImage}
-                        buttonText="Sign in With Google"
+                    <BackImageComp
+                        onPressBackImage={() => {
+                            navigation.goBack()
+                        }}
                     />
-                    <FbGleBtnComp
-                        navigation={navigation}
-                        imageSrc={images.AuthScreen.facebookImage}
-                        buttonText="Sign in With Facebook"
-                    />
-                </View>
-                <View style={styles.donthaveAnAcContainer} >
-                    <Text style={styles.DonthaveAnAcText} >Don't have an account?</Text>
-                    <TouchableOpacity onPress={goToSignUp} >
-                        <Text style={styles.signUpext}  >Sign up</Text>
-                    </TouchableOpacity>
-                </View>
-            </ImageBackground>
+                    <Formik
+                        initialValues={{ email: '', password: '' }}
+                        onSubmit={values => signInHandler(values)}
+                        validationSchema={yup.object().shape({
+                            // name: yup
+                            //     .string()
+                            //     .min(5)
+                            //     .required('Name is required field'),
+                            email: yup
+                                .string()
+                                .email()
+                                .required("Email is must be required"),
+                            password: yup
+                                .string()
+                                .min(6)
+                                .required("Password is must be required"),
+                        })}
+                    >
+                        {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
+                            <>
+                                <View style={styles.cardView} >
+                                    <Text style={styles.welcomeBackText} >Welcom back!</Text>
+                                    <Text style={styles.text} >Enter your details to sign in your account</Text>
+                                    <View style={styles.textInputMainContainer} >
+                                        <TextInputComp
+                                            placeholder="Email"
+                                            value={values.email}
+                                            onChangeText={handleChange("email")}
+                                            onBlur={() => setFieldTouched('email')}
+                                            autoCompleteType="email"
+                                            keyboardType="email-address"
+                                            touched={touched.email}
+                                            errors={errors.email}
+                                        />
+                                        <TextInputComp
+                                            placeholder="Password"
+                                            TextInputForPassword
+                                            value={values.password}
+                                            onChangeText={handleChange("password")}
+                                            onBlur={() => setFieldTouched('password')}
+                                            touched={touched.password}
+                                            errors={errors.password}
+                                        />
+                                        <TouchableOpacity activeOpacity={0.8} onPress={goToForgotPassword} >
+                                            <Text style={styles.forgotPasText} >Forgot Password?</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.btnStyle} >
+                                        <ButtonComp
+                                            onPressButton={handleSubmit}
+                                            buttonText="Sign in"
+                                            from="fromSignup"
+                                        />
+                                    </View>
+                                </View>
+                            </>
+                        )}
+                    </Formik>
+                    <View style={styles.orContainer} >
+                        <View style={styles.orLeftBorder} />
+                        <Text style={{
+                            fontSize: 20,
+                            color: "white",
+                            bottom: 2,
+                            fontFamily: font.Regular
+                        }} >or</Text>
+                        <View style={styles.orLeftBorder} />
+                    </View>
+                    <View style={styles.fbGleContainer} >
+                        <FbGleBtnComp
+                            navigation={navigation}
+                            imageSrc={images.AuthScreen.googleImage}
+                            buttonText="Sign in With Google"
+                        />
+                        <FbGleBtnComp
+                            navigation={navigation}
+                            imageSrc={images.AuthScreen.facebookImage}
+                            buttonText="Sign in With Facebook"
+                        />
+                    </View>
+                    <View style={styles.donthaveAnAcContainer} >
+                        <Text style={styles.DonthaveAnAcText} >Don't have an account?</Text>
+                        <TouchableOpacity onPress={goToSignUp} >
+                            <Text style={styles.signUpext}  >Sign up</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ImageBackground>
+            </ScrollView>
             <ToastComp
                 type={"success"}
                 message={successMessage}

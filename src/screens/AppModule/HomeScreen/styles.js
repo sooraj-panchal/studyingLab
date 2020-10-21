@@ -53,10 +53,23 @@ export default StyleSheet.create({
         marginTop: globals.mph5 * 2, // 10,
         paddingBottom: globals.mph5 * 20, // 100
     },
+    rcTouchable: {
+        width: 165,
+        height: 150,
+        // backgroundColor:"red",
+        justifyContent: "center",
+        elevation: 5,
+        marginLeft: 10,
+        marginVertical: 5,
+        paddingVertical: 5
+    },
     rcibgStyle: {
-        width: globals.mpw5 * 33, // 160,
-        height: globals.mph5 * 28, // 140,
-        marginLeft: globals.mpw5*2, // 5,
+        width: globals.mpw5 * 33, // 165,
+        height: globals.mph5 * 30,//  150,
+        // elevation: 5,
+        // backgroundColor: "white",
+        // borderRadius: 5,
+        marginLeft: globals.mpw5 * 2, // 5,
         marginVertical: globals.mph5, // 5,
         justifyContent: "center",
         // alignItems: "center"
@@ -64,11 +77,11 @@ export default StyleSheet.create({
     rciCataegoryImage: {
         width: globals.mpw5 * 12, // 60,
         height: globals.mph5 * 12, // 60,
-        // resizeMode: "contain"
+        resizeMode: "contain"
     },
     rciCataegoryName: {
-        color: "white",
-        fontSize: globals.font_16, // 16,
+        color:"white",
+        fontSize: globals.font_20, // 16,
         fontFamily: font.Bold,
         marginTop: globals.mph5, // 5
     }

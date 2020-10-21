@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ImageBackground, Dimensions, Image, TextInput, CheckBox, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, ImageBackground, Dimensions, Image, TextInput, CheckBox, TouchableOpacity, ScrollView, FlatList, Linking } from 'react-native';
 import styles from './styles';
 import * as images from '../../../assets/images/map';
 import * as colors from '../../../assets/colors';
@@ -42,16 +42,18 @@ const SignUpScreen = ({
 
         setIsLoading(true)
         API.student_Register(onRegisterResponse, formdata, true)
+
     }
 
     const onRegisterResponse = {
         success: response => {
             console.log("onRegisterResponse====>", response)
             setIsLoading(false)
-            globals.student_Token = response.data.token
-            AsyncStorage.setItem("token", response.data.token)
+            // globals.student_Token = response.data.token
+            // AsyncStorage.setItem("token", response.data.token)
             AsyncStorage.setItem("name", response.data.name)
             AsyncStorage.setItem("email", response.data.email)
+            AsyncStorage.setItem("tokenForRegister",response.data.token)
             toggleModalHandler()
             setIsGetClassData(true)
         },
@@ -74,7 +76,8 @@ const SignUpScreen = ({
                     toggleModal={toggleModal}
                     toggleModalHandler={toggleModalHandler}
                     getClassData={getClassData}
-                    navigation={navigation} />
+                    navigation={navigation}
+                />
                 <LoadingComp animating={isLoading} />
                 <ImageBackground style={styles.backgroundImage}
                     source={images.SignupScreen.backgroundImage}

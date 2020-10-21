@@ -11,13 +11,15 @@ import { API } from '../../utils/api';
 import Ionicans from 'react-native-vector-icons/Ionicons'
 import { cos } from 'react-native-reanimated';
 import { AppStack } from '../../navigation/navActions';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const ModalComp = ({
     toggleModal,
     toggleModalHandler,
     onPress,
     getClassData,
-    navigation
+    navigation,
+    from
 }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [classData, setIsClassData] = useState([])
@@ -25,7 +27,7 @@ const ModalComp = ({
     const [isChangeColor, setIsChangeColor] = useState(false)
 
     useEffect(() => {
-        console.log(getClassData)
+        console.log(from)
         if (getClassData == true) {
             let formdata = new FormData();
             formdata.append('auth_token', globals.authToken);
@@ -98,23 +100,55 @@ const ModalComp = ({
         )
     }
 
-    const SubmitSelectedClass = () => {
+    const SubmitSelectedClass = async () => {
         const data = classData.filter((item, index) => {
             return item.isSelected == true
         })
+        console.log(data)
+        const tokenForRegister = await AsyncStorage.getItem("tokenForRegister")
         let formdata = new FormData();
-        formdata.append('token', globals.student_Token);
-        formdata.append('div_id', data[0].div_id);
+        if (from == "Profile") {
+            formdata.append('token', globals.student_Token);
+            formdata.append('div_id', data[0].div_id);
+        } else {
+            formdata.append('token', tokenForRegister);
+            formdata.append('div_id', data[0].div_id);
+        }
 
         setIsLoading(true)
-        API.update_division(onUpdateDivisionResponse, formdata, true)
+        API.update_division({
+            success: response => {
+                console.log("onUpdateDivisionResponse====>", response)
+                // navigation.dispatch(AppStack);
+                setIsLoading(false)
+                toggleModalHandler()
+                AsyncStorage.setItem("YourGrade", data[0].name)
+                AsyncStorage.setItem("div_id", data[0].div_id)
+                if (from == "login") {
+                    globals.student_Token = tokenForRegister
+                    navigation.dispatch(AppStack)
+                } else if (from == "Profile") {
+                    navigation.dispatch(AppStack)
+                } else {
+                    navigation.navigate("CheckYourEmail")
+                }
+            },
+            error: err => {
+                console.log('err--->' + JSON.stringify(err))
+                setIsLoading(false)
+            },
+            complete: () => { },
+        }, formdata, true)
+
     }
 
     const onUpdateDivisionResponse = {
         success: response => {
             console.log("onUpdateDivisionResponse====>", response)
-            navigation.dispatch(AppStack);
+            // navigation.dispatch(AppStack);
             setIsLoading(false)
+            toggleModalHandler()
+            navigation.navigate("CheckYourEmail")
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))

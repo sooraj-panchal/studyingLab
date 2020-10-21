@@ -39,6 +39,7 @@ const AttendCourseScreen = ({
     const [attendCourseData, setAttendCourseData] = useState([]);
     const [index, setIndex] = useState(0)
     const [quiz, setQuiz] = useState({})
+    const [quizStart, setQuizStart] = useState("")
     useEffect(() => {
         // setAttendCourseData(attendCourseData)
         getCourseDetailsData()
@@ -47,6 +48,7 @@ const AttendCourseScreen = ({
     const getCourseDetailsData = () => {
         let formdata = new FormData();
         formdata.append('chapter_id', route.params.chapter_id);
+        formdata.append('token', globals.student_Token);
         setIsLoading(true)
         API.course_detail(onGetCourseDetailsResponse, formdata, true)
     }
@@ -56,6 +58,7 @@ const AttendCourseScreen = ({
             console.log("onGetCourseDetailsResponse====>", response)
             setAttendCourseData(response.data.course_data)
             setQuiz(response.data.quiz)
+            setQuizStart(response.data.quiz_flag)
             setIsLoading(false)
         },
         error: err => {
@@ -77,7 +80,7 @@ const AttendCourseScreen = ({
         return (
             <View style={styles.racdContainer} >
                 <ScrollView contentContainerStyle={{
-                    paddingBottom: 20
+                    paddingBottom: globals.mph5 * 4,// 20
                 }} >
                     {
                         index == 0
@@ -85,6 +88,7 @@ const AttendCourseScreen = ({
                         <>
                             <Image
                                 style={styles.courseImage}
+
                                 source={images.CourseDetailsScreen.image1Image}
                             />
                             <View style={styles.chapterContainer} >
@@ -94,7 +98,7 @@ const AttendCourseScreen = ({
                     }
                     <View style={{
                         alignSelf: "center",
-                        width: 320,
+                        width: globals.mpw5 * 64,// 320,
                     }} >
                         <HTML html={item.description} imagesMaxWidth={
                             Dimensions.get('window').width
@@ -115,17 +119,20 @@ const AttendCourseScreen = ({
                     sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                     asfa sfasfasfsaf sdasdsd dasdads sdadas dssadassffafsff fsfasasfasasfs sfafsafsafs fsafasafsfasf
                     </Text> */}
-                    {
 
-                        index == attendCourseData.length - 1 && quiz !== null &&
-                        <View style={styles.btnContainer} >
-                            <ButtonComp
-                                onPressButton={goToStartQuiz}
-                                buttonText="Start Quiz"
-                                from="fromSignup"
-                                btnStyle={styles.btnnStyle}
-                            />
-                        </View>
+                    {
+                        quizStart == "true" ? null :
+                            index == attendCourseData.length - 1 && quiz !== null ?
+                                // quiz.percentage !== "" ? null :
+                                <View style={styles.btnContainer} >
+                                    <ButtonComp
+                                        onPressButton={goToStartQuiz}
+                                        buttonText="Start Quiz"
+                                        from="fromSignup"
+                                        btnStyle={styles.btnnStyle}
+                                    />
+                                </View>
+                                : null
                     }
                 </ScrollView>
             </View>

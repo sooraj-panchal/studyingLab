@@ -25,6 +25,7 @@ import NewCourseScreen from '../screens/AppModule/NewCourseScreen/View';
 import * as globals from './../utils/globals'
 import ReviewScreen from '../screens/AppModule/ReviewScreen/View';
 import SelectChapterScreen from '../screens/AppModule/SelectChapterScreen/View';
+import ChatScreen from '../screens/AppModule/ChatScreen/View';
 
 const Tab = createBottomTabNavigator();
 
@@ -142,6 +143,13 @@ const AppStackScreen = () => (
         headerShown: false,
       }}
     />
+        <StackScreen.Screen
+      name="Chat"
+      component={ChatScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
   </StackScreen.Navigator>
 )
 
@@ -157,10 +165,11 @@ function MyTabBar({ state, descriptors, navigation }) {
     <>
       <ImageBackground style={{
         width: Dimensions.get("window").width,
-        height: globals.mph5 * 18, // 90,
+        height: globals.mph5 * 20, // 90,
         justifyContent: "center",
         alignItems: "center",
       }}
+        resizeMode="stretch"
         source={images.tabBarScreen.backgroundImage}
       >
         <View style={{ flexDirection: 'row' }}>
@@ -218,7 +227,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                       style={{
                         width: globals.mpw5 * 5, // 25,
                         height: globals.mph5 * 5, // 25,
-                        // resizeMode: "contain"
+                        resizeMode: "contain"
                       }}
                       source={
                         isFocused ?
@@ -231,9 +240,9 @@ function MyTabBar({ state, descriptors, navigation }) {
                       ?
                       <Image
                         style={{
-                          width: globals.mpw5 * 5 - 2, //23,
-                          height: globals.mph5 * 5, //25,
-                          // resizeMode: "contain"
+                          width: globals.mpw5 * 4, //23,
+                          height: globals.mph5 * 4, //25,
+                          resizeMode: "contain"
                         }}
                         source={
                           isFocused ?
@@ -246,9 +255,9 @@ function MyTabBar({ state, descriptors, navigation }) {
                         ?
                         <Image
                           style={{
-                            width: globals.mpw5 * 12, // 60,
-                            height: globals.mph5 * 12, // 60,
-                            // resizeMode: "contain",
+                            width: globals.mpw5 * 14, // 60,
+                            height: globals.mph5 * 14, // 60,
+                            resizeMode: "contain",
                             marginBottom: globals.mph5 * 8, // 40
                           }}
                           source={
@@ -262,7 +271,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                             style={{
                               width: globals.mpw5 * 5, // 25,
                               height: globals.mph5 * 5, // 25,
-                              // resizeMode: "contain"
+                              resizeMode: "contain"
                             }}
                             source={
                               isFocused ?
@@ -277,7 +286,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                               style={{
                                 width: globals.mpw5 * 5, // 25,
                                 height: globals.mpw5 * 5, // 25,
-                                // resizeMode: "contain"
+                                resizeMode: "contain"
                               }}
                               source={
                                 isFocused ?
@@ -314,6 +323,7 @@ const TabBarStackScreen = ({ navigation }) => (
   <Tab.Navigator
     screenOptions={({ route, state, navigation }) => ({
       // unmountOnBlur: true,
+      
     })}
     // screenOptions={({ route, state, navigation }) => ({
     //   unmountOnBlur: true,
@@ -453,6 +463,7 @@ const TabBarStackScreen = ({ navigation }) => (
           e.preventDefault()
           navigation.navigate("RequestForm")
         },
+        
       }}
       component={AddScreen} />
     <Tab.Screen name="Search" component={SearchScreen} />

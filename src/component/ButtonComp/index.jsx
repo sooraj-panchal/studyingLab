@@ -22,11 +22,7 @@ const ButtonComp = ({
             onPress={onPressButton}
             disabled={disabled}
         >
-            <Text style={[{
-                fontSize: 20,
-                color: "white",
-                fontFamily: font.Bold
-            },
+            <Text style={[styles.buttonText,
                 btnTextStyle]} >{buttonText}</Text>
         </TouchableOpacity>
     )

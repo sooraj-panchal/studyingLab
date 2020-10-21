@@ -20,33 +20,19 @@ const EditProfileScreen = ({
     isLoading,
     userDetails,
     updateProfile,
-    getProfileWatcher,
     updateProfileWatcher
 }) => {
 
     // const [isLoading, setIsLoading] = useState(false)
-    const [name, setIsName] = useState("")
-    const [email, setIsEmail] = useState("")
+    const [name, setIsName] = useState(userDetails !== null ? userDetails.name : "")
+    const [email, setIsEmail] = useState(userDetails !== null ? userDetails.email : "")
 
     useEffect(() => {
         updateProfileWatcher(null)
         if (updateProfile) {
             navigation.navigate("Profile")
         }
-        getProfile()
     }, [updateProfile])
-
-    const getProfile = () => {
-        getProfileWatcher({
-            token: globals.student_Token
-        })
-        if (userDetails) {
-            setIsName(userDetails.name)
-            setIsEmail(userDetails.email)
-        }
-        // setIsLoading(true)
-        // API.get_profile(onget_profileResponse, formdata, true)
-    }
 
     // const onget_profileResponse = {
     //     success: response => {
@@ -72,7 +58,7 @@ const EditProfileScreen = ({
             token: globals.student_Token,
             name: values.userName
         })
-        getProfile(null)
+        // getProfile(null)
         // setIsLoading(true)
         // API.update_profile(onGetUpdateProfileResponse, formdata, true)
     }
@@ -95,7 +81,7 @@ const EditProfileScreen = ({
     }
     return (
         <View style={styles.viewContainer}>
-            <LoadingComp animating={isLoading} />
+            {/* <LoadingComp animating={isLoading} /> */}
             <Formik
                 initialValues={{ userName: name, email: email }}
                 enableReinitialize={true}

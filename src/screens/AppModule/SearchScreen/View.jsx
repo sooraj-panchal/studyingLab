@@ -31,7 +31,10 @@ const SearchScreen = ({
     const [searchText, setIsSearchText] = useState("");
 
     useEffect(() => {
-    }, [])
+        if (searchText !== "") {
+            getSearchedCourseData()
+        }
+    }, [searchText])
 
 
     const getSearchedCourseData = () => {
@@ -58,8 +61,9 @@ const SearchScreen = ({
     }
 
     const goToCourse = (item, index) => {
-        navigation.navigate("AttendCourse", {
-            course_id: item.course_id
+        navigation.navigate("CourseDetails", {
+            course_id: item.course_id,
+            course_name: item.name
         })
     }
 
@@ -90,18 +94,20 @@ const SearchScreen = ({
                         placeholderTextColor={colors.BlueColor}
                         value={searchText}
                         onChangeText={(searchText) => {
-                            setIsSearchText(searchText)
-                            getSearchedCourseData()
+                            if (searchText.trim().length == 0) {
+                                setIsSearchText(searchText)
+                            } else {
+                                setIsSearchText(searchText)
+                            }
                         }}
                         autoFocus={true}
                         returnKeyType="search"
-                        onSubmitEditing={getSearchedCourseData}
+                    // onSubmitEditing={getSearchedCourseData}
                     />
                     {
-                        searchText !== "" || null ?
+                        searchText !== null && searchText !== "" ?
                             <TouchableOpacity onPress={() => {
-                                setIsSearchText("")
-                                getSearchedCourseData()
+                                setIsSearchText(null)
                             }} style={styles.closeTouchable} >
                                 <Image
                                     style={styles.closeIcon}
@@ -135,6 +141,10 @@ const SearchScreen = ({
                             <View style={styles.searchDataContainer} >
                                 <FlatList
                                     data={searchData}
+                                    style={{
+                                        // paddingBottom: 100,
+                                        maxHeight: 470,
+                                    }} showsVerticalScrollIndicator={false}
                                     renderItem={_renderSearchData}
                                     ItemSeparatorComponent={() => {
                                         return (

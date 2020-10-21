@@ -8,76 +8,40 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import * as globals from './../../../utils/globals';
 import { API } from '../../../utils/api';
 import LoadingComp from '../../../component/LoadingComp';
-
-const categoryDatas = [
-    {
-        "id": "1",
-        categoryName: "Category 1",
-        backgroundImage: images.HomeScreen.box_background1Image,
-        categoryImage: images.HomeScreen.icon_1Image
-    },
-    {
-        "id": "1",
-        categoryName: "Category 1",
-        backgroundImage: images.HomeScreen.box_background1Image,
-        categoryImage: images.HomeScreen.icon_1Image
-    },
-]
+import AsyncStorage from '@react-native-community/async-storage';
 
 const HomeScreen = ({
     navigation,
+    route
 }) => {
-    const [categoryData, setCategoryData] = useState([]);
+    const [MyCourseData, setMyCourseData] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        Linking.getInitialURL().then((url) => {
-            if (url) {
-                console.log("url========>", url)
-                const route = url.replace(/.*?:\/\//g, '');
-                const id = route.match(/\/([^\/]+)\/?$/)[1];
-                const routeName = route.split('/')[1];
-                console.log("id is ", id)
-                console.log("routeName is ", routeName)
-                // navigation.navigate(routeName)
+        if (route.params != undefined) {
+            if (route.params.fromFilter == "ApplyFilter") {
+                setMyCourseData(route.params.categoryDataFromFilter)
+            } else if (route.params.fromFilter == "clearFilter") {
+                getCourses()
             }
-        });
+        } else {
+            getCourses()
+        }
+    }, [route])
 
-        // var NativeLinking = require("../../../../node_modules/react-native/Libraries/Linking/NativeLinking").default;
-        // NativeLinking.getInitialURL().then((url) => {
-        //     console.log('Initial url is: ' + url);
-        // }).catch(err => console.error('An error occurred', err));
-
-        // Linking.addEventListener('url', handleOpenURL);
-        // return (() => {
-        //     Linking.removeEventListener('url', handleOpenURL);
-        //   })
-        getCategoryData()
-    }, [])
-
-    const handleOpenURL = (event) => { // D
-        // return console.log("event= === = >", event)
-        const route = event.replace(/.*?:\/\//g, '');
-        // const id = route.match(/\/([^\/]+)\/?$/)[1];
-        const routeName = route.split('/')[0];
-
-        console.log(routeName)
-
-    }
-
-
-    const getCategoryData = () => {
+    const getCourses = async () => {
+        const div_id = await AsyncStorage.getItem("div_id")
         let formdata = new FormData();
         formdata.append('token', globals.student_Token);
+        formdata.append('div_id', div_id);
         setIsLoading(true)
-        API.category(onGetCategoryResponse, formdata, true)
+        API.course_list(onGetCourseListResponse, formdata, true)
     }
-
-    const onGetCategoryResponse = {
+    const onGetCourseListResponse = {
         success: response => {
-            console.log("onGetCategoryResponse====>", response)
-            setCategoryData(response.data)
+            console.log("onGetCourseListResponse====>", response)
             setIsLoading(false)
+            setMyCourseData(response.data)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -86,25 +50,31 @@ const HomeScreen = ({
         complete: () => { },
     }
 
+
     const goToNewCourseScreen = (item, index) => {
-        navigation.navigate("NewCourse",{
-            cat_id:item.cat_id
+        navigation.navigate("CourseDetails", {
+            course_id: item.course_id,
+            course_name: item.name
         })
     }
 
     const _renderCategoryItem = ({ item, index }) => {
         return (
-            <TouchableOpacity onPress={() => goToNewCourseScreen(item, index)}>
+            <TouchableOpacity onPress={() => goToNewCourseScreen(item, index)}
+            //  style={styles.rcTouchable} 
+             >
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
+                    resizeMode="stretch"
+                    // source={{ uri: item.course_image.length == 0 ? null : item.course_image[0].image }}
                     source={images.HomeScreen.box_background1Image}
                 >
                     <View style={{
                         alignItems: "center"
                     }} >
-                        <Image style={styles.rciCataegoryImage}
+                        {/* <Image style={styles.rciCataegoryImage}
                             source={images.HomeScreen.icon_2Image}
-                        />
+                        /> */}
                         <Text style={styles.rciCataegoryName} >{item.name}</Text>
                     </View>
                 </ImageBackground>
@@ -116,7 +86,9 @@ const HomeScreen = ({
         navigation.navigate("Search")
     }
     const goToFilterScreen = () => {
-        navigation.navigate("Filter")
+        navigation.navigate("Filter", {
+            courseData: MyCourseData
+        })
     }
 
 
@@ -169,10 +141,10 @@ const HomeScreen = ({
                     <LoadingComp animating={isLoading} withoutModal />
                     : */}
             <FlatList contentContainerStyle={styles.listCategoryContainer}
-            style={{
-                // paddingHorizontal:10
-            }}
-                data={categoryData}
+                style={{
+                    // paddingHorizontal:10
+                }}
+                data={MyCourseData}
                 renderItem={_renderCategoryItem}
                 numColumns={2}
                 keyExtractor={(item, index) => index.toString()}

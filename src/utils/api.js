@@ -34,8 +34,8 @@ export const API = {
   update_profile: (onResponse, data, isHeaderRequired) => {
     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.update_profile, buildHeaderFormData());
   },
-  category: (onResponse, data, isHeaderRequired) => {
-    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.category, buildHeaderFormData());
+  course_list: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.course_list, buildHeaderFormData());
   },
 
   sub_category: (onResponse, data, isHeaderRequired) => {
@@ -92,6 +92,18 @@ export const API = {
   },
   get_review: (onResponse, data, isHeaderRequired) => {
     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.get_review, buildHeaderFormData());
+  },
+  filter_data: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.filter_data, buildHeaderFormData());
+  },
+  add_message: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.add_message, buildHeaderFormData());
+  },
+  chat: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.chat, buildHeaderFormData());
+  },
+  add_request_form: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.add_request_form, buildHeaderFormData());
   }
 
 };

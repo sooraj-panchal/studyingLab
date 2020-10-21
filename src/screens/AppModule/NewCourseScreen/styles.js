@@ -63,7 +63,7 @@ export default StyleSheet.create({
     rciCataegoryImage: {
         width: globals.mpw5 * 12, // 60,
         height: globals.mph5 * 12, // 60,
-        // resizeMode: "contain"
+        resizeMode: "contain"
     },
     rciCataegoryName: {
         color: "white",

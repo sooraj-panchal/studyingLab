@@ -26,6 +26,7 @@ const StartQuizScreen = ({
     const [quizData, setQuizData] = useState([]);
     const [quizindex, setQuizIndex] = useState(0)
     const [errorMessage, setErrorMessage] = useState("")
+    const [quizCompleted, setQuizCompleted] = useState("")
 
     useEffect(() => {
         getQuizData()
@@ -44,6 +45,7 @@ const StartQuizScreen = ({
         success: response => {
             console.log("onGetQuizDataResponseResponse====>", response)
             setQuizData(response.data)
+            setQuizCompleted(response.quiz_complete)
             // setAttendCourseData(response.data)
             const LEN = response.data.length;
             const arr = [];
@@ -196,15 +198,16 @@ const StartQuizScreen = ({
                     }
                 </View>
                 {
-                    index == quizData.length - 1 &&
-                    <View style={styles.showResultbtnContainer} >
-                        <ButtonComp
-                            onPressButton={goToQuizResultScreen}
-                            buttonText="Show Result"
-                            from="fromSignup"
-                            btnStyle={styles.showResultbtnStyle}
-                        />
-                    </View>
+                    quizCompleted == "false" ? null :
+                        index == quizData.length - 1 &&
+                        <View style={styles.showResultbtnContainer} >
+                            <ButtonComp
+                                onPressButton={goToQuizResultScreen}
+                                buttonText="Show Result"
+                                from="fromSignup"
+                                btnStyle={styles.showResultbtnStyle}
+                            />
+                        </View>
                 }
             </View>
         )

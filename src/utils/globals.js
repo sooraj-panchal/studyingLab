@@ -21,7 +21,7 @@ export const reset_password = 'login/reset_password'
 export const get_profile = 'student/get_profile'
 export const update_profile = 'student//update_profile'
 
-export const category = 'category'
+export const course_list = 'course/course_list'
 export const sub_category = 'sub_category'
 export const course = 'course'
 export const course_detail = 'course/course_detail'
@@ -45,8 +45,25 @@ export const course_chapter = 'course/course_chapter'
 
 export const add_rating = 'student/add_rating'
 export const get_review = 'student/get_review'
+export const filter_data = 'course/filter_data'
+export const add_message = 'chat/add_message'
+export const chat = 'chat'
+export const add_request_form = 'student/add_request_form'
 
-
+export const AlertHandler = ({ value, onPress,text1,text2 }) => {
+  Alert.alert(
+    "StudyingLab",
+    value,
+    [
+      {
+        text: text1,
+      },
+      {
+        text: text2, onPress: onPress
+      }
+    ],
+    { cancelable: false })
+}
 
 
 // export const otpVerify = 'driver/otpVerify'
@@ -131,7 +148,7 @@ export const get_review = 'student/get_review'
 export const timeoutDuration = 30000;
 export const WINDOW = Dimensions.get("window");
 import React, { Component } from 'react';
-import { Dimensions, Platform, TouchableOpacity, Text, View, AsyncStorage } from "react-native";
+import { Dimensions, Platform, TouchableOpacity, Text, View, AsyncStorage, Alert } from "react-native";
 //import * as color from '../assets/styles/color';
 //import * as globleStyles from '../assets/styles/globleStyles';
 

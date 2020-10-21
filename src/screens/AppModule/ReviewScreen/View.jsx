@@ -72,9 +72,9 @@ const ReviewScreen = ({
         success: response => {
             console.log("onget_reviewResponse====>", response)
             setIsLoading(false)
+            setYourRatingData(response.data.your_rating)
             setReviewData(response.data.all_review_data)
             setTotalRatingData(response.data.total_rating)
-            setYourRatingData(response.data.your_rating)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -88,21 +88,9 @@ const ReviewScreen = ({
             <View style={{
                 // backgroundColor:"red",
             }} >
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginHorizontal: 20
-                }} >
-                    <Text style={{
-                        color: colors.BlackColor,
-                        fontFamily: font.Medium,
-                        fontSize: 16
-                    }} >{item.student_name}</Text>
-                    <View style={{
-                        // alignItems: "flex-start",
-                        right: 5
-                    }} >
+                <View style={styles.rvdView} >
+                    <Text style={styles.student_nameText} >{item.student_name}</Text>
+                    <View style={styles.starView} >
                         <Stars
                             disabled={true}
                             default={parseInt(item.rating)}
@@ -112,21 +100,13 @@ const ReviewScreen = ({
                             fullStar={
                                 <Image
                                     source={images.RatingScrren.starImage}
-                                    style={{
-                                        width: 15,
-                                        height: 15,
-                                        marginLeft: 5
-                                    }}
+                                    style={styles.starImage}
                                 />
                             }
                             emptyStar={
                                 <Image
                                     source={images.RatingScrren.gray_starImage}
-                                    style={{
-                                        width: 15,
-                                        height: 15,
-                                        marginLeft: 5
-                                    }}
+                                    style={styles.emptyStar1}
                                 />
                             }
                         // halfStar={
@@ -137,14 +117,7 @@ const ReviewScreen = ({
                         />
                     </View>
                 </View>
-                <Text style={{
-                    width: 300,
-                    marginTop: 10,
-                    marginLeft: 20,
-                    color: colors.BlackColor,
-                    fontFamily: font.Regular,
-                    fontSize: 13
-                }} >{item.message}</Text>
+                <Text style={styles.messageText} >{item.message}</Text>
             </View>
         )
     }
@@ -164,7 +137,6 @@ const ReviewScreen = ({
         } else {
             setIsToggleModal(!toggleModal);
             if (toggleModal == false) {
-                console.log(route.params.course)
                 let course = {
                     course_name: route.params.course.name,
                     course_id: route.params.course.course_id
@@ -184,16 +156,7 @@ const ReviewScreen = ({
     const yourRatingAndReview = () => {
         if (YourRatingData == "") {
             return (
-                <View style={{
-                    // backgroundColor:"red",
-                    // marginTop: 20
-                }} >
-                    {/* <Text style={{
-                        color: colors.BlackColor,
-                        fontFamily: font.Medium,
-                        fontSize: 20,
-                        marginLeft: 10
-                    }} >Your Rating & Review</Text> */}
+                <View>
                     <View style={{
                         flexDirection: "row",
                         alignItems: "center",
@@ -228,22 +191,9 @@ const ReviewScreen = ({
                     fontSize: 20,
                     marginLeft: 10
                 }} >Your Rating & Review</Text> */}
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginHorizontal: 20,
-                    marginTop: 10
-                }} >
-                    <Text style={{
-                        color: colors.BlackColor,
-                        fontFamily: font.Medium,
-                        fontSize: 16
-                    }} >{YourRatingData.student_name}</Text>
-                    <View style={{
-                        // alignItems: "flex-start",
-                        right: 5
-                    }} >
+                <View style={styles.yourRatingAndReview} >
+                    <Text style={styles.studentNameText} >{YourRatingData.student_name}</Text>
+                    <View style={styles.starView} >
                         <Stars
                             disabled={true}
                             default={YourRatingData.rating == undefined ? 0 : parseInt(YourRatingData.rating)}
@@ -253,21 +203,13 @@ const ReviewScreen = ({
                             fullStar={
                                 <Image
                                     source={images.RatingScrren.starImage}
-                                    style={{
-                                        width: 15,
-                                        height: 15,
-                                        marginLeft: 5
-                                    }}
+                                    style={styles.starImage}
                                 />
                             }
                             emptyStar={
                                 <Image
                                     source={images.RatingScrren.gray_starImage}
-                                    style={{
-                                        width: 15,
-                                        height: 15,
-                                        marginLeft: 5
-                                    }}
+                                    style={styles.emptyStar1}
                                 />
                             }
                         // halfStar={
@@ -279,30 +221,19 @@ const ReviewScreen = ({
                     </View>
 
                 </View>
-                <Text style={{
-                    width: 300,
-                    marginTop: 10,
-                    marginLeft: 20,
-                    color: colors.BlackColor,
-                    fontFamily: font.Regular,
-                    fontSize: 13
-                }} >{YourRatingData.message}</Text>
+                <Text style={styles.messageText} >{YourRatingData.message}</Text>
             </View>
         )
     }
 
 
     return (
-        <View style={{
-            backgroundColor: "white",
-            flex: 1
-        }} >
+        <View style={styles.viewContainer} >
             <RateNowModalComp
                 toggleModal={toggleModal}
                 toggleModalHandler={toggleModalHandler}
                 toggleModalHandler1={toggleModalHandler1}
                 course={course}
-
             />
             <RatingSuccessModalComp
                 toggleModal={toggleModal1}
@@ -315,20 +246,9 @@ const ReviewScreen = ({
                 headerText="Review"
             />
             <ScrollView>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: 40
-                }} >
-                    <Text style={{
-                        fontSize: 45,
-                        color: colors.BlackColor,
-                        fontFamily: font.Regular
-                    }} >{totalRating.avg_rating}</Text>
-                    <View style={{
-                        marginLeft: 20,
-                    }} >
+                <View style={styles.totalReviewContainer} >
+                    <Text style={styles.avg_rating_text} >{totalRating.avg_rating}</Text>
+                    <View style={styles.startView} >
                         <Stars
                             disabled={true}
                             default={totalRating.avg_rating == undefined ? 0 : parseInt(totalRating.avg_rating)}
@@ -338,21 +258,13 @@ const ReviewScreen = ({
                             fullStar={
                                 <Image
                                     source={images.RatingScrren.starImage}
-                                    style={{
-                                        width: 25,
-                                        height: 25,
-                                        marginLeft: 5
-                                    }}
+                                    style={styles.starStyle}
                                 />
                             }
                             emptyStar={
                                 <Image
                                     source={images.RatingScrren.gray_starImage}
-                                    style={{
-                                        width: 25,
-                                        height: 25,
-                                        marginLeft: 5
-                                    }}
+                                    style={styles.emptyStar}
                                 />
                             }
                         // halfStar={
@@ -361,30 +273,12 @@ const ReviewScreen = ({
                         //         style={[styles.myStarStyle]}
                         //     />}
                         />
-                        <Text style={{
-                            fontSize: 14,
-                            color: colors.GrayColor,
-                            fontFamily: font.Regular,
-                            marginTop: 5,
-                            marginLeft: 10
-                        }} >from {totalRating.total_rating} People</Text>
+                        <Text style={styles.totalRating} >from {totalRating.total_rating} People</Text>
                     </View>
                 </View>
-                <View style={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: colors.GrayColor,
-                    marginTop: 20,
-                    marginBottom: 10,
-                    marginHorizontal: 20
-                }} />
+                <View style={styles.borderbottom} />
                 {yourRatingAndReview()}
-                <View style={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: colors.GrayColor,
-                    marginTop: 20,
-                    marginBottom: 0,
-                    marginHorizontal: 20
-                }} />
+                <View style={styles.borderbottom1} />
                 {/* <Text style={{
                     color: colors.BlackColor,
                     fontFamily: font.Medium,
@@ -397,30 +291,21 @@ const ReviewScreen = ({
                     ItemSeparatorComponent={() => {
                         return (
                             <View
-                                style={{
-                                    marginVertical: 15,
-                                    borderBottomWidth: 1,
-                                    marginHorizontal: 15,
-                                    borderBottomColor: colors.LightGrayColor
-                                }}
+                                style={styles.rvdSeparater}
                             />
                         )
                     }}
                     ListHeaderComponent={() => {
                         return (
                             <View
-                                style={{
-                                    marginTop: 20
-                                }}
+                                style={styles.rvdHeader}
                             />
                         )
                     }}
                     ListFooterComponent={() => {
                         return (
                             <View
-                                style={{
-                                    marginBottom: 20,
-                                }}
+                                style={styles.rvdFooter}
                             />
                         )
                     }}

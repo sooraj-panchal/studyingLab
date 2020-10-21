@@ -2,7 +2,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import * as globals from '../../utils/globals'
 import * as actionTypes from "../../store/actionTypes";
 import {
-    showLoader, hideLoader, updateProfileSuccess, updateProfileError
+    showLoader, hideLoader, updateProfileSuccess, updateProfileError, getProfileWatcher
 } from "../../store/actions";
 
 function updateProfileApi(data) {
@@ -10,7 +10,7 @@ function updateProfileApi(data) {
     let formdata = new FormData();
     formdata.append('token', data.payload.token);
     formdata.append('name', data.payload.name);
-    
+
     return fetch(globals.mainUrl + globals.update_profile, {
         method: 'post',
         headers: {
@@ -29,6 +29,7 @@ function* updateProfileActionEffect(action) {
         console.log("======>get update Profile Response ", response)
         // if (response.data.status_code === 200) {
         yield put(updateProfileSuccess(response.data));
+        yield put(getProfileWatcher())
         // } else {
         //     showErrorMessage(response.data.payload.msg);
         //     yield put(forgotPasswordError(response.data));
@@ -41,7 +42,6 @@ function* updateProfileActionEffect(action) {
         yield put(hideLoader());
     }
 }
-
 export function* updateProfileWatcher() {
     yield takeLatest(actionTypes.UPDATE_PROFILE_WATCHER, updateProfileActionEffect);
 }
