@@ -25,6 +25,7 @@ export const course_list = 'course/course_list'
 export const sub_category = 'sub_category'
 export const course = 'course'
 export const course_detail = 'course/course_detail'
+export const popular_course = 'course/popular_course'
 
 export const quiz = 'quiz'
 export const quiz_answer = 'student/quiz_answer'
@@ -50,7 +51,7 @@ export const add_message = 'chat/add_message'
 export const chat = 'chat'
 export const add_request_form = 'student/add_request_form'
 
-export const AlertHandler = ({ value, onPress,text1,text2 }) => {
+export const AlertHandler = ({ value, onPress, text1, text2 }) => {
   Alert.alert(
     "StudyingLab",
     value,
@@ -65,92 +66,10 @@ export const AlertHandler = ({ value, onPress,text1,text2 }) => {
     { cancelable: false })
 }
 
-
-// export const otpVerify = 'driver/otpVerify'
-// export const forgotPassword = 'driver/Forgotpassword'
-// export const Resetpassword = 'driver/Resetpassword'
-// export const Getprofile = 'driver/Getprofile'
-// export const updateProfile = 'driver/Updateprofile'
-
-// export const UploadDocument = 'driver/UploadDocument'
-// export const GetDocument = 'driver/GetDocument'
-// export const GetLicense = 'driver/GetLicense'
-// export const CheckApprovalDocument = 'driver/CheckApprovalDocument'
-
-// export const getDriverOrders = 'driver/getDriverOrders'
-// export const UpdateOrderStatus = 'driver/UpdateOrderStatus'
-// export const CurrentOrder = 'driver/CurrentOrder'
-
-// export const getDriverOrders = 'driver/getDriverOrders'
-// export const UpdateOrderStatus = 'driver/UpdateOrderStatus'
-// export const CurrentOrder = 'driver/CurrentOrder'
-
-// export const Userlist = 'driver/Userlist'
-
-// export const AddEditBankDetail = 'driver/AddEditBankDetail'
-// export const GetBankDetail = 'driver/GetBankDetail'
-
-// export const Wallet = 'driver/Wallet'
-// export const WithdrawAmount = 'driver/WithdrawAmount'
-
-// // export const getDriverOrders = 'driver/getDriverOrders'
-// // export const UpdateOrderStatus = 'driver/UpdateOrderStatus'
-// // export const CurrentOrder = 'driver/CurrentOrder'
-
-
-// export const addUserAddress = 'user/addUserAddress'
-// export const getUserAddress = 'user/getUserAddress'
-// export const userUpdateAddress = 'user/updateUserAddress'
-// export const deleteUserAddress = 'user/deleteUserAddress'
-// export const updateUserDefaultAddress = 'user/updateUserDefaultAddress'
-// export const getUserDefaultAddress = 'user/getUserDefaultAddress'
-
-// export const getCategoryData = 'product/Categorylist'
-// export const homeSilderImages = 'product/Homeslider'
-// export const productListData = 'product/Productlist'
-// export const SubCatallproducts = "home/SubCatallproducts"
-
-
-// export const catAllProducts = 'home/Catallproducts'
-// export const SearchProduct = 'home/SearchProduct'
-// export const filterDetails = 'product/Filterdetail'
-
-
-// export const AddToCart = 'cart/Addcart'
-// export const getCartDetails = 'cart/getCartDetails'
-// export const Productcount = 'home/Productcount'
-
-// export const userAddOrder = 'userorder/userAddOrder'
-// export const getUserOrders = 'userorder/getUserOrders'
-// export const CancelOrder = 'userorder/CancelOrder'
-// export const Trackorder = 'userorder/Trackorder'
-
-// export const OfferProductlist = 'setting/OfferProductlist'
-
-
-// // export const  addVehicle = 'save_vehicle'
-// export const getFoodCategoryData = 'category/cat_list'
-// export const getFoodSubCategoryData = 'subcategory/listsubcat'
-// export const updateProfile = 'user/updateprofile'
-// export const addAddress = 'user/addressstore'
-// export const getAddress='user/getAddress'
-// export const updateAddress='user/addressupdate'
-// export const deleteAddress='user/address_delete'
-// export const addToCart='order/addtocart'
-// export const getCart='order/get-cart'
-// export const updateCart='order/updatetocart'
-// export const removeCart='order/remover-cart'
-// export const addToFavorite='order/addfavorite'
-// export const getFavorite='order/getFavorite'
-// export const removeFromFavorite='order/removeFavorite'
-// export const addToCheckout='bank/checkout'
-
 export const timeoutDuration = 30000;
 export const WINDOW = Dimensions.get("window");
 import React, { Component } from 'react';
 import { Dimensions, Platform, TouchableOpacity, Text, View, AsyncStorage, Alert } from "react-native";
-//import * as color from '../assets/styles/color';
-//import * as globleStyles from '../assets/styles/globleStyles';
 
 export const screenWidth = Dimensions.get("window").width;
 export const screenHeight = Dimensions.get("window").height;

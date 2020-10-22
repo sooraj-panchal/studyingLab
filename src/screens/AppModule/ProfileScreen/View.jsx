@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as globals from './../../../utils/globals';
 import LoadingComp from '../../../component/LoadingComp';
 import ModalComp from '../../../component/ModalComp';
+import NoNeworkComp from '../../../component/NoNetworkComp';
 
 const ProfileScreen = ({
     navigation,
@@ -27,6 +28,9 @@ const ProfileScreen = ({
     };
 
     useEffect(() => {
+        getProfileData()
+    }, [userDetails])
+    const getProfileData = () => {
         if (userDetails) {
             setIsName(userDetails.name)
             setIsEmail(userDetails.email)
@@ -36,7 +40,7 @@ const ProfileScreen = ({
             })
         }
         updateGradeAsync()
-    }, [userDetails])
+    }
 
     const updateGradeAsync = async () => {
         const YourGrade = await AsyncStorage.getItem("YourGrade")
@@ -92,67 +96,75 @@ const ProfileScreen = ({
                 from="Profile"
             />
             {
+
                 isLoading == true ?
                     <LoadingComp animating={isLoading} />
                     :
-                    <ScrollView contentContainerStyle={{
-                        paddingBottom: 100
-                    }}
-                        style={{
-                            flex: 1
+                    globals.isInternetConnected
+                        ?
+                        <ScrollView contentContainerStyle={{
+                            paddingBottom: 100
                         }}
-                    >
-                        <ImageBackground style={styles.backgroundImage}
-                            source={images.ProfileScreen.backgroundImage}
+                            style={{
+                                flex: 1
+                            }}
                         >
-                            <View style={styles.headerContainer} >
-                                <Text style={styles.profileText} >Profile</Text>
-                                <TouchableOpacity onPress={goToEditProfileScreen} >
-                                    <Image
-                                        style={styles.profileImage}
-                                        source={images.ProfileScreen.edit_profileImage}
+                            <View>
+                                <ImageBackground style={styles.backgroundImage}
+                                    source={images.ProfileScreen.backgroundImage}
+                                >
+                                    <View style={styles.headerContainer} >
+                                        <Text style={styles.profileText} >Profile</Text>
+                                        <TouchableOpacity onPress={goToEditProfileScreen} >
+                                            <Image
+                                                style={styles.profileImage}
+                                                source={images.ProfileScreen.edit_profileImage}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.nameContainer} >
+                                        <Text style={styles.helloText} > Hello, </Text>
+                                        <Text style={styles.nameText} >{name}</Text>
+                                    </View>
+                                </ImageBackground>
+                                <TouchableComp TouchableForEmail
+                                    text1="Email"
+                                    text2={email}
+                                />
+                                <TouchableComp
+                                    text1="My Course"
+                                    onPressTouch={goToMyCourseScreen}
+                                />
+                                <TouchableComp
+                                    text1="Favorite Course"
+                                    onPressTouch={goToFavoriteScreen}
+                                />
+                                <TouchableComp
+                                    text1="Chat"
+                                    onPressTouch={goToChatScreen}
+                                />
+                                <TouchableComp
+                                    text1="Change Password"
+                                    onPressTouch={goToChangePasswordScreen}
+                                />
+                                <TouchableComp
+                                    text1="Your Grade"
+                                    text2={getGrade}
+                                    from="Grade"
+                                    onPressTouch={editGradeHandler}
+                                />
+                                <View style={styles.btnStyle} >
+                                    <ButtonComp
+                                        onPressButton={LogoutHandler}
+                                        buttonText="LOGOUT"
+                                        from="fromSignup"
                                     />
-                                </TouchableOpacity>
+                                </View>
                             </View>
-                            <View style={styles.nameContainer} >
-                                <Text style={styles.helloText} > Hello, </Text>
-                                <Text style={styles.nameText} >{name}</Text>
-                            </View>
-                        </ImageBackground>
-                        <TouchableComp TouchableForEmail
-                            text1="Email"
-                            text2={email}
-                        />
-                        <TouchableComp
-                            text1="My Course"
-                            onPressTouch={goToMyCourseScreen}
-                        />
-                        <TouchableComp
-                            text1="Favorite Course"
-                            onPressTouch={goToFavoriteScreen}
-                        />
-                        <TouchableComp
-                            text1="Chat"
-                            onPressTouch={goToChatScreen}
-                        />
-                        <TouchableComp
-                            text1="Change Password"
-                            onPressTouch={goToChangePasswordScreen}
-                        />
-                        <TouchableComp
-                            text1="Your Grade"
-                            text2={getGrade}
-                            from="Grade"
-                            onPressTouch={editGradeHandler}
-                        />
-                        <View style={styles.btnStyle} >
-                            <ButtonComp
-                                onPressButton={LogoutHandler}
-                                buttonText="LOGOUT"
-                                from="fromSignup"
-                            />
-                        </View>
-                    </ScrollView>
+
+                        </ScrollView>
+                        :
+                        <NoNeworkComp onPressButton={getProfileData} from="Profile" />
             }
         </View>
     )

@@ -104,7 +104,11 @@ export const API = {
   },
   add_request_form: (onResponse, data, isHeaderRequired) => {
     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.add_request_form, buildHeaderFormData());
+  },
+  popular_course: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.popular_course, buildHeaderFormData());
   }
+
 
 };
 

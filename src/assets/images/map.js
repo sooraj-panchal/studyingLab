@@ -102,3 +102,9 @@ export const RatingScrren = {
     gray_starImage: require("./rating/gray_star.png"),
 }
 
+export const EmptyView = {
+    noDataImage: require("./EmptyView/nodata-found.jpg"),
+    noNetworkImage: require("./EmptyView/hiclipart.com.png"),
+}
+
+

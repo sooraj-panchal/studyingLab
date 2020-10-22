@@ -19,13 +19,13 @@ import SubmitRequestFormScreen from '../screens/AppModule/SubmitRequestFormScree
 import MyCourseScreen from '../screens/AppModule/MyCourseScreen/View';
 import ResetPasswordScreen from '../screens/AppModule/ResetPasswordScreen/View';
 import FilterScreen from '../screens/AppModule/FilterScreen/View';
-import FavoriteScreen from '../screens/AppModule/FavoriteScreen/View';
 import EditProfileScreen from '../screens/AppModule/EditProfileScreen';
 import NewCourseScreen from '../screens/AppModule/NewCourseScreen/View';
 import * as globals from './../utils/globals'
 import ReviewScreen from '../screens/AppModule/ReviewScreen/View';
 import SelectChapterScreen from '../screens/AppModule/SelectChapterScreen/View';
 import ChatScreen from '../screens/AppModule/ChatScreen/View';
+import FavoriteScreen from '../screens/AppModule/FavoriteScreen/View';
 
 const Tab = createBottomTabNavigator();
 

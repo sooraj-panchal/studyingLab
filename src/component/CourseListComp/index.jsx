@@ -10,6 +10,8 @@ import styles from './styles';
 import ButtonComp from '../ButtonComp';
 import LoadingComp from '../LoadingComp';
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import NoDataComp from '../NoDataComp';
+import NoNeworkComp from '../NoNetworkComp';
 
 const CourseListComp = ({
     route,
@@ -24,6 +26,9 @@ const CourseListComp = ({
 
     useEffect(() => {
         // setMyCourseData(MyCourseData)
+        CourseData()
+    }, [from])
+    const CourseData = () => {
         if (from == "MyCourse") {
             getMyCourses()
         } else if (from == "Favorite") {
@@ -31,7 +36,7 @@ const CourseListComp = ({
         } else {
             getCourses()
         }
-    }, [from])
+    }
 
     const GetFavoritCourseeData = () => {
         let formdata = new FormData();
@@ -458,33 +463,47 @@ const CourseListComp = ({
 
     return (
         <View>
-            <LoadingComp animating={isLoading} />
-            <FlatList
-                renderItem={_renderMyCourseData}
-                data={MyCourseData}
-                ItemSeparatorComponent={() => {
-                    return (
-                        <View
-                            style={styles.listMyCourseSeparater}
+            {
+
+                isLoading ?
+                    <LoadingComp animating={isLoading} />
+                    :
+                    globals.isInternetConnected ?
+                        <FlatList
+                            renderItem={_renderMyCourseData}
+                            data={MyCourseData}
+                            ItemSeparatorComponent={() => {
+                                return (
+                                    <View
+                                        style={styles.listMyCourseSeparater}
+                                    />
+                                )
+                            }}
+                            ListHeaderComponent={() => {
+                                return (
+                                    <View
+                                        style={styles.listMyCourseHeader}
+                                    />
+                                )
+                            }}
+                            ListFooterComponent={() => {
+                                return (
+                                    <View
+                                        style={styles.listMyCourseFooter}
+                                    />
+                                )
+                            }}
+                            keyExtractor={(item, index) => index.toString()}
+                            ListEmptyComponent={() => {
+                                return (
+                                    <NoDataComp
+                                        text="No data found.."
+                                    />
+                                )
+                            }}
                         />
-                    )
-                }}
-                ListHeaderComponent={() => {
-                    return (
-                        <View
-                            style={styles.listMyCourseHeader}
-                        />
-                    )
-                }}
-                ListFooterComponent={() => {
-                    return (
-                        <View
-                            style={styles.listMyCourseFooter}
-                        />
-                    )
-                }}
-                keyExtractor={(item, index) => index.toString()}
-            />
+                        : <NoNeworkComp onPressButton={CourseData} />
+            }
         </View>
     )
 }

@@ -168,7 +168,7 @@ import HeaderComp from '../../../component/HeaderComp';
 import CourseListComp from '../../../component/CourseListComp';
 
 
-const CourseDetailsScreen = ({
+const FavoriteScreen = ({
     navigation,
     route
 }) => {
@@ -186,4 +186,4 @@ const CourseDetailsScreen = ({
         </View>
     )
 }
-export default CourseDetailsScreen;
+export default FavoriteScreen;

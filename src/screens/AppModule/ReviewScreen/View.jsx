@@ -14,6 +14,7 @@ import * as globals from './../../../utils/globals';
 import Stars from 'react-native-stars';
 import RateNowModalComp from '../../../component/RateNowModalComp';
 import RatingSuccessModalComp from '../../../component/RatingSuccessModalComp';
+import NoDataComp from '../../../component/NoDataComp';
 
 
 const reviewDatas = [
@@ -158,23 +159,64 @@ const ReviewScreen = ({
             return (
                 <View>
                     <View style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
                         marginHorizontal: 20,
-                        marginTop: 10
+                        marginTop: 20,
                     }} >
                         <Text style={{
                             color: colors.BlackColor,
-                            fontFamily: font.Regular,
+                            fontFamily: font.Medium,
                             fontSize: 16
-                        }} >You Haven't Rate Yet?</Text>
-                        <TouchableOpacity onPress={toggleModalHandler} >
+                        }} >Rate this Course</Text>
+                        <Text style={{
+                            color: colors.GrayColor,
+                            fontFamily: font.Regular,
+                            fontSize: 14,
+                        }} >Tell others what you think</Text>
+                        <TouchableOpacity onPress={toggleModalHandler}>
+                            <View style={{
+                                marginTop: 20
+                            }} >
+                                <Stars
+                                    disabled={true}
+                                    default={YourRatingData.rating == undefined ? 0 : parseInt(YourRatingData.rating)}
+                                    count={5}
+                                    half={false}
+                                    starSize={50}
+                                    fullStar={
+                                        <Image
+                                            source={images.RatingScrren.starImage}
+                                            style={{
+                                                width: 30,
+                                                height: 30,
+                                                marginHorizontal: 20,
+                                                resizeMode: "contain"
+                                            }}
+                                        />
+                                    }
+                                    emptyStar={
+                                        <Image
+                                            source={images.RatingScrren.gray_starImage}
+                                            style={{
+                                                width: 30,
+                                                height: 30,
+                                                marginHorizontal: 20,
+                                                resizeMode: "contain"
+                                            }}
+                                        />
+                                    }
+                                // halfStar={
+                                //     <Icon name={'md-star-half'}
+                                //         size={50}
+                                //         style={[styles.myStarStyle]}
+                                //     />}
+                                />
+                            </View>
                             <Text style={{
-                                color: colors.BlueColor,
-                                fontFamily: font.Regular,
-                                fontSize: 16
-                            }} >Rate Now</Text>
+                                color: colors.GreenColor,
+                                fontFamily: font.Medium,
+                                fontSize: 14,
+                                marginTop: 20
+                            }} >Write a review</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -183,16 +225,16 @@ const ReviewScreen = ({
         return (
             <View style={{
                 // backgroundColor:"red",
-                // marginTop: 20
+                marginTop: 40
             }} >
-                {/* <Text style={{
+                <Text style={{
                     color: colors.BlackColor,
                     fontFamily: font.Medium,
-                    fontSize: 20,
-                    marginLeft: 10
-                }} >Your Rating & Review</Text> */}
+                    fontSize: 18,
+                    marginLeft: 10,
+                }} >Your Rating & Review</Text>
                 <View style={styles.yourRatingAndReview} >
-                    <Text style={styles.studentNameText} >{YourRatingData.student_name}</Text>
+                    <Text style={styles.student_nameText} >{YourRatingData.student_name}</Text>
                     <View style={styles.starView} >
                         <Stars
                             disabled={true}
@@ -239,79 +281,105 @@ const ReviewScreen = ({
                 toggleModal={toggleModal1}
                 toggleModalHandler={toggleModalHandler1}
                 getReviewData={getReviewData}
+                navigation={navigation}
+                from="Favourite"
             />
-            <LoadingComp animating={isLoading} />
             <HeaderComp
                 navigation={navigation}
-                headerText="Review"
+                headerText="Rating & Reviews"
             />
-            <ScrollView>
-                <View style={styles.totalReviewContainer} >
-                    <Text style={styles.avg_rating_text} >{totalRating.avg_rating}</Text>
-                    <View style={styles.startView} >
-                        <Stars
-                            disabled={true}
-                            default={totalRating.avg_rating == undefined ? 0 : parseInt(totalRating.avg_rating)}
-                            count={5}
-                            half={false}
-                            starSize={50}
-                            fullStar={
-                                <Image
-                                    source={images.RatingScrren.starImage}
-                                    style={styles.starStyle}
+            {
+                isLoading ?
+                    <LoadingComp animating={isLoading} />
+                    :
+                    <ScrollView>
+                        <View style={styles.totalReviewContainer} >
+                            <Text style={styles.avg_rating_text} >{totalRating.avg_rating}</Text>
+                            <View style={styles.startView} >
+                                <Stars
+                                    disabled={true}
+                                    default={totalRating.avg_rating == undefined ? 0 : parseInt(totalRating.avg_rating)}
+                                    count={5}
+                                    half={false}
+                                    starSize={50}
+                                    fullStar={
+                                        <Image
+                                            source={images.RatingScrren.starImage}
+                                            style={styles.starStyle}
+                                        />
+                                    }
+                                    emptyStar={
+                                        <Image
+                                            source={images.RatingScrren.gray_starImage}
+                                            style={styles.emptyStar}
+                                        />
+                                    }
+                                // halfStar={
+                                //     <Icon name={'md-star-half'}
+                                //         size={50}
+                                //         style={[styles.myStarStyle]}
+                                //     />}
                                 />
-                            }
-                            emptyStar={
-                                <Image
-                                    source={images.RatingScrren.gray_starImage}
-                                    style={styles.emptyStar}
-                                />
-                            }
-                        // halfStar={
-                        //     <Icon name={'md-star-half'}
-                        //         size={50}
-                        //         style={[styles.myStarStyle]}
-                        //     />}
+                                <Text style={styles.totalRating} >from {totalRating.total_rating} People</Text>
+                            </View>
+                        </View>
+                        {yourRatingAndReview()}
+                        <View style={styles.borderBottom1} />
+                        <Text style={{
+                            color: colors.BlackColor,
+                            fontFamily: font.Medium,
+                            fontSize: 20,
+                            marginLeft: 10,
+                            marginTop: 20
+                        }} >All Rating & Reviews</Text>
+                        <FlatList
+                            renderItem={_renderReviewData}
+                            data={reviewData}
+                            ItemSeparatorComponent={() => {
+                                return (
+                                    <View
+                                        style={styles.rvdSeparater}
+                                    />
+                                )
+                            }}
+                            ListHeaderComponent={() => {
+                                return (
+                                    <View
+                                        style={styles.rvdHeader}
+                                    />
+                                )
+                            }}
+                            ListFooterComponent={() => {
+                                return (
+                                    <View
+                                        style={styles.rvdFooter}
+                                    />
+                                )
+                            }}
+                            ListEmptyComponent={() => {
+                                return (
+                                    <NoDataComp
+                                        imageStyle={{
+                                            width: 200,
+                                            height: 200,
+                                            resizeMode: "contain"
+                                        }}
+                                        viewContainerStyle={{
+                                            flex: 0,
+                                            paddingTop: null
+                                        }}
+                                        textStyle={{
+                                            fontSize: 20,
+                                        }}
+                                        text="All rating and reviews empty"
+                                    />
+                                )
+                            }}
+                            keyExtractor={(item, index) => index.toString()}
                         />
-                        <Text style={styles.totalRating} >from {totalRating.total_rating} People</Text>
-                    </View>
-                </View>
-                <View style={styles.borderbottom} />
-                {yourRatingAndReview()}
-                <View style={styles.borderbottom1} />
-                {/* <Text style={{
-                    color: colors.BlackColor,
-                    fontFamily: font.Medium,
-                    fontSize: 20,
-                    marginLeft: 10,
-                }} >All Rating & Review</Text> */}
-                <FlatList
-                    renderItem={_renderReviewData}
-                    data={reviewData}
-                    ItemSeparatorComponent={() => {
-                        return (
-                            <View
-                                style={styles.rvdSeparater}
-                            />
-                        )
-                    }}
-                    ListHeaderComponent={() => {
-                        return (
-                            <View
-                                style={styles.rvdHeader}
-                            />
-                        )
-                    }}
-                    ListFooterComponent={() => {
-                        return (
-                            <View
-                                style={styles.rvdFooter}
-                            />
-                        )
-                    }}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            </ScrollView>
+                    </ScrollView>
+            }
+
         </View>
     )
 }

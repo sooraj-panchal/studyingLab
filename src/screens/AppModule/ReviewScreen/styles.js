@@ -41,14 +41,14 @@ export default StyleSheet.create({
     },
     borderbottom: {
         borderBottomWidth: 1,
-        borderBottomColor: colors.GrayColor,
+        borderBottomColor: colors.LightGrayColor,
         marginTop: globals.mph5 * 4,// 20,
         marginBottom: globals.mph5 * 2,// 10,
         marginHorizontal: globals.mpw5 * 2,// 20
     },
     borderBottom1: {
         borderBottomWidth: 1,
-        borderBottomColor: colors.GrayColor,
+        borderBottomColor: colors.LightGrayColor,
         marginTop: globals.mph5 * 4,// 20,
         marginBottom: 0,
         marginHorizontal: globals.mpw5 * 2,// 20
@@ -70,7 +70,7 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         marginHorizontal: globals.mpw5 * 4,// 20,
-        marginTop: globals.mph5 * 2,// 10
+        marginTop: globals.mph5 * 4,// 10
     },
     student_nameText: {
         color: colors.BlackColor,

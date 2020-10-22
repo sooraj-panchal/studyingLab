@@ -12,7 +12,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const RatingSuccessModalComp = ({
     toggleModal,
     toggleModalHandler,
-    getReviewData
+    getReviewData,
+    navigation,
 }) => {
     const [ratingData, setRatingData] = useState({})
     const [ratingStar, setRatingStar] = useState(0)
@@ -32,7 +33,8 @@ const RatingSuccessModalComp = ({
         AsyncStorage.multiRemove(["ratingStar", "review"], (err) => {
             console.log(err)
         })
-        getReviewData()
+        navigation.goBack()
+        // getReviewData()
     }
     return (
         <Modal isVisible={toggleModal}

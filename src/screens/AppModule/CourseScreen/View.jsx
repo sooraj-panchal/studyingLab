@@ -5,6 +5,8 @@ import * as images from '../../../assets/images/map';
 import * as globals from './../../../utils/globals';
 import { API } from '../../../utils/api';
 import LoadingComp from '../../../component/LoadingComp';
+import NoDataComp from '../../../component/NoDataComp';
+import NoNeworkComp from '../../../component/NoNetworkComp';
 
 const categoryDatas = [
     {
@@ -60,7 +62,7 @@ const categoryDatas = [
 const HomeScreen = ({
     navigation,
 }) => {
-    const [categoryData, setCategoryData] = useState([]);
+    const [popularCourse, setPopularCourse] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
@@ -71,14 +73,14 @@ const HomeScreen = ({
         let formdata = new FormData();
         formdata.append('token', globals.student_Token);
         setIsLoading(true)
-        API.course(onGetCourseDataResponse, formdata, true)
+        API.popular_course(onGetPopularCourseResponse, formdata, true)
     }
 
 
-    const onGetCourseDataResponse = {
+    const onGetPopularCourseResponse = {
         success: response => {
-            console.log("onGetCourseDataResponse====>", response)
-            setCategoryData(response.data)
+            console.log("onGetPopularCourseResponse====>", response)
+            setPopularCourse(response.data)
             setIsLoading(false)
         },
         error: err => {
@@ -88,17 +90,16 @@ const HomeScreen = ({
         complete: () => { },
     }
 
-    useEffect(() => {
-        setCategoryData(categoryData)
-    }, [])
-
-    const goToNewCourseScreen = () => {
-        navigation.navigate("CourseDetails")
+    const goToNewCourseScreen = (item, index) => {
+        navigation.navigate("CourseDetails", {
+            course_id: item.course_id,
+            course_name: item.name
+        })
     }
 
     const _renderCategoryItem = ({ item, index }) => {
         return (
-            <TouchableOpacity onPress={goToNewCourseScreen} >
+            <TouchableOpacity onPress={() => goToNewCourseScreen(item, index)} >
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
                     source={images.HomeScreen.box_background1Image}
@@ -106,10 +107,10 @@ const HomeScreen = ({
                     <View style={{
                         alignItems: "center"
                     }} >
-                        <Image style={styles.rciCataegoryImage}
+                        {/* <Image style={styles.rciCataegoryImage}
                             source={images.HomeScreen.icon_1Image}
-                        />
-                        <Text style={styles.rciCataegoryName} >{item.cat_name}</Text>
+                        /> */}
+                        <Text style={styles.rciCataegoryName} >{item.name}</Text>
                     </View>
                 </ImageBackground>
             </TouchableOpacity>
@@ -123,7 +124,6 @@ const HomeScreen = ({
 
     return (
         <View style={styles.viewContainer}>
-            <LoadingComp animating={isLoading} />
             <ImageBackground style={styles.headerImagebg}
                 source={images.HomeScreen.backgroundImage}
             >
@@ -145,12 +145,26 @@ const HomeScreen = ({
                     </View>
                 </TouchableOpacity>
             </ImageBackground>
-            <FlatList contentContainerStyle={styles.listCategoryContainer}
-                data={categoryData}
-                renderItem={_renderCategoryItem}
-                numColumns={2}
-                keyExtractor={(item, index) => index.toString()}
-            />
+            {
+                isLoading ?
+                    <LoadingComp animating={isLoading} />
+                    :
+                    globals.isInternetConnected ?
+
+                        <FlatList contentContainerStyle={styles.listCategoryContainer}
+                            data={popularCourse}
+                            renderItem={_renderCategoryItem}
+                            numColumns={2}
+                            keyExtractor={(item, index) => index.toString()}
+                            ListEmptyComponent={() => {
+                                return (
+                                    <NoDataComp
+                                        text="No data found.."
+                                    />
+                                )
+                            }}
+                        /> : <NoNeworkComp onPressButton={getCourseData} />
+            }
         </View>
     )
 }

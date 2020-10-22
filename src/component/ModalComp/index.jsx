@@ -124,7 +124,7 @@ const ModalComp = ({
                 toggleModalHandler()
                 AsyncStorage.setItem("YourGrade", data[0].name)
                 AsyncStorage.setItem("div_id", data[0].div_id)
-                if (from == "login") {
+                if (from == "Login") {
                     globals.student_Token = tokenForRegister
                     navigation.dispatch(AppStack)
                 } else if (from == "Profile") {
@@ -139,7 +139,6 @@ const ModalComp = ({
             },
             complete: () => { },
         }, formdata, true)
-
     }
 
     const onUpdateDivisionResponse = {

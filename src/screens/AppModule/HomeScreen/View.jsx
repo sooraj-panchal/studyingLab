@@ -9,6 +9,8 @@ import * as globals from './../../../utils/globals';
 import { API } from '../../../utils/api';
 import LoadingComp from '../../../component/LoadingComp';
 import AsyncStorage from '@react-native-community/async-storage';
+import NoNeworkComp from '../../../component/NoNetworkComp';
+import NoDataComp from '../../../component/NoDataComp';
 
 const HomeScreen = ({
     navigation,
@@ -27,7 +29,7 @@ const HomeScreen = ({
         } else {
             getCourses()
         }
-    }, [route])
+    }, [route, globals.isInternetConnected])
 
     const getCourses = async () => {
         const div_id = await AsyncStorage.getItem("div_id")
@@ -62,7 +64,7 @@ const HomeScreen = ({
         return (
             <TouchableOpacity onPress={() => goToNewCourseScreen(item, index)}
             //  style={styles.rcTouchable} 
-             >
+            >
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
                     resizeMode="stretch"
@@ -94,10 +96,10 @@ const HomeScreen = ({
 
     return (
         <View style={styles.viewContainer}>
-            <LoadingComp animating={isLoading} />
             <ImageBackground style={styles.headerImagebg}
                 source={images.HomeScreen.backgroundImage}
             >
+
                 <View style={styles.headerContainer} >
                     {/* <View
                         style={{
@@ -136,20 +138,33 @@ const HomeScreen = ({
                     </View>
                 </TouchableOpacity>
             </ImageBackground>
-            {/* {
+            {
+
                 isLoading ?
-                    <LoadingComp animating={isLoading} withoutModal />
-                    : */}
-            <FlatList contentContainerStyle={styles.listCategoryContainer}
-                style={{
-                    // paddingHorizontal:10
-                }}
-                data={MyCourseData}
-                renderItem={_renderCategoryItem}
-                numColumns={2}
-                keyExtractor={(item, index) => index.toString()}
-            />
-            {/* } */}
+                    <LoadingComp animating={isLoading} />
+                    :
+                    globals.isInternetConnected ?
+                        <FlatList contentContainerStyle={styles.listCategoryContainer}
+                            style={{
+                                // paddingHorizontal:10
+                            }}
+                            data={MyCourseData}
+                            renderItem={_renderCategoryItem}
+                            numColumns={2}
+                            keyExtractor={(item, index) => index.toString()}
+                            ListEmptyComponent={() => {
+                                return (
+                                    <NoDataComp
+                                        text="No data found.."
+                                    />
+                                )
+                            }}
+                        />
+                        :
+                        <NoNeworkComp
+                            onPressButton={getCourses}
+                        />
+            }
         </View>
     )
 }
