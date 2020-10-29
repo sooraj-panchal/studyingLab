@@ -282,7 +282,7 @@ const ReviewScreen = ({
                 toggleModalHandler={toggleModalHandler1}
                 getReviewData={getReviewData}
                 navigation={navigation}
-                from="Favourite"
+                from={route.params.from}
             />
             <HeaderComp
                 navigation={navigation}

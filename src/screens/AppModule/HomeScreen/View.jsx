@@ -29,7 +29,7 @@ const HomeScreen = ({
         } else {
             getCourses()
         }
-    }, [route, globals.isInternetConnected])
+    }, [route,])
 
     const getCourses = async () => {
         const div_id = await AsyncStorage.getItem("div_id")

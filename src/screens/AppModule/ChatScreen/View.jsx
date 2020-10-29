@@ -1,5 +1,5 @@
 import React from 'react'
-import { GiftedChat, Bubble, Send, Time, Day, Avatar } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble, Send, Time, Day, Avatar, Composer } from 'react-native-gifted-chat'
 import { View, Text, ActivityIndicator, AsyncStorage } from 'react-native';
 import Ionicans from 'react-native-vector-icons/Ionicons'
 import * as colors from '../../../assets/colors';
@@ -26,11 +26,11 @@ export default class ChatScreen extends React.Component {
         formdata.append('message', text);
         formdata.append('createdAt', new Date().getTime());
         API.add_message(this.onGetMessageSendResponse, formdata, true)
-        // this.setState((previousMessages) => {
-        //     return {
-        //         messages: GiftedChat.append(previousMessages.messages, messages)
-        //     }
-        // })
+        this.setState((previousMessages) => {
+            return {
+                messages: GiftedChat.append(previousMessages.messages, messages)
+            }
+        })
     }
 
     // 2020-10-20T11:00:11.335Z
@@ -38,21 +38,18 @@ export default class ChatScreen extends React.Component {
     onGetMessageSendResponse = {
         success: response => {
             console.log("onGetMessageSendResponse====>", response)
-            const data = response.data.map((item, index) => {
-                item.text = item.message,
-                    item._id = Math.random(1),
-                    item.createdAt = JSON.parse(item.time)
-                item.user = {
-                    _id: item.token == "" ? item.admin_id : item.token
-                }
-                return item
-            })
-            this.setState({
-                messages: data
-            })
-            this.setState({
-                messages: response.data
-            })
+            // const data = response.data.map((item, index) => {
+            //     item.text = item.message,
+            //         item._id = Math.random(1),
+            //         item.createdAt = JSON.parse(item.time)
+            //     item.user = {
+            //         _id: item.token == "" ? item.admin_id : item.token
+            //     }
+            //     return item
+            // })
+            // this.setState({
+            //     messages: data
+            // })
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -182,6 +179,14 @@ export default class ChatScreen extends React.Component {
                         right: 0,
                     }}
                     alwaysShowSend={true}
+                    renderComposer={props => {
+                        return (
+                            <Composer
+                                {...props}
+                                textInputProps={{ keyboardType: 'visible-password' }}
+                            />
+                        )
+                    }}
                     // showUserAvatar={false}
                     renderBubble={props => {
                         return (

@@ -14,6 +14,9 @@ target 'studyinglab' do
 
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'studyinglabTests' do
     inherit! :complete
     # Pods for testing

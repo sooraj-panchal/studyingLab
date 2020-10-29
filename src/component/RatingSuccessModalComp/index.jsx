@@ -14,6 +14,8 @@ const RatingSuccessModalComp = ({
     toggleModalHandler,
     getReviewData,
     navigation,
+    route,
+    from
 }) => {
     const [ratingData, setRatingData] = useState({})
     const [ratingStar, setRatingStar] = useState(0)
@@ -33,8 +35,19 @@ const RatingSuccessModalComp = ({
         AsyncStorage.multiRemove(["ratingStar", "review"], (err) => {
             console.log(err)
         })
-        navigation.goBack()
-        // getReviewData()
+        if (from == "MyCourse") {
+            navigation.navigate("MyCourse", {
+                fromRating: "fromRating"
+            })
+        } else if (from == "Favorite") {
+            navigation.navigate("Favorite", {
+                fromRating: "fromRating"
+            })
+        } else {
+            navigation.navigate("CourseDetails", {
+                fromRating: "fromRating"
+            })
+        }
     }
     return (
         <Modal isVisible={toggleModal}

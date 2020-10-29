@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API } from '../../utils/api';
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, StyleSheet, PermissionsAndroid } from 'react-native';
 import * as globals from '../../utils/globals';
 import * as colors from '../../assets/colors';
 import * as images from '../../assets/images/map';
@@ -12,6 +12,9 @@ import LoadingComp from '../LoadingComp';
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import NoDataComp from '../NoDataComp';
 import NoNeworkComp from '../NoNetworkComp';
+import Swiper from 'react-native-swiper'
+var RNFS = require('react-native-fs');
+import FileViewer from 'react-native-file-viewer';
 
 const CourseListComp = ({
     route,
@@ -26,8 +29,16 @@ const CourseListComp = ({
 
     useEffect(() => {
         // setMyCourseData(MyCourseData)
-        CourseData()
-    }, [from])
+        if (route.params != undefined && route.params.fromRating == "fromRating") {
+                const unsubscribe = navigation.addListener('focus', () => {
+                    // do something
+                    CourseData()
+                });
+                return unsubscribe;
+        } else {
+            CourseData()
+        }
+    }, [from, route])
     const CourseData = () => {
         if (from == "MyCourse") {
             getMyCourses()
@@ -144,12 +155,21 @@ const CourseListComp = ({
     const getenroll_courseResponse = {
         success: response => {
             console.log("getenroll_courseResponse====>", response)
-            getCourses()
-            // setIsLoading(false)
+            if (from == "Favorite") {
+                GetFavoritCourseeData()
+                setIsLoading(false)
+            } else {
+                getCourses()
+            }
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
-            // setIsLoading(false)
+            if (from == 'Favorite') {
+                GetFavoritCourseeData()
+                setIsLoading(false)
+            } else {
+                getCourses()
+            }
         },
         complete: () => { },
     }
@@ -219,7 +239,8 @@ const CourseListComp = ({
 
     const goToReviewScreen = (item, index) => {
         navigation.navigate("Review", {
-            course: item
+            course: item,
+            from: from
         })
     }
 
@@ -234,14 +255,15 @@ const CourseListComp = ({
                     width: globals.mpw5 * 2,// 10,
                     height: globals.mph5 * 2,// 10,
                     borderRadius: 5,
-                    marginHorizontal: 2,
-                    backgroundColor: 'red',
+                    backgroundColor: colors.BlueColor,
                 }}
-                // inactiveDotStyle={{
-                //     // Define styles for inactive dots here
-                // }}
-                inactiveDotOpacity={0.4}
-                inactiveDotScale={0.6}
+                inactiveDotStyle={{
+                    backgroundColor: "lightgrey",
+                    width: globals.mpw5 * 3,// 10,
+                    height: globals.mph5 * 3,// 10,
+                    borderRadius: 7.5,
+                }}
+                inactiveDotOpacity={1}
             />
         )
     }
@@ -270,6 +292,70 @@ const CourseListComp = ({
                 />
             </View>
         )
+    }
+    var uploadBegin = (response) => {
+        var jobId = response.jobId;
+        console.log('UPLOAD HAS BEGUN! JobId: ' + JSON.stringify(jobId));
+    };
+
+    var uploadProgress = (response) => {
+        var percentage = Math.floor((response.bytesWritten / response.contentLength) * 100);
+        console.log('UPLOAD IS ' + percentage + '% DONE!');
+    };
+
+    const generateCertificate = async () => {
+        try {
+            const granted = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            ]);
+        } catch (err) {
+            console.warn(err);
+        }
+        const readGranted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+        const writeGranted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (!readGranted || !writeGranted) {
+            console.log('Read and write permissions have not been granted');
+            return;
+        }
+
+        const url = 'https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4';
+
+        var extension = url.split('/').pop();
+
+        var localFile = `${RNFS.ExternalStorageDirectoryPath}/StudyingLabApp`;
+        RNFS.mkdir(localFile);
+        localFile += `/${extension}`
+        const options = {
+            fromUrl: url,
+            toFile: localFile,
+            begin: uploadBegin,
+            progress: uploadProgress
+        };
+
+        RNFS.downloadFile(options).promise
+            .then((response) => {
+                var percentage = (response.bytesWritten / 9044043) * 100
+                console.log('UPLOAD IS ' + percentage + '% DONE!');
+            })
+            .then(() => {
+                FileViewer.open(localFile)
+            })
+            .catch(error => {
+                console.log("error", error)
+            });
+
+        // var path = `${RNFS.ExternalStorageDirectoryPath}/StudyingLabApp`;
+        // RNFS.mkdir(path);
+        // path += '/data.json';
+        // RNFS.writeFile(path, 'utf8')
+        //     .then((success) => {
+        //         console.log('Success');
+        //         console.log(path)
+        //     })
+        //     .catch((err) => {
+        //         console.log(err.message);
+        //     });
     }
 
     const _renderMyCourseData = ({ item, index }) => {
@@ -321,10 +407,34 @@ const CourseListComp = ({
                         onSnapToItem={(index) => setIsactiveSlide(index)}
                     />
                     <View style={{
+                        position: "absolute",
+                        bottom: -20,
+                        alignSelf: "center"
                     }} >
                         {pagination(item, index)}
                     </View>
                 </View>
+                {/* <View>
+                    <Swiper style={{
+                        height: 300,
+
+                    }} horizontal={true} >
+                        {
+                            item.image.map((item, index) => {
+                                return (
+                                        <Image
+                                            source={{ uri: item.image }}
+                                            style={{
+                                                width: 300,
+                                                height: 300,
+                                                alignSelf: "center"
+                                            }}
+                                        />
+                                )
+                            })
+                        }
+                    </Swiper>
+                </View> */}
                 <Text style={styles.rmcdNewCourseText} >New Course - {item.name}</Text>
                 <View style={styles.likeShareCommentContainer} >
                     <View>
@@ -456,6 +566,18 @@ const CourseListComp = ({
                         onPressButton={() => goToAttendCourse(item, index)}
                         btnTextStyle={styles.btnRightText}
                     />
+                    {/* <ButtonComp
+                        btnStyle={[styles.btnRight, {
+                            backgroundColor: "#f7f7f7",
+                            borderWidth: 0.5,
+                            borderColor: "lightgrey",
+                            elevation: 1
+                        }]}
+                        buttonText={"Generate Certificate"}
+                        // onPressButton={}
+                        onPressButton={() => generateCertificate(item, index)}
+                        btnTextStyle={[styles.btnRightText, { color: "grey" }]}
+                    /> */}
                 </View>
             </View>
         )
