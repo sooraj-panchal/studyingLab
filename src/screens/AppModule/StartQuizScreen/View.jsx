@@ -198,7 +198,7 @@ const StartQuizScreen = ({
                     }
                 </View>
                 {
-                    quizCompleted == "false" ? null :
+                    quizCompleted == "true" ? null :
                         index == quizData.length - 1 &&
                         <View style={styles.showResultbtnContainer} >
                             <ButtonComp

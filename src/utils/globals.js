@@ -51,6 +51,14 @@ export const add_message = 'chat/add_message'
 export const chat = 'chat'
 export const add_request_form = 'student/add_request_form'
 
+export const privacy_policy = 'pages/privacy_policy'
+export const term_condition = 'pages/term_condition'
+export const contact_us = 'pages/contact_us'
+export const about_us = 'pages/about_us'
+export const certification_generate = 'student/certification_generate'
+
+
+
 export const AlertHandler = ({ value, onPress, text1, text2 }) => {
   Alert.alert(
     "StudyingLab",

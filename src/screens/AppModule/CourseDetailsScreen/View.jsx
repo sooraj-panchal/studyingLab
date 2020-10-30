@@ -10,7 +10,7 @@ const CourseDetailsScreen = ({
     route
 }) => {
     return (
-        <View style={styles.viewContainer} >
+        <View style={styles.viewContainer}>
             <HeaderComp
                 navigation={navigation}
                 headerText={route.params.course_name}

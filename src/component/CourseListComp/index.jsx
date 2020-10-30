@@ -3,6 +3,7 @@ import { API } from '../../utils/api';
 import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, StyleSheet, PermissionsAndroid } from 'react-native';
 import * as globals from '../../utils/globals';
 import * as colors from '../../assets/colors';
+import * as font from '../../assets/fonts/fonts';
 import * as images from '../../assets/images/map';
 import Stars from 'react-native-stars';
 import ProgressBar from 'react-native-progress/Bar';
@@ -25,16 +26,14 @@ const CourseListComp = ({
     const [MyCourseData, setMyCourseData] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [updateData, setIsUpdateData] = useState(0);
-    const [activeSlide, setIsactiveSlide] = useState(0);
-
     useEffect(() => {
         // setMyCourseData(MyCourseData)
         if (route.params != undefined && route.params.fromRating == "fromRating") {
-                const unsubscribe = navigation.addListener('focus', () => {
-                    // do something
-                    CourseData()
-                });
-                return unsubscribe;
+            const unsubscribe = navigation.addListener('focus', () => {
+                // do something
+                CourseData()
+            });
+            return unsubscribe;
         } else {
             CourseData()
         }
@@ -59,12 +58,20 @@ const CourseListComp = ({
     const getFavoriteResponse = {
         success: response => {
             console.log("getAddFavoriteResponse====>", response)
-            setMyCourseData(response.data)
+            const data = response.data.map((item, index) => {
+                item.setIndex = 1
+                return item
+            })
+            setMyCourseData(data)
             setIsLoading(false)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
-            setMyCourseData(err.data)
+            const data = err.data.map((item, index) => {
+                item.setIndex = 1
+                return item
+            })
+            setMyCourseData(data)
             setIsLoading(false)
         },
         complete: () => { },
@@ -79,19 +86,6 @@ const CourseListComp = ({
         API.add_favorite(getAddFavoriteResponse, formdata, true);
     }
 
-    // const getAddFavoriteResponse = {
-    //     success: response => {
-    //         console.log("getAddFavoriteResponse====>", response)
-    //         GetFavoritCourseeData()
-    //         setIsLoading(false)
-    //     },
-    //     error: err => {
-    // GetFavoritCourseeData()
-    // console.log('err--->' + JSON.stringify(err))
-    // setIsLoading(false)
-    //     },
-    //     complete: () => { },
-    // }
 
 
     const getMyCourses = () => {
@@ -105,7 +99,11 @@ const CourseListComp = ({
         success: response => {
             console.log("onGetMyCourseResponse====>", response)
             setIsLoading(false)
-            setMyCourseData(response.data)
+            const data = response.data.map((item, index) => {
+                item.setIndex = 1
+                return item
+            })
+            setMyCourseData(data)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -125,7 +123,11 @@ const CourseListComp = ({
         success: response => {
             console.log("onGetCourseResponse====>", response)
             setIsLoading(false)
-            setMyCourseData(response.data)
+            const data = response.data.map((item, index) => {
+                item.setIndex = 1
+                return item
+            })
+            setMyCourseData(data)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -268,7 +270,7 @@ const CourseListComp = ({
         )
     }
 
-    const _renderCourseImages = ({ item, index }, parallaxProps) => {
+    const _renderCourseImages = ({ item, index }, parallaxProps, i) => {
         return (
             <View style={{
                 width: globals.mpw5 * 62,// 310,
@@ -288,12 +290,30 @@ const CourseListComp = ({
                         resizeMode: 'cover',
                     }}
                     parallaxFactor={0.4}
+                    // fadeDuration={0}
                     {...parallaxProps}
                 />
+                {/* <View style={{
+                    // backgroundColor: "white",
+                    paddingHorizontal: 10,
+                    paddingVertical: 5,
+                    borderRadius: 2,
+                    position: "absolute",
+                    right: 10,
+                    top: 5,
+                    // elevation: 2,
+                }} >
+                    <Text style={{
+                        fontSize: 12,
+                        color: "white",
+                        fontFamily: font.Bold
+                    }} >{index + 1}/{i.image.length}</Text>
+                </View> */}
             </View>
         )
     }
     var uploadBegin = (response) => {
+        setIsLoading(true)
         var jobId = response.jobId;
         console.log('UPLOAD HAS BEGUN! JobId: ' + JSON.stringify(jobId));
     };
@@ -303,24 +323,41 @@ const CourseListComp = ({
         console.log('UPLOAD IS ' + percentage + '% DONE!');
     };
 
-    const generateCertificate = async () => {
-        try {
-            const granted = await PermissionsAndroid.requestMultiple([
-                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-            ]);
-        } catch (err) {
-            console.warn(err);
-        }
+    const generateCertificate = (item, index) => {
+        let formdata = new FormData();
+        formdata.append('token', globals.student_Token);
+        formdata.append('course_id', item.course_id);
+        setIsLoading(true)
+        API.certification_generate(onGetGenerateCertificateResponse, formdata, true)
+    }
+    const onGetGenerateCertificateResponse = {
+        success: response => {
+            console.log("onGetGenerateCertificateResponse====>", response)
+            setIsLoading(false)
+            downloadCertificate(response.pdf)
+        },
+        error: err => {
+            console.log('err--->' + JSON.stringify(err))
+            setIsLoading(false)
+        },
+        complete: () => { },
+    }
+
+    const downloadCertificate = async (url) => {
+        // try {
+        //     const granted = await PermissionsAndroid.requestMultiple([
+        //         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        //         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        //     ]);
+        // } catch (err) {
+        //     console.warn(err);
+        // }
         const readGranted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
         const writeGranted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
         if (!readGranted || !writeGranted) {
             console.log('Read and write permissions have not been granted');
             return;
         }
-
-        const url = 'https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4';
-
         var extension = url.split('/').pop();
 
         var localFile = `${RNFS.ExternalStorageDirectoryPath}/StudyingLabApp`;
@@ -335,27 +372,16 @@ const CourseListComp = ({
 
         RNFS.downloadFile(options).promise
             .then((response) => {
-                var percentage = (response.bytesWritten / 9044043) * 100
-                console.log('UPLOAD IS ' + percentage + '% DONE!');
+                console.log('UPLOAD IS 100% DONE!');
             })
             .then(() => {
                 FileViewer.open(localFile)
+                setIsLoading(false)
             })
             .catch(error => {
                 console.log("error", error)
+                setIsLoading(false)
             });
-
-        // var path = `${RNFS.ExternalStorageDirectoryPath}/StudyingLabApp`;
-        // RNFS.mkdir(path);
-        // path += '/data.json';
-        // RNFS.writeFile(path, 'utf8')
-        //     .then((success) => {
-        //         console.log('Success');
-        //         console.log(path)
-        //     })
-        //     .catch((err) => {
-        //         console.log(err.message);
-        //     });
     }
 
     const _renderMyCourseData = ({ item, index }) => {
@@ -390,7 +416,6 @@ const CourseListComp = ({
         }
         // if(item.favorite_flag == )
 
-
         return (
             <View style={styles.rmcdCardView} >
                 <View>
@@ -400,41 +425,40 @@ const CourseListComp = ({
                         sliderHeight={globals.mph5 * 64} // {320}
                         itemWidth={globals.mpw5 * 64} //{320}
                         data={item.image}
-                        renderItem={_renderCourseImages}
+                        renderItem={(items, index) => _renderCourseImages(items, index, item)}
                         hasParallaxImages={true}
                         swipeThreshold={0}
                         activeAnimationOptions={null}
-                        onSnapToItem={(index) => setIsactiveSlide(index)}
+                        onSnapToItem={(key) => {
+                            item.setIndex = key + 1
+                            setIsUpdateData(updateData + 1)
+                        }}
+
+
                     />
-                    <View style={{
+                    {/* <View style={{
                         position: "absolute",
                         bottom: -20,
                         alignSelf: "center"
                     }} >
                         {pagination(item, index)}
+                    </View> */}
+                    <View style={{
+                        position: "absolute",
+                        right: 20,
+                        top: 10,
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        borderRadius: 15,
+                        backgroundColor: "rgba(0,0,0,0.3)"
+                    }} >
+                        <Text style={{
+                            fontSize: 10,
+                            color: "white",
+                            fontFamily: font.Bold,
+                        }} >{item.setIndex}/{item.image.length}</Text>
                     </View>
                 </View>
-                {/* <View>
-                    <Swiper style={{
-                        height: 300,
-
-                    }} horizontal={true} >
-                        {
-                            item.image.map((item, index) => {
-                                return (
-                                        <Image
-                                            source={{ uri: item.image }}
-                                            style={{
-                                                width: 300,
-                                                height: 300,
-                                                alignSelf: "center"
-                                            }}
-                                        />
-                                )
-                            })
-                        }
-                    </Swiper>
-                </View> */}
                 <Text style={styles.rmcdNewCourseText} >New Course - {item.name}</Text>
                 <View style={styles.likeShareCommentContainer} >
                     <View>
@@ -557,27 +581,32 @@ const CourseListComp = ({
                                 }]}
                             />
                     }
-                    <ButtonComp
-                        btnStyle={[styles.btnRight, {
-                            backgroundColor: backgroundColor
-                        }]}
-                        buttonText={enrollText}
-                        // onPressButton={}
-                        onPressButton={() => goToAttendCourse(item, index)}
-                        btnTextStyle={styles.btnRightText}
-                    />
-                    {/* <ButtonComp
-                        btnStyle={[styles.btnRight, {
-                            backgroundColor: "#f7f7f7",
-                            borderWidth: 0.5,
-                            borderColor: "lightgrey",
-                            elevation: 1
-                        }]}
-                        buttonText={"Generate Certificate"}
-                        // onPressButton={}
-                        onPressButton={() => generateCertificate(item, index)}
-                        btnTextStyle={[styles.btnRightText, { color: "grey" }]}
-                    /> */}
+                    {item.total_course_progress == 100
+                        ?
+                        <ButtonComp
+                            btnStyle={[styles.btnRight, {
+                                backgroundColor: "#f7f7f7",
+                                borderWidth: 0.5,
+                                borderColor: "lightgrey",
+                                elevation: 1
+                            }]}
+                            buttonText={"Generate Certificate"}
+                            // onPressButton={}
+                            onPressButton={() => generateCertificate(item, index)}
+                            btnTextStyle={[styles.btnRightText, { color: "grey" }]}
+                        />
+                        :
+                        <ButtonComp
+                            btnStyle={[styles.btnRight, {
+                                backgroundColor: backgroundColor
+                            }]}
+                            buttonText={enrollText}
+                            // onPressButton={}
+                            onPressButton={() => goToAttendCourse(item, index)}
+                            btnTextStyle={styles.btnRightText}
+                        />
+                    }
+
                 </View>
             </View>
         )

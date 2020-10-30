@@ -26,6 +26,7 @@ import ReviewScreen from '../screens/AppModule/ReviewScreen/View';
 import SelectChapterScreen from '../screens/AppModule/SelectChapterScreen/View';
 import ChatScreen from '../screens/AppModule/ChatScreen/View';
 import FavoriteScreen from '../screens/AppModule/FavoriteScreen/View';
+import PrivacyPolicyScreen from '../screens/AppModule/PrivacyPolicyScreen/View';
 
 const Tab = createBottomTabNavigator();
 
@@ -143,9 +144,16 @@ const AppStackScreen = () => (
         headerShown: false,
       }}
     />
-        <StackScreen.Screen
+    <StackScreen.Screen
       name="Chat"
       component={ChatScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <StackScreen.Screen
+      name="PrivacyPolicy"
+      component={PrivacyPolicyScreen}
       options={{
         headerShown: false,
       }}
@@ -323,7 +331,7 @@ const TabBarStackScreen = ({ navigation }) => (
   <Tab.Navigator
     screenOptions={({ route, state, navigation }) => ({
       // unmountOnBlur: true,
-      
+
     })}
     // screenOptions={({ route, state, navigation }) => ({
     //   unmountOnBlur: true,
@@ -463,7 +471,7 @@ const TabBarStackScreen = ({ navigation }) => (
           e.preventDefault()
           navigation.navigate("RequestForm")
         },
-        
+
       }}
       component={AddScreen} />
     <Tab.Screen name="Search" component={SearchScreen} />

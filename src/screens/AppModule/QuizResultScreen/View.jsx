@@ -158,7 +158,7 @@ const QuizResultScreen = ({
             /> */}
                         {setResultWiseRendering()}
                         <View style={styles.btnMainContainer} >
-                            {showGenerateCertificateButton()}
+                            {/* {showGenerateCertificateButton()} */}
                             <TouchableOpacity style={styles.btnBackToHome} activeOpacity={0.8} onPress={goToHomeScreen} >
                                 <Image
                                     source={images.backIcon}

@@ -107,9 +107,22 @@ export const API = {
   },
   popular_course: (onResponse, data, isHeaderRequired) => {
     request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.popular_course, buildHeaderFormData());
+  },
+  privacy_policy: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.privacy_policy, buildHeaderFormData());
+  },
+  term_condition: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.term_condition, buildHeaderFormData());
+  },
+  about_us: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.about_us, buildHeaderFormData());
+  },
+  contact_us: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.contact_us, buildHeaderFormData());
+  },
+  certification_generate: (onResponse, data, isHeaderRequired) => {
+    request(onResponse, data, "POST", "JSON", isHeaderRequired, globals.mainUrl + globals.certification_generate, buildHeaderFormData());
   }
-
-
 };
 
 export const buildHeader = (headerParams = {}) => {

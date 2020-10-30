@@ -121,18 +121,18 @@ const AttendCourseScreen = ({
                     </Text> */}
 
                     {
-                        quizStart == "true" ? null :
+                        quizStart == "true" &&
                             index == attendCourseData.length - 1 && quiz !== null ?
-                                // quiz.percentage !== "" ? null :
-                                <View style={styles.btnContainer} >
-                                    <ButtonComp
-                                        onPressButton={goToStartQuiz}
-                                        buttonText="Start Quiz"
-                                        from="fromSignup"
-                                        btnStyle={styles.btnnStyle}
-                                    />
-                                </View>
-                                : null
+                            // quiz.percentage !== "" ? null :
+                            <View style={styles.btnContainer} >
+                                <ButtonComp
+                                    onPressButton={goToStartQuiz}
+                                    buttonText="Start Quiz"
+                                    from="fromSignup"
+                                    btnStyle={styles.btnnStyle}
+                                />
+                            </View>
+                            : null
                     }
                 </ScrollView>
             </View>

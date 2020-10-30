@@ -68,23 +68,20 @@ const ProfileScreen = ({
         toggleModalHandler()
         setIsGetClassData(true)
     }
+    const goToPrivacyPolicy = () => {
+        navigation.navigate("PrivacyPolicy")
+
+    }
     const LogoutHandler = () => {
-        Alert.alert(
-            "StudyingLab",
-            "Are you sure want to logout?",
-            [
-                {
-                    text: "No",
-                    style: "No"
-                },
-                {
-                    text: "yes", onPress: () => AsyncStorage.clear(() => {
-                        navigation.dispatch(AuthStack)
-                        getProfileWatcher(null)
-                    })
-                }
-            ],
-            { cancelable: false })
+        globals.AlertHandler({
+            value:"Are you sure you want to logout?",
+            text1: "No",
+            text2: "yes",
+            onPress: () => AsyncStorage.clear(() => {
+                navigation.dispatch(AuthStack)
+                getProfileWatcher(null)
+            })
+        })
     }
     return (
         <View style={styles.viewContainer}>
@@ -152,6 +149,10 @@ const ProfileScreen = ({
                                     text2={getGrade}
                                     from="Grade"
                                     onPressTouch={editGradeHandler}
+                                />
+                                <TouchableComp
+                                    text1="Privacy Policy"
+                                    onPressTouch={goToPrivacyPolicy}
                                 />
                                 <View style={styles.btnStyle} >
                                     <ButtonComp
