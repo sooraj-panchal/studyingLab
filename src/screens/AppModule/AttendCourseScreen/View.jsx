@@ -37,13 +37,15 @@ const AttendCourseScreen = ({
 }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [attendCourseData, setAttendCourseData] = useState([]);
-    const [index, setIndex] = useState(0)
+    const [index, setIndex] = useState(1)
     const [quiz, setQuiz] = useState({})
     const [quizStart, setQuizStart] = useState("")
     useEffect(() => {
         // setAttendCourseData(attendCourseData)
-        getCourseDetailsData()
-    }, [])
+        if (route) {
+            getCourseDetailsData()
+        }
+    }, [route])
 
     const getCourseDetailsData = () => {
         let formdata = new FormData();
@@ -57,12 +59,14 @@ const AttendCourseScreen = ({
         success: response => {
             console.log("onGetCourseDetailsResponse====>", response)
             setAttendCourseData(response.data.course_data)
+            setIndex(1)
             setQuiz(response.data.quiz)
             setQuizStart(response.data.quiz_flag)
             setIsLoading(false)
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
+            setAttendCourseData(err.data)
             setIsLoading(false)
         },
         complete: () => { },
@@ -82,7 +86,7 @@ const AttendCourseScreen = ({
                 <ScrollView contentContainerStyle={{
                     paddingBottom: globals.mph5 * 4,// 20
                 }} >
-                    {
+                    {/* {
                         index == 0
                         &&
                         <>
@@ -92,12 +96,13 @@ const AttendCourseScreen = ({
                                 source={images.CourseDetailsScreen.image1Image}
                             />
                             <View style={styles.chapterContainer} >
-                                <Text style={styles.chapterText} >Chapter 1 - Maths</Text>
+                                <Text style={styles.chapterText} >{route.params.chapter_name}</Text>
                             </View>
                         </>
-                    }
+                    } */}
                     <View style={{
                         alignSelf: "center",
+                        // marginTop: index == 0 ? 10 : null,
                         width: globals.mpw5 * 64,// 320,
                     }} >
                         <HTML html={item.description} imagesMaxWidth={
@@ -121,7 +126,7 @@ const AttendCourseScreen = ({
                     </Text> */}
 
                     {
-                        quizStart == "true" &&
+                        quizStart == "false" &&
                             index == attendCourseData.length - 1 && quiz !== null ?
                             // quiz.percentage !== "" ? null :
                             <View style={styles.btnContainer} >
@@ -161,22 +166,9 @@ const AttendCourseScreen = ({
                                     source={images.backIcon}
                                 />
                             </TouchableOpacity>
-                            <Text style={styles.paginationCountText} >{index + 1}/{attendCourseData.length}</Text>
-                            <View
-                                style={styles.emptyView}
-                            />
+                            <Text style={styles.chapterText} >{route.params.chapter_name}</Text>
+                            <Text style={styles.paginationCountText} >{index}/{attendCourseData.length}</Text>
                         </View>
-                        {/* <FlatList
-                data={attendCourseData}
-                renderItem={_renderAttendCourseData}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-
-                onViewableItemsChanged={onViewableItemsChanged}
-                viewabilityConfig={{
-                    itemVisiblePercentThreshold: 50
-                }}
-            /> */}
                         <Carousel
                             // ref={(c) => { this._carousel = c; }}
                             data={attendCourseData}
@@ -188,7 +180,7 @@ const AttendCourseScreen = ({
                             // }}
                             // onViewableItemsChanged={onViewableItemsChanged}
                             onSnapToItem={(slideIndex) => {
-                                setIndex(slideIndex)
+                                setIndex(slideIndex + 1)
                             }}
                         />
                     </>

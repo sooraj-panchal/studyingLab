@@ -66,13 +66,19 @@ export default StyleSheet.create({
     rcibgStyle: {
         width: globals.mpw5 * 33, // 165,
         height: globals.mph5 * 30,//  150,
-        // elevation: 5,
-        // backgroundColor: "white",
-        // borderRadius: 5,
         marginLeft: globals.mpw5 * 2, // 5,
         marginVertical: globals.mph5, // 5,
-        justifyContent: "center",
+        // justifyContent: "center",
+        // opacity: 0.8
         // alignItems: "center"
+    },
+    rcibgVIew: {
+        width: globals.mpw5 * 33, // 165,
+        height: globals.mph5 * 30,//  150,
+        backgroundColor: "rgba(0,0,0,0.7)",
+        borderRadius: 5,
+        justifyContent: "center",
+        alignItems: "center",
     },
     rciCataegoryImage: {
         width: globals.mpw5 * 12, // 60,
@@ -80,7 +86,10 @@ export default StyleSheet.create({
         resizeMode: "contain"
     },
     rciCataegoryName: {
-        color:"white",
+        color: "white",
+        // backgroundColor: "black",
+        // opacity: 0.8,
+        // padding: 10,
         fontSize: globals.font_20, // 16,
         fontFamily: font.Bold,
         marginTop: globals.mph5, // 5

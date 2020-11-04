@@ -24,12 +24,13 @@ function updateProfileApi(data) {
 
 function* updateProfileActionEffect(action) {
     try {
-        yield put(showLoader());
         const response = yield call(updateProfileApi, action);
         console.log("======>get update Profile Response ", response)
         // if (response.data.status_code === 200) {
         yield put(updateProfileSuccess(response.data));
-        yield put(getProfileWatcher())
+        yield put(getProfileWatcher({
+            token: globals.student_Token
+        }))
         // } else {
         //     showErrorMessage(response.data.payload.msg);
         //     yield put(forgotPasswordError(response.data));
@@ -38,8 +39,6 @@ function* updateProfileActionEffect(action) {
         // const error = responseError(e);
         console.log("=====>get updateProfile Error", e)
         yield put(updateProfileError(e));
-    } finally {
-        yield put(hideLoader());
     }
 }
 export function* updateProfileWatcher() {

@@ -16,16 +16,19 @@ import NoNeworkComp from '../NoNetworkComp';
 import Swiper from 'react-native-swiper'
 var RNFS = require('react-native-fs');
 import FileViewer from 'react-native-file-viewer';
+import ToastComp from '../ToastComp';
 
 const CourseListComp = ({
     route,
     navigation,
     from
 }) => {
-
     const [MyCourseData, setMyCourseData] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [updateData, setIsUpdateData] = useState(0);
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
+
     useEffect(() => {
         // setMyCourseData(MyCourseData)
         if (route.params != undefined && route.params.fromRating == "fromRating") {
@@ -192,6 +195,7 @@ const CourseListComp = ({
             console.log("getAddFavoriteResponse====>", response)
             // getCourses()
             // setIsLoading(false)
+            setSuccessMessage(response.message)
             if (from == 'Favorite') {
                 GetFavoritCourseeData()
                 setIsLoading(false)
@@ -199,6 +203,7 @@ const CourseListComp = ({
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
+            setErrorMessage(err.message)
             if (from == 'Favorite') {
                 GetFavoritCourseeData()
                 setIsLoading(false)
@@ -287,7 +292,7 @@ const CourseListComp = ({
                     }}
                     style={{
                         ...StyleSheet.absoluteFillObject,
-                        resizeMode: 'cover',
+                        resizeMode: "contain",
                     }}
                     parallaxFactor={0.4}
                     // fadeDuration={0}
@@ -344,14 +349,14 @@ const CourseListComp = ({
     }
 
     const downloadCertificate = async (url) => {
-        // try {
-        //     const granted = await PermissionsAndroid.requestMultiple([
-        //         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        //         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        //     ]);
-        // } catch (err) {
-        //     console.warn(err);
-        // }
+        try {
+            const granted = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            ]);
+        } catch (err) {
+            console.warn(err);
+        }
         const readGranted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
         const writeGranted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
         if (!readGranted || !writeGranted) {
@@ -433,8 +438,6 @@ const CourseListComp = ({
                             item.setIndex = key + 1
                             setIsUpdateData(updateData + 1)
                         }}
-
-
                     />
                     {/* <View style={{
                         position: "absolute",
@@ -613,7 +616,9 @@ const CourseListComp = ({
     }
 
     return (
-        <View>
+        <View style={{
+            flex: 1
+        }} >
             {
 
                 isLoading ?
@@ -655,6 +660,16 @@ const CourseListComp = ({
                         />
                         : <NoNeworkComp onPressButton={CourseData} />
             }
+            <ToastComp
+                type={"success"}
+                message={successMessage}
+                onDismiss={() => { setSuccessMessage("") }}
+            />
+            <ToastComp
+                type={"error"}
+                message={errorMessage}
+                onDismiss={() => { setErrorMessage("") }}
+            />
         </View>
     )
 }

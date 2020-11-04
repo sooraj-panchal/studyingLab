@@ -20,8 +20,6 @@ const ProfileScreen = ({
     const [toggleModal, setIsToggleModal] = useState(false);
     const [getClassData, setIsGetClassData] = useState(false)
     const [getGrade, setIsGetGrade] = useState("")
-    const [name, setIsName] = useState("")
-    const [email, setIsEmail] = useState("")
 
     const toggleModalHandler = () => {
         setIsToggleModal(!toggleModal);
@@ -29,16 +27,11 @@ const ProfileScreen = ({
 
     useEffect(() => {
         getProfileData()
-    }, [userDetails])
+    }, [])
     const getProfileData = () => {
-        if (userDetails) {
-            setIsName(userDetails.name)
-            setIsEmail(userDetails.email)
-        } else {
-            getProfileWatcher({
-                token: globals.student_Token
-            })
-        }
+        getProfileWatcher({
+            token: globals.student_Token
+        })
         updateGradeAsync()
     }
 
@@ -74,7 +67,7 @@ const ProfileScreen = ({
     }
     const LogoutHandler = () => {
         globals.AlertHandler({
-            value:"Are you sure you want to logout?",
+            value: "Are you sure you want to logout?",
             text1: "No",
             text2: "yes",
             onPress: () => AsyncStorage.clear(() => {
@@ -121,12 +114,12 @@ const ProfileScreen = ({
                                     </View>
                                     <View style={styles.nameContainer} >
                                         <Text style={styles.helloText} > Hello, </Text>
-                                        <Text style={styles.nameText} >{name}</Text>
+                                        <Text style={styles.nameText} >{userDetails && userDetails.name}</Text>
                                     </View>
                                 </ImageBackground>
                                 <TouchableComp TouchableForEmail
                                     text1="Email"
-                                    text2={email}
+                                    text2={userDetails && userDetails.email}
                                 />
                                 <TouchableComp
                                     text1="My Course"

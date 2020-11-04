@@ -13,7 +13,7 @@ export default StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        paddingHorizontal: globals.mpw5 * 2,// 10
+        paddingHorizontal: globals.mpw5 * 3,// 10
     },
     backIcon: {
         width: globals.mpw5 * 4,// 20,
@@ -23,7 +23,10 @@ export default StyleSheet.create({
     paginationCountText: {
         fontSize: globals.font_18,// 18,
         color: "white",
-        fontFamily: font.Regular,
+        fontFamily: font.Bold,
+        // textAlign:"right"
+        // position:"absolute",
+        // right:15
     },
     emptyView: {
         width: globals.mpw5 * 4,// 20
@@ -47,13 +50,13 @@ export default StyleSheet.create({
         marginTop: globals.mph5,// 5
     },
     chapterContainer: {
-        marginLeft: globals.mpw5 * 2,// 10,
-        marginTop: globals.mph5 * 2,// 10
+        // marginLeft: globals.mpw5 * 3,// 10,
+        // marginTop: globals.mph5 * 2,// 10
     },
     chapterText: {
         fontSize: globals.font_20,// 20,
         fontFamily: font.Medium,
-        color: colors.BlackColor
+        color: "white"
     },
     longText: {
         fontSize: globals.font_15,// 15,

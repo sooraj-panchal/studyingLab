@@ -16,17 +16,16 @@ const StartQuizScreen = ({
     route
 }) => {
 
-    const goToQuizResultScreen = () => {
-        navigation.navigate("QuizResult", {
-            quiz_id: route.params.quiz.quiz_id,
-        })
-    }
+    // const goToQuizResultScreen = () => {
+    //     navigation.navigate("QuizResult", {
+    //         quiz_id: route.params.quiz.quiz_id,
+    //     })
+    // }
     const [isLoading, setIsLoading] = useState(false)
     const [dotsData, setDotsData] = useState([]);
     const [quizData, setQuizData] = useState([]);
     const [quizindex, setQuizIndex] = useState(0)
     const [errorMessage, setErrorMessage] = useState("")
-    const [quizCompleted, setQuizCompleted] = useState("")
 
     useEffect(() => {
         getQuizData()
@@ -45,7 +44,13 @@ const StartQuizScreen = ({
         success: response => {
             console.log("onGetQuizDataResponseResponse====>", response)
             setQuizData(response.data)
-            setQuizCompleted(response.quiz_complete)
+            if (response.quiz_complete == "true") {
+                setTimeout(() => {
+                    navigation.navigate("QuizResult", {
+                        quiz_id: route.params.quiz.quiz_id,
+                    })
+                }, 1000);
+            }
             // setAttendCourseData(response.data)
             const LEN = response.data.length;
             const arr = [];
@@ -77,7 +82,7 @@ const StartQuizScreen = ({
                         console.log("onGetQuizAnswerResponse====>", response)
                         // i.correct = response.da.ta.correct
                         setIsLoading(false)
-                        item.stu_ans_arr.correct_ans = "true"
+                        // item.stu_ans_arr.correct_ans = "true"
                         getQuizData()
                     },
                     error: err => {
@@ -94,9 +99,8 @@ const StartQuizScreen = ({
                         console.log("onGetQuizAnswerResponse====>", response)
                         // i.correct = response.da.ta.correct
                         setIsLoading(false)
-                        item.stu_ans_arr.correct_ans = "false"
+                        // item.stu_ans_arr.correct_ans = "false"
                         getQuizData()
-
                     },
                     error: err => {
                         console.log('err--->' + JSON.stringify(err))
@@ -197,8 +201,8 @@ const StartQuizScreen = ({
                         })
                     }
                 </View>
-                {
-                    quizCompleted == "true" ? null :
+                {/* {
+                    quizCompleted == "false" ? null :
                         index == quizData.length - 1 &&
                         <View style={styles.showResultbtnContainer} >
                             <ButtonComp
@@ -208,7 +212,7 @@ const StartQuizScreen = ({
                                 btnStyle={styles.showResultbtnStyle}
                             />
                         </View>
-                }
+                } */}
             </View>
         )
     }

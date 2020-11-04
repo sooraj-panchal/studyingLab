@@ -108,6 +108,6 @@ export default StyleSheet.create({
         color: "white",
         fontSize: globals.font_20,// 20,
         fontFamily: font.Bold,
-        marginLeft: globals.mpw5 * 3, // 15,
+        marginHorizontal: globals.mpw5 * 3, // 15,
     }
 })

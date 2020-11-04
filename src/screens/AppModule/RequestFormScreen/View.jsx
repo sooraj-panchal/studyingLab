@@ -8,12 +8,16 @@ import ButtonComp from "../../../component/ButtonComp";
 import { API } from "../../../utils/api";
 import * as globals from "../../../utils/globals";
 import LoadingComp from "../../../component/LoadingComp";
+import ImagePicker from 'react-native-image-picker';
+
 const RequestFormScreen = ({
     navigation
 }) => {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [loading, setIsLoading] = useState(false)
+    const [imageUri, setImageUri] = useState("")
+
 
 
     const goToSubmitRequestFormScreen = async () => {
@@ -24,6 +28,11 @@ const RequestFormScreen = ({
             })
         } else {
             let formdata = new FormData();
+            formdata.append('image', {
+                uri: imageUri,
+                name: 'my_photo.jpg',
+                type: 'image/jpg'
+            })
             formdata.append('token', globals.student_Token);
             formdata.append('title', title);
             formdata.append('description', description);
@@ -43,6 +52,38 @@ const RequestFormScreen = ({
         },
         complete: () => { },
     }
+    const options = {
+        title: 'Select Image',
+        // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+        storageOptions: {
+            skipBackup: true,
+            path: 'images',
+        },
+    };
+
+    const imagePickHandler = () => {
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                // const source = { uri: response.uri };
+                setImageUri(response.uri)
+
+                // You can also display the image using data:
+                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                // this.setState({
+                //     avatarSource: source,
+                // });
+            }
+        });
+    }
+
+
     return (
         <View style={styles.viewContainer} >
             <LoadingComp animating={loading} />
@@ -101,7 +142,7 @@ const RequestFormScreen = ({
                     value={description}
                     onChangeText={(description) => setDescription(description)}
                 />
-                {/* <View style={{
+                <TouchableOpacity style={{
                     marginHorizontal: 15,
                     height: 50,
                     backgroundColor: "white",
@@ -114,12 +155,14 @@ const RequestFormScreen = ({
                     justifyContent: "space-between",
                     paddingHorizontal: 10
                 }}
+                    onPress={imagePickHandler}
                 >
                     <Text style={{
                         fontSize: 14,
                         color: "lightgrey",
-                        fontFamily: font.Medium
-                    }} >Attach file or image</Text>
+                        fontFamily: font.Medium,
+                        maxWidth: 250
+                    }} numberOfLines={2} >{imageUri ? imageUri : "Attach image"}</Text>
                     <Image
                         style={{
                             width: 35,
@@ -127,7 +170,7 @@ const RequestFormScreen = ({
                         }}
                         source={images.RequestFormScreen.attachImage}
                     />
-                </View> */}
+                </TouchableOpacity>
             </View>
             <View style={{
                 marginTop: 30,

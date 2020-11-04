@@ -22,129 +22,93 @@ const EditProfileScreen = ({
     updateProfile,
     updateProfileWatcher
 }) => {
-
-    // const [isLoading, setIsLoading] = useState(false)
-    const [name, setIsName] = useState(userDetails !== null ? userDetails.name : "")
-    const [email, setIsEmail] = useState(userDetails !== null ? userDetails.email : "")
-
     useEffect(() => {
-        updateProfileWatcher(null)
         if (updateProfile) {
-            navigation.navigate("Profile")
+            navigation.goBack()
         }
     }, [updateProfile])
 
-    // const onget_profileResponse = {
-    //     success: response => {
-    //         console.log("onget_profileResponse====>", response)
-    //         setIsEmail(response.data.email)
-    //         setIsName(response.data.name)
-    //         setIsLoading(false)
-    //     },
-    //     error: err => {
-    //         console.log('err--->' + JSON.stringify(err))
-    //         setIsLoading(false)
-    //     },
-    //     complete: () => { },
-    // }
-
     const EditProfileHandler = (values) => {
-        // navigation.navigate("CheckYourEmail")
-        // console.log(values)
-        // let formdata = new FormData();
-        // formdata.append('token', globals.student_Token);
-        // formdata.append('name', values.userName);
         updateProfileWatcher({
             token: globals.student_Token,
             name: values.userName
         })
-        // getProfile(null)
-        // setIsLoading(true)
-        // API.update_profile(onGetUpdateProfileResponse, formdata, true)
     }
-
-    // const onGetUpdateProfileResponse = {
-    //     success: response => {
-    //         console.log("onGetUpdateProfileResponse====>", response)
-    //         AsyncStorage.setItem("name", response.data.name)
-    //         setIsLoading(false)
-    //     },
-    //     error: err => {
-    //         console.log('err--->' + JSON.stringify(err))
-    //         setIsLoading(false)
-    //     },
-    //     complete: () => { },
-    // }
 
     const goToResetPasswordScreen = () => {
         navigation.navigate("ResetPassword")
     }
     return (
         <View style={styles.viewContainer}>
-            {/* <LoadingComp animating={isLoading} /> */}
-            <Formik
-                initialValues={{ userName: name, email: email }}
-                enableReinitialize={true}
-                onSubmit={values => EditProfileHandler(values)}
-                validationSchema={yup.object().shape({
-                    userName: yup
-                        .string()
-                        .min(5)
-                        .required('Name is required field'),
-                    email: yup
-                        .string()
-                        .email()
-                        .required("Email is must be required"),
-                })}
-            >
-                {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
-                    <>
-                        <ImageBackground style={styles.backgroundImage}
-                            source={images.ForgotPasswordScreen.backgroundImage}
-                        >
-                            <BackImageComp
-                                onPressBackImage={() => {
-                                    navigation.goBack()
-                                }}
-                            />
-                            <View style={styles.imageLogoContainer} >
-                                <Image
-                                    style={styles.logoImage}
-                                    source={images.EditProfileScreen.editprofileImage}
+
+            <LoadingComp animating={isLoading} />
+            {
+                userDetails &&
+                <Formik
+                    initialValues={{ userName: userDetails.name, email: userDetails.email }}
+                    enableReinitialize={true}
+                    onSubmit={values => EditProfileHandler(values)}
+                    validationSchema={yup.object().shape({
+                        userName: yup
+                            .string()
+                            .min(5)
+                            .required('Name is required field'),
+                        email: yup
+                            .string()
+                            .email()
+                            .required("Email is must be required"),
+                    })}
+                >
+                    {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
+                        <>
+                            <ImageBackground style={styles.backgroundImage}
+                                source={images.ForgotPasswordScreen.backgroundImage}
+                            >
+                                <BackImageComp
+                                    onPressBackImage={() => {
+                                        navigation.goBack()
+                                    }}
                                 />
-                                <Text style={styles.editProfileText} >Edit Profile</Text>
+                                <View style={styles.imageLogoContainer} >
+                                    <Image
+                                        style={styles.logoImage}
+                                        source={images.EditProfileScreen.editprofileImage}
+                                    />
+                                    <Text style={styles.editProfileText} >Edit Profile</Text>
+                                </View>
+                            </ImageBackground>
+                            <View style={styles.cardView} >
+                                <TextInputComp
+                                    placeholder="user Name"
+                                    from="Edit Profile"
+                                    value={values.userName}
+                                    onChangeText={handleChange("userName")}
+                                    onBlur={() => setFieldTouched('userName')}
+                                    touched={touched.userName}
+                                    errors={errors.userName}
+                                />
+                                <TextInputComp
+                                    placeholder="Email"
+                                    value={values.email}
+                                    onChangeText={handleChange("email")}
+                                    onBlur={() => setFieldTouched('email')}
+                                    touched={touched.email}
+                                    errors={errors.email}
+                                    editable={false}
+                                />
                             </View>
-                        </ImageBackground>
-                        <View style={styles.cardView} >
-                            <TextInputComp
-                                placeholder="user Name"
-                                from="Edit Profile"
-                                value={values.userName}
-                                onChangeText={handleChange("userName")}
-                                onBlur={() => setFieldTouched('userName')}
-                                touched={touched.userName}
-                                errors={errors.userName}
-                            />
-                            <TextInputComp
-                                placeholder="Email"
-                                value={values.email}
-                                onChangeText={handleChange("email")}
-                                onBlur={() => setFieldTouched('email')}
-                                touched={touched.email}
-                                errors={errors.email}
-                                editable={false}
-                            />
-                        </View>
-                        <View style={styles.btnStyle} >
-                            <ButtonComp
-                                onPressButton={handleSubmit}
-                                buttonText="Save"
-                                from="fromSignup"
-                            />
-                        </View>
-                    </>
-                )}
-            </Formik>
+                            <View style={styles.btnStyle} >
+                                <ButtonComp
+                                    onPressButton={handleSubmit}
+                                    buttonText="Save"
+                                    from="fromSignup"
+                                />
+                            </View>
+                        </>
+                    )}
+                </Formik>
+            }
+
             <TouchableOpacity style={styles.changePasswordTouchable}
                 onPress={goToResetPasswordScreen}
             >

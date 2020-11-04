@@ -1,8 +1,8 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as globals from '../../utils/globals'
 import * as actionTypes from "../../store/actionTypes";
-import { 
-    showLoader, hideLoader, getProfileSuccess, getProfileError
+import {
+    showLoader, hideLoader, getProfileSuccess, getProfileError, updateProfileWatcher
 } from "../../store/actions";
 
 function getProfileAapi(data) {
@@ -22,12 +22,16 @@ function getProfileAapi(data) {
 
 
 function* getProfileActionEffect(action) {
+    // let variable = {
+    //     ...action.payload
+    // }
     try {
-        yield put(showLoader());
+        // yield put(showLoader());
         const response = yield call(getProfileAapi, action);
         console.log("======>getProfile Response ", response)
         // if (response.data.status_code === 200) {
-        yield put(getProfileSuccess(response.data));
+        yield put(getProfileSuccess(response.data)),
+            yield put(updateProfileWatcher(null))
         // } else {
         //     showErrorMessage(response.data.payload.msg);
         //     yield put(forgotPasswordError(response.data));
@@ -36,8 +40,6 @@ function* getProfileActionEffect(action) {
         // const error = responseError(e);
         console.log("=====>get Profile Error", e)
         yield put(getProfileError(e));
-    } finally {
-        yield put(hideLoader());
     }
 }
 

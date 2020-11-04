@@ -6,4 +6,11 @@ export const getProfileSelector = createSelector(
     getProfile,
     userDetails => userDetails.user,
 );
+export const isLoadingGetProfileSelector = createSelector(
+    getProfile,
+    userDetails => userDetails.isLoading,
+);
+
+
+
 

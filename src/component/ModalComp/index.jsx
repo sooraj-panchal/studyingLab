@@ -39,10 +39,28 @@ const ModalComp = ({
     }, [getClassData])
 
     const onGetDivisionResopnse = {
-        success: response => {
+        success: async response => {
             console.log("onGetDivisionResopnse====>", response)
-            setIsClassData(response.data)
-            setIsLoading(false)
+            if (from == "Profile") {
+                const div_id = await AsyncStorage.getItem("div_id", "")
+                console.log(div_id)
+                const classData = response.data.map((item, index) => {
+                    if (item.div_id == div_id) {
+                        item.isSelected = true
+                    }
+                    return item
+                })
+                setIsClassData(classData)
+                setIsLoading(false)
+            } else {
+                const classData = response.data.map((item, index) => {
+                    item.isSelected = false
+                    return item
+                })
+                classData[2].isSelected = true
+                setIsClassData(classData)
+                setIsLoading(false)
+            }
         },
         error: err => {
             console.log('err--->' + JSON.stringify(err))
@@ -54,11 +72,11 @@ const ModalComp = ({
     const selectClass = (item, index) => {
         classData.map((value, placeindex) =>
             placeindex === index
-                ? (classData[placeindex]['isSelected'] = !classData[placeindex]['isSelected'])
+                ? (classData[placeindex]['isSelected'] = true)
                 : (classData[placeindex]['isSelected'] = false)
         );
         setIsUpdateState(updateState + 1)
-        setIsChangeColor(item.isSelected)
+        // setIsChangeColor(item.isSelected)
     }
 
     const renderClassData = ({ item, index }) => {
@@ -75,10 +93,10 @@ const ModalComp = ({
                     color: colors.BlackColor
                 }} >{item.name}</Text>
                 <TouchableOpacity style={{
-                    borderWidth: 1,
+                    borderWidth: 2,
                     width: 25,
                     height: 25,
-                    borderRadius: 2,
+                    borderRadius: 12.5,
                     justifyContent: "center",
                     alignItems: "center",
                     borderColor: colors.BlueColor
@@ -88,13 +106,16 @@ const ModalComp = ({
                     {
                         item.isSelected == true
                             ?
-                            <Ionicans
-                                name="md-checkmark"
-                                size={20}
-                                color={colors.BlueColor}
-                            /> : null
+                            <View
+                                style={{
+                                    width: 15,
+                                    height: 15,
+                                    borderRadius: 7.5,
+                                    backgroundColor: colors.BlueColor
+                                }}
+                            />
+                            : null
                     }
-
                 </TouchableOpacity>
             </View>
         )
@@ -227,12 +248,12 @@ const ModalComp = ({
                     <ButtonComp
                         buttonText="Submit"
                         btnStyle={{
-                            backgroundColor: isChangeColor == false ? colors.LightGrayColor : colors.BlueColor,
+                            backgroundColor: colors.BlueColor,
                             width: 300,
                             borderRadius: 5,
                             marginLeft: 0,
                         }}
-                        disabled={isChangeColor == false ? true : false}
+                        // disabled={isChangeColor == false ? true : false}
                         onPressButton={SubmitSelectedClass}
                     />
                 </View>

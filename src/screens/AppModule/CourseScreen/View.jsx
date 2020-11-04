@@ -103,18 +103,17 @@ const HomeScreen = ({
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
                     source={images.HomeScreen.box_background1Image}
+                    resizeMode="stretch"
+                    source={{ uri: item.course_image.length == 0 ? null : item.course_image[0].image }}
                 >
-                    <View style={{
-                        alignItems: "center"
-                    }} >
+                    <View style={styles.rcibgVIew} >
                         {/* <Image style={styles.rciCataegoryImage}
-                            source={images.HomeScreen.icon_1Image}
+                            source={images.HomeScreen.icon_2Image}
                         /> */}
                         <Text style={styles.rciCataegoryName} >{item.name}</Text>
                     </View>
                 </ImageBackground>
             </TouchableOpacity>
-
         )
     }
 

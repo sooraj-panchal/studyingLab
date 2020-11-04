@@ -103,7 +103,8 @@ const SelectChapterScreen = ({
 
     const selectChapterHandler = (item, index) => {
         navigation.navigate("AttendCourse", {
-            chapter_id: item.chapter_id
+            chapter_id: item.chapter_id,
+            chapter_name:item.name
         })
     }
 

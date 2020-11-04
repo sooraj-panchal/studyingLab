@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import { getProfileWatcher } from '../../../store/actions';
-import { getProfileSelector, isLoadingSelector } from '../../../store/selectors';
+import { getProfileSelector, isLoadingSelector, isLoadingGetProfileSelector } from '../../../store/selectors';
 import ProfileScreen from './View';
 
 const mapStateToProps = store => {
     return {
-        isLoading: isLoadingSelector(store),
+        // isLoading: isLoadingSelector(store),
         userDetails: getProfileSelector(store),
+        isLoading: isLoadingGetProfileSelector(store)
     };
 };
 

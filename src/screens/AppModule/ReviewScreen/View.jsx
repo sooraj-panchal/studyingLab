@@ -125,7 +125,7 @@ const ReviewScreen = ({
 
 
     const toggleModalHandler = () => {
-        if (route.params.course.enroll_flag == false) {
+        if (route.params.course.total_course_progress == 0) {
             Alert.alert(
                 "Sorry !!",
                 "You are eligible to rate course, when you enroll course",
@@ -155,6 +155,7 @@ const ReviewScreen = ({
     }
 
     const yourRatingAndReview = () => {
+        if (route.params.course.total_course_progress !== 100) return null
         if (YourRatingData == "") {
             return (
                 <View>

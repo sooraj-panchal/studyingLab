@@ -57,8 +57,14 @@ export default StyleSheet.create({
         height: globals.mph5 * 28, // 140,
         marginLeft: globals.mpw5*2, // 5,
         marginVertical: globals.mph5, // 5,
+    },
+    rcibgVIew: {
+        width: globals.mpw5 * 33, // 165,
+        height: globals.mph5 * 30,//  150,
+        backgroundColor: "rgba(0,0,0,0.7)",
+        borderRadius: 5,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     rciCataegoryImage: {
         width: globals.mpw5 * 12, // 60,

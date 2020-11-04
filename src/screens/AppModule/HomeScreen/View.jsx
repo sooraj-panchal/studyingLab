@@ -61,19 +61,19 @@ const HomeScreen = ({
     }
 
     const _renderCategoryItem = ({ item, index }) => {
+        console.log(item)
         return (
             <TouchableOpacity onPress={() => goToNewCourseScreen(item, index)}
-            //  style={styles.rcTouchable} 
             >
                 <ImageBackground style={styles.rcibgStyle}
                     borderRadius={5}
                     resizeMode="stretch"
-                    // source={{ uri: item.course_image.length == 0 ? null : item.course_image[0].image }}
-                    source={images.HomeScreen.box_background1Image}
+
+                    source={{ uri: item.course_image.length == 0 ? null : item.course_image[0].image }}
+                // source={images.HomeScreen.box_background1Image}
                 >
-                    <View style={{
-                        alignItems: "center"
-                    }} >
+
+                    <View style={styles.rcibgVIew} >
                         {/* <Image style={styles.rciCataegoryImage}
                             source={images.HomeScreen.icon_2Image}
                         /> */}

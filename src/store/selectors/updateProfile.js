@@ -4,6 +4,10 @@ const updateProfile = state => state.updateProfile;
 
 export const updateProfileSelector = createSelector(
     updateProfile,
-    userDetails => userDetails.user,
+    updateProfile => updateProfile.user,
 );
 
+export const isLoadingUpdateProfileSelector = createSelector(
+    updateProfile,
+    updateProfile => updateProfile.isLoading,
+);
