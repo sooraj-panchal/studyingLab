@@ -16,7 +16,7 @@ const AppContainer = ({ }) => {
         getToken()
         setTimeout(() => {
             setIsLoading(false)
-        }, 2000);
+        }, 500);
         // console.log(token)
     }, [token])
     const getToken = async () => {

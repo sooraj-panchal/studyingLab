@@ -424,7 +424,7 @@ const CourseListComp = ({
         return (
             <View style={styles.rmcdCardView} >
                 <View>
-                    <Carousel
+                    {/* <Carousel
                         // ref={carouselRef}
                         sliderWidth={globals.mpw5 * 64}// 320}
                         sliderHeight={globals.mph5 * 64} // {320}
@@ -438,7 +438,7 @@ const CourseListComp = ({
                             item.setIndex = key + 1
                             setIsUpdateData(updateData + 1)
                         }}
-                    />
+                    /> */}
                     {/* <View style={{
                         position: "absolute",
                         bottom: -20,
@@ -446,7 +446,7 @@ const CourseListComp = ({
                     }} >
                         {pagination(item, index)}
                     </View> */}
-                    <View style={{
+                    {/* <View style={{
                         position: "absolute",
                         right: 20,
                         top: 10,
@@ -460,7 +460,7 @@ const CourseListComp = ({
                             color: "white",
                             fontFamily: font.Bold,
                         }} >{item.setIndex}/{item.image.length}</Text>
-                    </View>
+                    </View> */}
                 </View>
                 <Text style={styles.rmcdNewCourseText} >New Course - {item.name}</Text>
                 <View style={styles.likeShareCommentContainer} >

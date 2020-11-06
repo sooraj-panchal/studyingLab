@@ -45,6 +45,44 @@ const AttendCourseScreen = ({
         if (route) {
             getCourseDetailsData()
         }
+        const arr = [];
+        let length = 0
+        for (let i = 0; i < length + 1; i++) {
+            arr.push({ "description": i + 1 });
+            length = 2
+        }
+        console.log(arr)
+
+        // let data = arr.map((item, index) => {
+        //     item.description = 1
+        //     length = 2
+        //     return item;
+        // })
+        // console.log(data)
+
+        // var foo = [];
+        // const data = foo.map((item, index) => {
+        //     item.description = "sdad";
+        //     return item
+        // })
+        // console.log(data);
+        // let datas = [{
+        //     description: ""
+        // }, {
+        //     description: ""
+        // }
+        // ]
+        // const data = "<h3>1914 translation by H. Rackham</h3>"
+        // let fn = 0
+        // let sn = 2
+        // const arr = datas.map((item) => {
+        //     item.description = data.split(" ").splice(fn, sn).join(" ")
+        //     fn = sn
+        //     sn = data.length
+        //     return item
+        // })
+        // console.log(arr)
+
     }, [route])
 
     const getCourseDetailsData = () => {
@@ -59,6 +97,17 @@ const AttendCourseScreen = ({
         success: response => {
             console.log("onGetCourseDetailsResponse====>", response)
             setAttendCourseData(response.data.course_data)
+            console.log(response.data.course_data)
+            // let fn = 0
+            // let sn = 190
+            // const data = response.data.course_data.map((item, index) => {
+            //     item.description = item.description.split(" ").splice(fn, sn).join(" ")
+            //     fn = sn
+            //     sn = item.description.length
+            //     return item
+            // })
+            // console.log(data)
+
             setIndex(1)
             setQuiz(response.data.quiz)
             setQuizStart(response.data.quiz_flag)
@@ -85,7 +134,7 @@ const AttendCourseScreen = ({
             <View style={styles.racdContainer} >
                 <ScrollView contentContainerStyle={{
                     paddingBottom: globals.mph5 * 4,// 20
-                }} >
+                }}  >
                     {/* {
                         index == 0
                         &&
@@ -143,7 +192,6 @@ const AttendCourseScreen = ({
             </View>
         )
     }
-
     // const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
     //     // console.log("Visible items are", viewableItems);
     //     // console.log("Changed in this iteration", changed);
@@ -173,8 +221,9 @@ const AttendCourseScreen = ({
                             // ref={(c) => { this._carousel = c; }}
                             data={attendCourseData}
                             renderItem={_renderAttendCourseData}
-                            sliderWidth={Dimensions.get("window").width}
-                            itemWidth={Dimensions.get("window").width}
+                            itemHeight={Dimensions.get("window").height / 1.1}
+                            sliderHeight={Dimensions.get("window").height / 1.1}
+                            vertical={true}
                             // viewabilityConfig={{
                             //     itemVisiblePercentThreshold: 50
                             // }}
@@ -182,6 +231,7 @@ const AttendCourseScreen = ({
                             onSnapToItem={(slideIndex) => {
                                 setIndex(slideIndex + 1)
                             }}
+                        // scrollEnabled={false}
                         />
                     </>
             }
