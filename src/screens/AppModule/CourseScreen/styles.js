@@ -54,7 +54,7 @@ export default StyleSheet.create({
     },
     rcibgStyle: {
         width: globals.mpw5 * 33, // 160,
-        height: globals.mph5 * 28, // 140,
+        height: globals.mph5 * 30, // 140,
         marginLeft: globals.mpw5*2, // 5,
         marginVertical: globals.mph5, // 5,
     },
