@@ -23,7 +23,7 @@ export default StyleSheet.create({
     paginationCountText: {
         fontSize: globals.font_18,// 18,
         color: "white",
-        fontFamily: font.Bold,
+        // fontFamily: font.Bold,
         // textAlign:"right"
         // position:"absolute",
         // right:15
@@ -55,13 +55,13 @@ export default StyleSheet.create({
     },
     chapterText: {
         fontSize: globals.font_20,// 20,
-        fontFamily: font.Medium,
+        // fontFamily: font.Medium,
         color: "white"
     },
     longText: {
         fontSize: globals.font_15,// 15,
         color: colors.GrayColor,
-        fontFamily: font.Medium,
+        // fontFamily: font.Medium,
         marginHorizontal: globals.mpw5 * 2,// 10,
         marginTop: globals.mph5 * 3,// 15,
         alignSelf: "center"

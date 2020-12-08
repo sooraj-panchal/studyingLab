@@ -16,11 +16,11 @@ export default StyleSheet.create({
     },
     text1: {
         fontSize: globals.font_20,// 20,
-        fontFamily: font.Medium
+        // fontFamily: font.Medium
     },
     text2: {
         fontSize: globals.font_16,// 16,
-        fontFamily: font.Regular
+        // fontFamily: font.Regular
     },
     touchableView: {
         marginHorizontal: globals.mpw5 * 2,// 10,

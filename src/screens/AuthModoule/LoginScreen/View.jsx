@@ -162,7 +162,7 @@ const LoginScreen = ({
                             fontSize: 20,
                             color: "white",
                             bottom: 2,
-                            fontFamily: font.Regular
+                            // fontFamily: font.Regular
                         }} >or</Text>
                         <View style={styles.orLeftBorder} />
                     </View>

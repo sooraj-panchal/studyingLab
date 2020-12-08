@@ -34,8 +34,9 @@ const FbGleBtnComp = ({
             loginHint: '',
             forceConsentPrompt: true,
             accountName: '',
-            // iosClientId: 'XXXXXX-krv1hjXXXXXXp51pisuc1104q5XXXXXXe.apps.googleusercontent.com'
+            // iosClientId: '455250643702-25dju5g1gqv9hkb9iupn6ldcm03o491a.apps.googleusercontent.com'
         });
+        
         LoginManager.logOut();
     }, [])
 

@@ -44,7 +44,7 @@ export default StyleSheet.create({
     },
     rmcdNewCourseText: {
         fontSize: globals.font_20, // 20,
-        fontFamily: font.Medium,
+        // fontFamily: font.Medium,
         color: colors.BlackColor,
         marginTop: globals.mph5 * 2,// 10,
         marginLeft: globals.mpw5 * 2,// 10
@@ -52,7 +52,7 @@ export default StyleSheet.create({
     rmcdCourseProgressText: {
         fontSize: globals.font_16, // 16,
         color: colors.GrayColor,
-        fontFamily: font.Medium,
+        // fontFamily: font.Medium,
         marginTop: globals.mph5,//  5,
         marginLeft: globals.mpw5 * 2,//  10
     },
@@ -88,12 +88,12 @@ export default StyleSheet.create({
         marginLeft: 0
     },
     btnLeftText: {
-        fontFamily: font.Regular,
+        // fontFamily: font.Regular,
         color: "white",
         fontSize: globals.font_16,// 16,
     },
     btnRightText: {
-        fontFamily: font.Regular,
+        // fontFamily: font.Regular,
         color: "white",
         fontSize: globals.font_15,// 15
     }

@@ -27,13 +27,13 @@ export default StyleSheet.create({
     filterText: {
         fontSize: globals.mpw5 * 7, //35,
         color: colors.BlackColor,
-        fontFamily: font.Bold
+        // fontFamily: font.Bold
     },
     clearText: {
         fontSize: globals.font_20, //20,
         color: colors.BlueColor,
         marginTop: globals.mph5 * 2, // 10,
-        fontFamily: font.Medium
+        // fontFamily: font.Medium
     },
     categoryView: {
         paddingHorizontal: globals.mpw5 * 2, // 10,
@@ -42,7 +42,7 @@ export default StyleSheet.create({
     categoryToShowText: {
         fontSize: globals.font_20, //20,
         color: colors.BlackColor,
-        fontFamily: font.Medium,
+        // fontFamily: font.Medium,
         // marginTop: 10
     },
     separater: {

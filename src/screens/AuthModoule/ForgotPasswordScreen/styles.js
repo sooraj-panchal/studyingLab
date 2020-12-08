@@ -22,7 +22,7 @@ export default StyleSheet.create({
     },
     forgotPasText: {
         fontSize: globals.font_26,// 25,
-        fontFamily: font.Bold,
+        // fontFamily: font.Bold,
         color: "white",
         marginTop: globals.mph5 * 4,// 20
     },

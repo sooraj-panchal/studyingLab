@@ -22,7 +22,7 @@ export default StyleSheet.create({
     },
     editProfileText: {
         fontSize: globals.font_26,// 25,
-        fontFamily: font.Bold,
+        // fontFamily: font.Bold,
         color: "white",
         marginTop: globals.mph5 * 6,// 20
     },
@@ -49,6 +49,6 @@ export default StyleSheet.create({
     changePasswordText: {
         fontSize: globals.font_20,// 20,
         color: colors.BlackColor,
-        fontFamily: font.Regular
+        // fontFamily: font.Regular
     }
 })

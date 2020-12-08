@@ -22,13 +22,13 @@ export default StyleSheet.create({
     },
     checkurEmailText: {
         fontSize: globals.font_26,// 25,
-        fontFamily: font.Bold,
+        // fontFamily: font.Bold,
         color: "white",
         marginTop: globals.mph5 * 8,// 40
     },
     text: {
         fontSize: globals.font_16, // 16,
-        fontFamily: font.Regular,
+        // fontFamily: font.Regular,
         color: "white",
         marginTop: globals.mpw5 * 3,// 15,
         width: globals.mpw5 * 56,// 280,
@@ -56,12 +56,12 @@ export default StyleSheet.create({
     didntgetthecodeText: {
         fontSize: globals.font_16, // 16,
         color: colors.BlackColor,
-        fontFamily: font.Regular
+        // fontFamily: font.Regular
     },
     resendCodeText: {
         fontSize: globals.font_18, // 18,
         color: colors.BlueColor,
-        fontFamily: font.Bold,
+        // fontFamily: font.Bold,
         marginLeft: globals.mpw5 * 2,// 10
     }
 })
