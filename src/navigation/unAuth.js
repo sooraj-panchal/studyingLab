@@ -471,7 +471,6 @@ const TabBarStackScreen = ({ navigation }) => (
           e.preventDefault()
           navigation.navigate("RequestForm")
         },
-
       }}
       component={AddScreen} />
     <Tab.Screen name="Search" component={SearchScreen} />

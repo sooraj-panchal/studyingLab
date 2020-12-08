@@ -8,57 +8,6 @@ import LoadingComp from '../../../component/LoadingComp';
 import NoDataComp from '../../../component/NoDataComp';
 import NoNeworkComp from '../../../component/NoNetworkComp';
 
-const categoryDatas = [
-    {
-        "id": "1",
-        categoryName: "Course 1",
-        backgroundImage: images.HomeScreen.box_background1Image,
-        categoryImage: images.HomeScreen.icon_1Image
-    },
-    {
-        "id": "2",
-        categoryName: "Course 2",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "3",
-        categoryName: "Course 3",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "4",
-        categoryName: "Course 4",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "5",
-        categoryName: "Course 5",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "6",
-        categoryName: "Course 6",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "7",
-        categoryName: "Course 7",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    },
-    {
-        "id": "8",
-        categoryName: "Course 8",
-        backgroundImage: images.HomeScreen.box_background2Image,
-        categoryImage: images.HomeScreen.icon_2Image
-    }
-]
-
 const HomeScreen = ({
     navigation,
 }) => {
@@ -104,7 +53,7 @@ const HomeScreen = ({
                     borderRadius={5}
                     source={images.HomeScreen.box_background1Image}
                     resizeMode="stretch"
-                    source={{ uri: item.course_image.length == 0 ? null : item.course_image[0].image }}
+                    source={{ uri: item.image.length == 0 ? null : item.image[0].image }}
                 >
                     <View style={styles.rcibgVIew} >
                         {/* <Image style={styles.rciCataegoryImage}
