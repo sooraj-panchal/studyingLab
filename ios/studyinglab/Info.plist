@@ -29,13 +29,24 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb342251843726404</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
 				<string>com.googleusercontent.apps.455250643702-si4o8bctam3tgii507jj1nln3bi727sv</string>
 			</array>
 		</dict>
-		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>342251843726404</string>
+	<key>FacebookDisplayName</key>
+	<string>StudyingLab</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -90,20 +101,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-	<key>CFBundleURLTypes</key>
-<array>
-  <dict>
-  <key>CFBundleURLSchemes</key>
-  <array>
-    <string>fb342251843726404</string>
-  </array>
-  </dict>
-</array>
-<key>FacebookAppID</key>
-<string>342251843726404</string>
-<key>FacebookDisplayName</key>
-<string>StudyingLab</string>
-
 </dict>
 </plist>
