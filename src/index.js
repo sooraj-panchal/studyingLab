@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import { StatusBar, ActivityIndicator, SafeAreaView } from 'react-native';
+import { StatusBar, ActivityIndicator, SafeAreaView, View, Dimensions, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppContainer from './navigation';
 import * as colors from './assets/colors'
@@ -38,17 +38,24 @@ const App = () => {
     const appLink = {
         prefixes: ["http://AuthStack"]
     }
-
+    const iPhoneXStatusbarHeight = Platform.select({
+        ios: 48,
+        android: StatusBar.currentHeight
+    })
     return (
         <SafeAreaProvider>
             <Provider store={store}>
                 <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-                    {_renderStatusBar()}
+                    <View style={{ height: iPhoneXStatusbarHeight, backgroundColor: colors.StatusbarColor }}>
+                        {_renderStatusBar()}
+                    </View>
                     <SafeAreaView
                         style={{
+                            // height:Dimensions.get("window").height-40,
                             flex: 1,
                             backgroundColor: "white",
-                        }}>
+                        }} forceInset={{ top: 'never' }}
+                    >
                         <NavigationContainer linking={appLink} >
                             <AppContainer />
                         </NavigationContainer>
