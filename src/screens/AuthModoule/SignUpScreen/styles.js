@@ -35,12 +35,12 @@ export default StyleSheet.create({
     haveAnAcText: {
         fontSize: globals.font_16, // 16,
         color: "white",
-        fontFamily: font.Regular
+        // fontFamily: font.Regular
     },
     signInText: {
         fontSize: globals.font_18,// 18,
         color: "white",
-        fontFamily: font.Regular,
+        // fontFamily: font.Regular,
         marginLeft: globals.mpw5 * 2, // 10
     },
     cardView: {
@@ -55,7 +55,7 @@ export default StyleSheet.create({
         fontSize: globals.font_26, // 25,
         marginTop: globals.mph5 * 2, // 10,
         color: colors.BlackColor,
-        fontFamily: font.Regular
+        // fontFamily: font.Regular
     },
     textInputMainContainer: {
         marginTop: globals.mph5 * 3, // 15

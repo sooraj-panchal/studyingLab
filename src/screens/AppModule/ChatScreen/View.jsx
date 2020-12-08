@@ -139,7 +139,7 @@ export default class ChatScreen extends React.Component {
                         <Text style={{
                             fontSize: 25,
                             color: "white",
-                            fontFamily: font.Bold
+                            // fontFamily: font.Bold
                         }} >Admin</Text>
                         <Fontisto
                             name="more-v-a"
@@ -196,12 +196,12 @@ export default class ChatScreen extends React.Component {
                                     right: {
                                         color: "black",
                                         fontSize: 14,
-                                        fontFamily: font.Regular,
+                                        // fontFamily: font.Regular,
                                     },
                                     left: {
                                         color: "white",
                                         fontSize: 14,
-                                        fontFamily: font.Regular,
+                                        // fontFamily: font.Regular,
                                     },
                                 }}
                                 wrapperStyle={{
@@ -323,7 +323,7 @@ export default class ChatScreen extends React.Component {
                                 }}
                                 textStyle={{
                                     fontSize: 12,
-                                    fontFamily: font.Regular,
+                                    // fontFamily: font.Regular,
                                     color: "grey"
                                 }}
                             />

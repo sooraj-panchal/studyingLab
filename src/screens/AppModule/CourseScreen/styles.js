@@ -20,7 +20,7 @@ export default StyleSheet.create({
     },
     homeText: {
         color: "white",
-        fontFamily: font.Bold,
+        // fontFamily: font.Bold,
         fontSize: globals.font_36,// 35
     },
     filterIconStyle: {
@@ -44,7 +44,7 @@ export default StyleSheet.create({
     searchForAnyThingText: {
         fontSize: globals.font_15,// 15,
         color: colors.GrayColor,
-        fontFamily: font.Regular,
+        // fontFamily: font.Regular,
         marginLeft: globals.mpw5 * 2, // 10
     },
     listCategoryContainer: {
@@ -54,7 +54,7 @@ export default StyleSheet.create({
     },
     rcibgStyle: {
         width: globals.mpw5 * 33, // 160,
-        height: globals.mph5 * 28, // 140,
+        height: globals.mph5 * 30, // 140,
         marginLeft: globals.mpw5*2, // 5,
         marginVertical: globals.mph5, // 5,
     },
@@ -74,7 +74,7 @@ export default StyleSheet.create({
     rciCataegoryName: {
         color: "white",
         fontSize: globals.font_16, // 16,
-        fontFamily: font.Bold,
+        // fontFamily: font.Bold,
         marginTop: globals.mph5, // 5
     }
 })

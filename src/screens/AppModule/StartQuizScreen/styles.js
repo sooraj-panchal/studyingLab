@@ -14,7 +14,7 @@ export default StyleSheet.create({
     },
     questionPaginationText: {
         fontSize: globals.font_16,// 16,
-        fontFamily: font.Medium,
+        // fontFamily: font.Medium,
         color: colors.BlackColor
     },
     listQuestionContainer: {
@@ -46,7 +46,7 @@ export default StyleSheet.create({
     },
     questionConntText: {
         fontSize: globals.font_20,// 20,
-        fontFamily: font.Medium,
+        // fontFamily: font.Medium,
         color: colors.BlackColor
     },
     questionText: {
@@ -73,7 +73,7 @@ export default StyleSheet.create({
     questionBtnText: {
         fontSize: globals.font_20,// 20,
         color: "white",
-        fontFamily: font.Regular
+        // fontFamily: font.Regular
     },
     rightImageContainer: {
         position: "absolute",

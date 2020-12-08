@@ -312,7 +312,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                       color: isFocused ? colors.BlueColor : colors.GrayColor,
                       marginTop: 2,
                       fontSize: globals.font_12, // 12,
-                      fontFamily: font.Regular
+                      // fontFamily: font.Regular
                     }}>
                       {label}
                     </Text>
@@ -471,7 +471,6 @@ const TabBarStackScreen = ({ navigation }) => (
           e.preventDefault()
           navigation.navigate("RequestForm")
         },
-
       }}
       component={AddScreen} />
     <Tab.Screen name="Search" component={SearchScreen} />

@@ -29,7 +29,7 @@ const SubmitRequestFormScreen = ({
                 <Text style={{
                     marginTop: 10,
                     fontSize: 22,
-                    fontFamily: font.Regular,
+                    // fontFamily: font.Regular,
                     textAlign: "center",
                     width: 300
                 }} >Thank you for submitting the request Admin will take care.</Text>

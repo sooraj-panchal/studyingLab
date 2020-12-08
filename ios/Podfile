@@ -7,15 +7,17 @@ target 'studyinglab' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
-
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
+  pod 'FBSDKLoginKit'
+  pod 'GoogleSignIn', '~> 5.0.2'
   pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
 
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
-
+  
+  pod 'Firebase/Analytics'
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+
 
   target 'studyinglabTests' do
     inherit! :complete

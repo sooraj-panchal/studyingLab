@@ -29,7 +29,7 @@ const TouchableComp = ({
                 }} >
                     <Text style={styles.text1} >{text1} - </Text>
                     <Text style={{
-                        fontFamily: font.Bold,
+                        // fontFamily: font.Bold,
                         fontSize: 16,
                         color: colors.BlueColor
                     }} >( {text2} )</Text>

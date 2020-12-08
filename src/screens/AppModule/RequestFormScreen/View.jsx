@@ -18,8 +18,6 @@ const RequestFormScreen = ({
     const [loading, setIsLoading] = useState(false)
     const [imageUri, setImageUri] = useState("")
 
-
-
     const goToSubmitRequestFormScreen = async () => {
         if (title.trim().length == 0 || description.trim().length == 0) {
             globals.AlertHandler({
@@ -28,11 +26,15 @@ const RequestFormScreen = ({
             })
         } else {
             let formdata = new FormData();
-            formdata.append('image', {
-                uri: imageUri,
-                name: 'my_photo.jpg',
-                type: 'image/jpg'
-            })
+            if (imageUri == "") {
+                formdata.append('image', imageUri)
+            } else {
+                formdata.append('image', {
+                    uri: imageUri,
+                    name: 'my_photo.jpg',
+                    type: 'image/jpg'
+                })
+            }
             formdata.append('token', globals.student_Token);
             formdata.append('title', title);
             formdata.append('description', description);
